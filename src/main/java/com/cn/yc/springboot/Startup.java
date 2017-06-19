@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 @Controller
 @EnableAutoConfiguration
-@ComponentScan(basePackages={"**.*.service","**.*.controller","**.*.ws"})
+@ComponentScan(basePackages={"**.*.service","**.*.controller","**.*.ws","**.*.springboot"})
 public class Startup implements EmbeddedServletContainerCustomizer {
 //
 //    @RequestMapping("/")
