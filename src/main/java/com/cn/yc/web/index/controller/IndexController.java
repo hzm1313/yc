@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class IndexController {
     @RequestMapping("/index")
-    public String getPray(@RequestParam(value="name", required=false, defaultValue="World") String name,Model model){
+    public String index(@RequestParam(value="name", required=false, defaultValue="World") String name,Model model){
         model.addAttribute("name",name);
         return "index";
     }

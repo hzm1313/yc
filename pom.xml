@@ -14,41 +14,41 @@
         <version>1.5.3.RELEASE</version>
     </parent>
 
-    <profiles>
-        <profile>
-            <id>dev</id>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>conf/dev</directory>
-                    </resource>
-                </resources>
-            </build>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
-        <profile>
-            <id>test</id>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>conf/test</directory>
-                    </resource>
-                </resources>
-            </build>
-        </profile>
-        <profile>
-            <id>prod</id>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>conf/prod</directory>
-                    </resource>
-                </resources>
-            </build>
-        </profile>
-    </profiles>
+    <!--<profiles>-->
+        <!--<profile>-->
+            <!--<id>dev</id>-->
+            <!--<build>-->
+                <!--<resources>-->
+                    <!--<resource>-->
+                        <!--<directory>conf/dev</directory>-->
+                    <!--</resource>-->
+                <!--</resources>-->
+            <!--</build>-->
+            <!--<activation>-->
+                <!--<activeByDefault>true</activeByDefault>-->
+            <!--</activation>-->
+        <!--</profile>-->
+        <!--<profile>-->
+            <!--<id>test</id>-->
+            <!--<build>-->
+                <!--<resources>-->
+                    <!--<resource>-->
+                        <!--<directory>conf/test</directory>-->
+                    <!--</resource>-->
+                <!--</resources>-->
+            <!--</build>-->
+        <!--</profile>-->
+        <!--<profile>-->
+            <!--<id>prod</id>-->
+            <!--<build>-->
+                <!--<resources>-->
+                    <!--<resource>-->
+                        <!--<directory>conf/prod</directory>-->
+                    <!--</resource>-->
+                <!--</resources>-->
+            <!--</build>-->
+        <!--</profile>-->
+    <!--</profiles>-->
 
     <dependencies>
         <dependency>
@@ -121,17 +121,23 @@
             <artifactId>spring-context-support</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <!--<dependency>-->
             <!--<groupId>com.alibaba</groupId>-->
             <!--<artifactId>druid</artifactId>-->
             <!--<version>1.0.18</version>-->
         <!--</dependency>-->
 
-        <!--<dependency>-->
-            <!--<groupId>mysql</groupId>-->
-            <!--<artifactId>mysql-connector-java</artifactId>-->
-            <!--<version>5.1.6</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.6</version>
+        </dependency>
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
@@ -147,7 +153,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <start-class>com.cn.yc.springboot.Startup</start-class>
+        <start-class>com.cn.yc.Startup</start-class>
     </properties>
 
     <build>
