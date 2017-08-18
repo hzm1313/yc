@@ -14,42 +14,6 @@
         <version>1.5.3.RELEASE</version>
     </parent>
 
-    <!--<profiles>-->
-        <!--<profile>-->
-            <!--<id>dev</id>-->
-            <!--<build>-->
-                <!--<resources>-->
-                    <!--<resource>-->
-                        <!--<directory>conf/dev</directory>-->
-                    <!--</resource>-->
-                <!--</resources>-->
-            <!--</build>-->
-            <!--<activation>-->
-                <!--<activeByDefault>true</activeByDefault>-->
-            <!--</activation>-->
-        <!--</profile>-->
-        <!--<profile>-->
-            <!--<id>test</id>-->
-            <!--<build>-->
-                <!--<resources>-->
-                    <!--<resource>-->
-                        <!--<directory>conf/test</directory>-->
-                    <!--</resource>-->
-                <!--</resources>-->
-            <!--</build>-->
-        <!--</profile>-->
-        <!--<profile>-->
-            <!--<id>prod</id>-->
-            <!--<build>-->
-                <!--<resources>-->
-                    <!--<resource>-->
-                        <!--<directory>conf/prod</directory>-->
-                    <!--</resource>-->
-                <!--</resources>-->
-            <!--</build>-->
-        <!--</profile>-->
-    <!--</profiles>-->
-
     <dependencies>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -111,11 +75,6 @@
         </dependency>
 
 
-        <!--<dependency>-->
-            <!--<groupId>org.freemarker</groupId>-->
-            <!--<artifactId>freemarker</artifactId>-->
-        <!--</dependency>-->
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
@@ -127,11 +86,6 @@
             <optional>true</optional>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>com.alibaba</groupId>-->
-            <!--<artifactId>druid</artifactId>-->
-            <!--<version>1.0.18</version>-->
-        <!--</dependency>-->
 
         <dependency>
             <groupId>mysql</groupId>
@@ -149,6 +103,10 @@
             <version>1.2.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
     </dependencies>
 
     <properties>
@@ -164,13 +122,12 @@
 
 
                 <!--<configuration>-->
-                    <!--&lt;!&ndash; Need this to ensure application.yml is excluded &ndash;&gt;-->
-                    <!--<forceCreation>true</forceCreation>-->
-                    <!--<excludes>-->
-                        <!--<exclude>application.yml</exclude>-->
-                    <!--</excludes>-->
+                <!--&lt;!&ndash; Need this to ensure application.yml is excluded &ndash;&gt;-->
+                <!--<forceCreation>true</forceCreation>-->
+                <!--<excludes>-->
+                <!--<exclude>application.yml</exclude>-->
+                <!--</excludes>-->
                 <!--</configuration>-->
-
 
 
             </plugin>
