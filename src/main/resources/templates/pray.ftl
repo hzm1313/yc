@@ -25,15 +25,17 @@
             <img id="fo_gp" src="./imgs/fo_gp_fruit.gif" width="120" height="166">
             <img src="./imgs/fo_bg_br.jpg" width="223" height="166">
             <div class="fo_gp2">
-                <button type="button" name="btn_fo" id="water" class="fo_water2 fo_water">供水</button>
-                <button type="button" name="btn_fo" id="xiang" class="fo_xiang2 fo_xiang">供香</button>
-                <button type="button" name="btn_fo" id="flower" class="fo_flower2 fo_flower">供花</button>
-                <button type="button" name="btn_fo" id="fruit" class="fo_fruit2 fo_none">供果</button></div>
+                <button type="button" name="btn_fo" onclick="javascript:provideFo('water')" class="fo_water2 fo_water">供水</button>
+                <button type="button" name="btn_fo" onclick="javascript:provideFo('incen')" class="fo_xiang2 fo_xiang">供香</button>
+                <button type="button" name="btn_fo" onclick="javascript:provideFo('glass')" class="fo_flower2 fo_flower">供花</button>
+                <button type="button" name="btn_fo" onclick="javascript:provideFo('friut')" class="fo_fruit2 fo_none">供果</button></div>
         </div>
     </div>
-
-
-
 </div>
+<script>
+    function provideFo(arg){
+        alert(arg);
+    }
+</script>
 </body>
 </html>
