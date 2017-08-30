@@ -1,10 +1,10 @@
-package com.cn.yc.bean;
+package com.cn.yc.pojo;
 
 /**
  * Created with IntelliJ IDEA.
  * User: wuheng
  * Date: 15-7-8
- * Time: ионГ11:39
+ * Time: О©╫О©╫О©╫О©╫11:39
  * To change this template use File | Settings | File Templates.
  */
 public class Video {

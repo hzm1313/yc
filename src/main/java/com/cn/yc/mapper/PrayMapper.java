@@ -1,6 +1,6 @@
-package com.cn.yc.web.pray.mapper;
+package com.cn.yc.mapper;
 
-import com.cn.yc.bean.Pray;
+import com.cn.yc.pojo.PrayDO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
  */
 @Mapper
 public interface PrayMapper {
-    public void savePray(Pray pray);
+    public void savePray(PrayDO pray);
 
-    public List<Pray> selectPray(Pray pray);
+    public List<PrayDO> selectPray(PrayDO pray);
 }

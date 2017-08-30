@@ -1,8 +1,8 @@
-package com.cn.yc.web.pray.service.impl;
+package com.cn.yc.service.impl;
 
-import com.cn.yc.bean.Pray;
-import com.cn.yc.web.pray.service.PrayService;
-import com.cn.yc.web.pray.mapper.PrayMapper;
+import com.cn.yc.pojo.PrayDO;
+import com.cn.yc.service.PrayService;
+import com.cn.yc.mapper.PrayMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +17,12 @@ public class PrayServiceImpl implements PrayService{
     private PrayMapper prayMapper;
 
     @Override
-    public String toPray(Pray pray) {
+    public String toPray(PrayDO pray) {
         return null;
     }
 
     @Override
-    public List<Pray> getPrayList(Pray pray) {
+    public List<PrayDO> getPrayList(PrayDO pray) {
         return prayMapper.selectPray(null);
     }
 }

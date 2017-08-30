@@ -105,7 +105,13 @@
 
         <dependency>
             <groupId>org.springframework.data</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <artifactId>spring-data-redis</artifactId>
+            <version>1.8.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 
@@ -119,17 +125,14 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>springloaded</artifactId>
+                        <version>1.2.6.RELEASE</version>
+                    </dependency>
 
-
-                <!--<configuration>-->
-                <!--&lt;!&ndash; Need this to ensure application.yml is excluded &ndash;&gt;-->
-                <!--<forceCreation>true</forceCreation>-->
-                <!--<excludes>-->
-                <!--<exclude>application.yml</exclude>-->
-                <!--</excludes>-->
-                <!--</configuration>-->
-
-
+                </dependencies>
             </plugin>
 
         </plugins>

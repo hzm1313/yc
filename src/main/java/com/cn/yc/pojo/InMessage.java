@@ -1,4 +1,4 @@
-package com.cn.yc.bean;
+package com.cn.yc.pojo;
 
 public class InMessage {
 
@@ -8,27 +8,27 @@ public class InMessage {
     private String MsgType = "text";
     private Long MsgId;
 
-    private String MsgID;//模板消息id
-    private String Status;//模板消息返回状态
+    private String MsgID;//模锟斤拷锟斤拷息id
+    private String Status;//模锟斤拷锟斤拷息锟斤拷锟斤拷状态
 
-    // 文本消息
+    // 锟侥憋拷锟斤拷息
     private String Content;
-    // 图片消息
+    // 图片锟斤拷息
     private String PicUrl;
-    // 位置消息
+    // 位锟斤拷锟斤拷息
     private String Location_X;
     private String Location_Y;
     private Long Scale;
     private String Label;
-    // 链接消息
+    // 锟斤拷锟斤拷锟斤拷息
     private String Title;
     private String Description;
     private String Url;
-    // 语音信息
+    // 锟斤拷锟斤拷锟斤拷息
     private String MediaId;
     private String Format;
     private String Recognition;
-    // 事件
+    // 锟铰硷拷
     private String Event;
     private String EventKey;
     private String Ticket ;

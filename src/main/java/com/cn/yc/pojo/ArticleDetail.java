@@ -1,4 +1,4 @@
-package com.cn.yc.bean;
+package com.cn.yc.pojo;
 
 
 public class ArticleDetail extends Article {

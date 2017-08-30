@@ -1,8 +1,8 @@
 package com.cn.yc.ws.service;
 
 
-import com.cn.yc.bean.InMessage;
-import com.cn.yc.bean.OutMessage;
+import com.cn.yc.pojo.InMessage;
+import com.cn.yc.pojo.OutMessage;
 
 /**
  * 消息处理器

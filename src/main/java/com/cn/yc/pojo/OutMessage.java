@@ -1,4 +1,4 @@
-package com.cn.yc.bean;
+package com.cn.yc.pojo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ public class OutMessage {
     private Long CreateTime;
     private String MsgType = "text";
     private Long MsgId;
-    // 文本消息
+    // 锟侥憋拷锟斤拷息
     private String Content;
 
     private int FuncFlag = 0;

@@ -1,7 +1,7 @@
-package com.cn.yc.bean;
+package com.cn.yc.pojo;
 
 /**
- * 多图文消息
+ * 锟斤拷图锟斤拷锟斤拷息
  * @author east.com
  *
  */

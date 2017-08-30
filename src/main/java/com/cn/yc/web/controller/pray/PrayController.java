@@ -1,8 +1,7 @@
-package com.cn.yc.web.pray.controller;
+package com.cn.yc.web.controller.pray;
 
-import com.cn.yc.bean.Pray;
-import com.cn.yc.web.pray.service.PrayService;
-import com.cn.yc.web.pray.service.impl.PrayServiceImpl;
+import com.cn.yc.pojo.PrayDO;
+import com.cn.yc.service.PrayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,12 +22,12 @@ public class PrayController
     @RequestMapping("/getPray")
     public String getPray(@RequestParam(value="prayObject", required=false, defaultValue="fo_fx_ysf.jpg") String prayObject, Model model){
         model.addAttribute("prayObject",prayObject);
-        List<Pray> prayList = prayServiceImpl.getPrayList(null);
+        List<PrayDO> prayList = prayServiceImpl.getPrayList(null);
         return "pray";
     }
 
     @RequestMapping("/toPray")
-    public String toPray(Pray pray){
+    public String toPray(PrayDO pray){
         return "";
     }
 

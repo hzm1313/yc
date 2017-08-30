@@ -1,12 +1,11 @@
 package com.cn.yc.ws;
 
-import com.cn.yc.bean.InMessage;
-import com.cn.yc.bean.OutMessage;
+import com.cn.yc.pojo.InMessage;
+import com.cn.yc.pojo.OutMessage;
 import com.cn.yc.utils.Constants;
 import com.cn.yc.utils.HttpUtils;
 import com.cn.yc.utils.Tools;
 import com.thoughtworks.xstream.XStream;
-import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.servlet.ServletConfig;
@@ -15,12 +14,7 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
 
-import java.io.ByteArrayInputStream;
 import java.util.Date;
 
 

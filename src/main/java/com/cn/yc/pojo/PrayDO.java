@@ -1,11 +1,13 @@
-package com.cn.yc.bean;
+package com.cn.yc.pojo;
+
+import com.fasterxml.jackson.databind.ser.Serializers;
 
 import java.util.Date;
 
 /**
- * Created by DT167 on 2017/6/19.
+ * Created by DT167 on 2017/8/30.
  */
-public class Pray extends BaseDto{
+public class PrayDO extends BaseDO{
     private int id;
     private int userId;
     private String prayObject;

@@ -1,8 +1,8 @@
 package com.cn.yc.ws.service.impl;
 
-import com.cn.yc.bean.Button;
-import com.cn.yc.bean.ComplexButton;
-import com.cn.yc.bean.Menu;
+import com.cn.yc.pojo.Button;
+import com.cn.yc.pojo.ComplexButton;
+import com.cn.yc.pojo.Menu;
 import com.cn.yc.utils.Constants;
 import com.cn.yc.utils.HttpUtils;
 import com.cn.yc.ws.service.WechatMenuService;
@@ -11,9 +11,6 @@ import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 /**
  * Created by DT167 on 2017/6/2.
