@@ -1,11 +1,11 @@
-package com.cn.yc.ws.service.impl;
+package com.cn.yc.service.impl;
 
 import com.cn.yc.pojo.Button;
 import com.cn.yc.pojo.ComplexButton;
 import com.cn.yc.pojo.Menu;
 import com.cn.yc.utils.Constants;
 import com.cn.yc.utils.HttpUtils;
-import com.cn.yc.ws.service.WechatMenuService;
+import com.cn.yc.service.WechatMenuService;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.slf4j.Logger;
@@ -77,10 +77,5 @@ public class WechatMenuServiceImpl implements WechatMenuService {
         }catch(Exception e){
             logger.error(e.getMessage());
         }
-    }
-
-    public static void main(String[] args){
-        WechatMenuServiceImpl tt =new WechatMenuServiceImpl();
-        tt.create_menu();
     }
 }

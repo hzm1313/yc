@@ -1,6 +1,6 @@
-package com.cn.yc.ws.service.impl;
+package com.cn.yc.service.impl;
 
-import com.cn.yc.ws.service.WechatMessageService;
+import com.cn.yc.service.WechatMessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

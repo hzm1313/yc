@@ -1,4 +1,4 @@
-package com.cn.yc.ws.service;
+package com.cn.yc.service;
 
 /**
  * Created by DT167 on 2017/6/2.

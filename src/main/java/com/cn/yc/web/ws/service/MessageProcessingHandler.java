@@ -1,4 +1,4 @@
-package com.cn.yc.ws.service;
+package com.cn.yc.web.ws.service;
 
 
 import com.cn.yc.pojo.InMessage;

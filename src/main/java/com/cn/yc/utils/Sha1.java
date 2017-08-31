@@ -1,4 +1,4 @@
-package com.cn.yc.ws;
+package com.cn.yc.utils;
 
 import java.security.DigestException;
 import java.security.MessageDigest;

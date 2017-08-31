@@ -23,6 +23,6 @@ public class Startup implements EmbeddedServletContainerCustomizer {
 
     @Override
     public void customize(ConfigurableEmbeddedServletContainer configurableEmbeddedServletContainer) {
-        configurableEmbeddedServletContainer.setPort(80);
+        configurableEmbeddedServletContainer.setPort(8083);
     }
 }

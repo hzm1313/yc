@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cn.yc.mapper.PrayMapper">
-    <select id="selectPray" parameterType="com.cn.yc.pojo.Pray" resultType="com.cn.yc.pojo.Pray">
+    <select id="selectPray" parameterType="com.cn.yc.pojo.PrayDO" resultType="com.cn.yc.pojo.PrayDO">
         SELECT * FROM pray
     </select>
 </mapper>

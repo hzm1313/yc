@@ -1,4 +1,4 @@
-package com.cn.yc.ws;
+package com.cn.yc.web.ws;
 
 import com.cn.yc.pojo.InMessage;
 import com.cn.yc.pojo.OutMessage;
