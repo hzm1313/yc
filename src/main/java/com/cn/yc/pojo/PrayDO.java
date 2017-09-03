@@ -19,6 +19,16 @@ public class PrayDO extends BaseDO{
     private String money;
     private Date date;
 
+    public String getPrayTitle() {
+        return prayTitle;
+    }
+
+    public void setPrayTitle(String prayTitle) {
+        this.prayTitle = prayTitle;
+    }
+
+    private String prayTitle;
+
     public String getPrayConect() {
         return prayConect;
     }
