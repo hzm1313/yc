@@ -7,6 +7,17 @@
     <groupId>black</groupId>
     <artifactId>black-yc</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+
+    <properties>
+        <!--  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+          <junit.version>4.12</junit.version>
+          <junit.jupiter.version>5.0.1</junit.jupiter.version>
+          <junit.vintage.version>${junit.version}.1</junit.vintage.version>
+          <junit.platform.version>1.0.1</junit.platform.version>-->
+        <start-class>com.cn.yc.Startup</start-class>
+        <java.version>1.8</java.version>
+    </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -25,11 +36,18 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web-services</artifactId>
         </dependency>
+
 
         <dependency>
             <groupId>wsdl4j</groupId>
@@ -103,22 +121,85 @@
             <version>1.2.2</version>
         </dependency>
 
+
         <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-redis</artifactId>
-            <version>1.8.6.RELEASE</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
-    </dependencies>
 
-    <properties>
-        <java.version>1.8</java.version>
-        <start-class>com.cn.yc.Startup</start-class>
-    </properties>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.17</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.8</version>
+        </dependency>
+
+        <!-- junit5运行-->
+        <!-- <dependency>
+             <groupId>org.junit.jupiter</groupId>
+             <artifactId>junit-jupiter-api</artifactId>
+             <version>${junit.jupiter.version}</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>${junit.version}</version>
+             <scope>test</scope>
+         </dependency>
+         &lt;!&ndash; Only required to run tests in an IDE that bundles an older version &ndash;&gt;
+         <dependency>
+             <groupId>org.junit.platform</groupId>
+             <artifactId>junit-platform-launcher</artifactId>
+             <version>${junit.platform.version}</version>
+             <scope>test</scope>
+         </dependency>
+         &lt;!&ndash; Only required to run tests in an IDE that bundles an older version &ndash;&gt;
+         <dependency>
+             <groupId>org.junit.jupiter</groupId>
+             <artifactId>junit-jupiter-engine</artifactId>
+             <version>${junit.jupiter.version}</version>
+             <scope>test</scope>
+         </dependency>
+         &lt;!&ndash; Only required to run tests in an IDE that bundles an older version &ndash;&gt;
+         <dependency>
+             <groupId>org.junit.vintage</groupId>
+             <artifactId>junit-vintage-engine</artifactId>
+             <version>${junit.vintage.version}</version>
+             <scope>test</scope>
+         </dependency>
+         &lt;!&ndash; To avoid compiler warnings about @API annotations in JUnit code &ndash;&gt;
+         <dependency>
+             <groupId>org.apiguardian</groupId>
+             <artifactId>apiguardian-api</artifactId>
+             <version>1.0.0</version>
+             <scope>test</scope>
+         </dependency>-->
+    </dependencies>
 
     <build>
         <plugins>
@@ -126,7 +207,10 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <fork>true</fork>
+                    <!-- <fork>true</fork>-->
+                    <!-- <jvmArguments>
+                         -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005
+                     </jvmArguments>-->
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -134,10 +218,60 @@
                         <artifactId>springloaded</artifactId>
                         <version>1.2.6.RELEASE</version>
                     </dependency>
-
                 </dependencies>
             </plugin>
-
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <warSourceExcludes>src/main/resources/**</warSourceExcludes>
+                    <warName>yc</warName>
+                    <!--如果想在没有web.xml文件的情况下构建WAR，请设置为false。-->
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+            <!--<plugin>
+                 <artifactId>maven-surefire-plugin</artifactId>
+                 <version>2.19.1</version>
+                 <configuration>
+                     <includes>
+                         <include>**/Test*.java</include>
+                         <include>**/*Test.java</include>
+                         <include>**/*Tests.java</include>
+                         <include>**/*TestCase.java</include>
+                     </includes>
+                     <properties>
+                        <includeTags>fast</includeTags>
+                         <excludeTags>slow</excludeTags>
+                         <configurationParameters>
+                             junit.jupiter.conditions.deactivate = *
+                         </configurationParameters>
+                     </properties>
+                 </configuration>
+                 <dependencies>
+                     <dependency>
+                         <groupId>org.junit.platform</groupId>
+                         <artifactId>junit-platform-surefire-provider</artifactId>
+                         <version>${junit.platform.version}</version>
+                     </dependency>
+                 </dependencies>
+             </plugin>-->
         </plugins>
     </build>
+
+    <!--    <repositories>
+            <repository>
+                &lt;!&ndash; Maven 自带的中央仓库使用的Id为central 如果其他的仓库声明也是用该Id
+                就会覆盖中央仓库的配置 &ndash;&gt; <id>mvnrepository</id>
+                <name>mvnrepository</name>
+                <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+                <layout>default</layout>
+                <releases>
+                    <enabled>true</enabled>
+                </releases>
+                <snapshots>
+                    <enabled>false</enabled>
+                </snapshots>
+            </repository>
+        </repositories>-->
 </project>

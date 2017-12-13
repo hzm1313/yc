@@ -4,9 +4,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="../css/bootstrap.min.css" rel="stylesheet">
-<script src="../js/jquery-3.2.1.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
+<!--<link href="../css/bootstrap.min.css" rel="stylesheet">-->
+<!--<script src="../js/jquery-3.2.1.min.js"></script>-->
+<!--<script src="../js/bootstrap.min.js"></script>-->
+<link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
 <head>
     <title>烧香</title>
 </head>
@@ -18,59 +20,59 @@
     <div class="row">
         <img id="buddhaImg" src="./imgs/fo_fx_ysf.jpg" width="100%" max-height="200">
     </div>
-    </br>
-    <form id="thForm" class="form-horizontal">
-        <input type="hidden" value="thurification" name="prayType"/>
-        <div class="row">
-            <div class="col-xs-3">佛像选择：</div>
-            <div class="col-xs-4">
-                <select class="combobox" id="buddha" onchange="changeBuddha(this)">
-                    <option value="ysf">药师佛</option>
+
+    <form id="thForm" action="" class="form-horizontal">
+        <div class="weui-cells weui-cells_form">
+        <input type="hidden" value="thurification" name="prayType" />
+        <div class="col-xs-4" style="text-align:center"><img id="tributeImg" src="imgs/fo_b_flower.jpg" max-height="50" ></div>
+        <div class="weui-cell weui-cell_select">
+            <div class="weui-cell__bd">
+                <select class="weui-select" name="buddha"  onchange="changeBuddha(this)">
+                    <option selected="" value="ysf">药师佛</option>
                     <option value="sjmn">释迦摩尼佛</option>
                 </select>
             </div>
         </div>
-        </br>
-        <div class="row">
-            <div class="col-xs-3">贡品：</div>
-            <div class="col-xs-3">
-                <select class="combobox" id="tribute" onchange="changeTribute(this)">
-                    <option value="water">供水</option>
+        <div class="weui-cell weui-cell_select">
+            <div class="weui-cell__bd">
+                <select class="weui-select" name="buddha"  onchange="changeTribute(this)">
+                    <option selected="" value="water">供水</option>
                     <option value="xiang">供香</option>
                     <option value="flower">供花</option>
                     <option value="fruit">供果</option>
                 </select>
             </div>
-            <div class="col-xs-4"><img id="tributeImg" src="./imgs/fo_b_flower.jpg" width="100%" max-height="200"></div>
         </div>
-        <div class="row">
-            <div class="form-group">
-                <label for="inputName" class="col-sm-2 control-label">姓名</label>
-                <div class="col-sm-10">
-                    <input type="text" name="prayObject" class="form-control" id="inputName" placeholder="">
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">姓名</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text"  placeholder="请输入姓名">
+            </div>
+        </div>
+
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">年龄</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="number"  placeholder="请输入年龄">
+            </div>
+        </div>
+
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">主题</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input"  name="prayTitle"  type="text"  placeholder="主题">
+            </div>
+        </div>
+        <div class="weui-cells__title">祈愿内容</div>
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <textarea class="weui-textarea" name="prayContent" placeholder="请输入您所想" rows="3"></textarea>
+                    <div class="weui-textarea-counter"><span>0</span>/200</div>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="age" class="col-sm-2 control-label">年龄</label>
-                <div class="col-sm-10">
-                    <input type="text" name="prayAge" class="form-control" id="age" placeholder="">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputPassword3" class="col-sm-2 control-label">主题</label>
-                <div class="col-sm-10">
-                    <input type="text" name="prayTitle" class="form-control" id="inputPassword3" placeholder="">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputPassword3" class="col-sm-2 control-label">祈愿内容</label>
-                <textarea class="form-control" name="prayContent" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-default" onclick="postThurification()">提交</button>
-                </div>
-            </div>
+        </div>
+            <a href="javascript:;" onclick="javascript:postThurification();" class="weui-btn weui-btn_primary">祈福</a>
         </div>
     </form>
 </div>
@@ -97,5 +99,7 @@
         });
     }
 </script>
+<script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
 </body>
 </html>

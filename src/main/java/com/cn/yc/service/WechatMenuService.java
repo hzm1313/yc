@@ -1,8 +1,9 @@
 package com.cn.yc.service;
 
-/**
- * Created by DT167 on 2017/6/2.
- */
-public interface WechatMenuService {
-    public void create_menu();
+import org.springframework.stereotype.Service;
+
+@Service
+public abstract interface WechatMenuService
+{
+    public abstract void create_menu();
 }
