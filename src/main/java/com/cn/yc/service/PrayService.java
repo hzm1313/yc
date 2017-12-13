@@ -1,16 +1,13 @@
 package com.cn.yc.service;
 
 import com.cn.yc.pojo.PrayDO;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
-/**
- * Created by DT167 on 2017/6/19.
- */
 @Service
-public interface PrayService {
-    public String toPray(PrayDO prayDO);
+public abstract interface PrayService
+{
+    public abstract String toPray(PrayDO paramPrayDO);
 
-    public List<PrayDO> getPrayList(PrayDO prayDO);
+    public abstract List<PrayDO> getPrayList(PrayDO paramPrayDO);
 }
