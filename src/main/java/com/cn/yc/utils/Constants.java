@@ -14,4 +14,12 @@ public class Constants {
    //public static String secret = "d418a880eb016ea4abf261bb5d6c753b";
 
     public static String token = "";
+
+    public final static String LINK_INFO ="LINK_INFO";
+
+    public final static String LINK_INFO_LOCK = "LINK_iNFO_LOCK";
+
+    public final static String REDIS_USED ="REDIS_USED";
+
+    public final static String UYULIN_URL = "http://www.uyulin.com/ajax/allcoin_a/id/8?t=0.8065370987782623";
 }

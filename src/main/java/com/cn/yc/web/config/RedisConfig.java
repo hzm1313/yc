@@ -23,10 +23,9 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 public class RedisConfig
         extends CachingConfigurerSupport
 {
-    @Bean
     public KeyGenerator keyGenerator()
     {
-        new KeyGenerator()
+        return new KeyGenerator()
         {
             public Object generate(Object target, Method method, Object... params)
             {
@@ -41,7 +40,6 @@ public class RedisConfig
         };
     }
 
-    @Bean
     public CacheManager cacheManager(RedisTemplate redisTemplate)
     {
         RedisCacheManager rcm = new RedisCacheManager(redisTemplate);
@@ -49,7 +47,6 @@ public class RedisConfig
         return rcm;
     }
 
-    @Bean
     public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory factory)
     {
         StringRedisTemplate template = new StringRedisTemplate(factory);

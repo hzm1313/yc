@@ -1,6 +1,7 @@
 package com.cn.yc.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.sf.json.JSONObject;
 import org.apache.http.HttpEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,12 @@ import java.util.Map;
  */
 public class JsonUtils {
     protected static  Logger logger = LoggerFactory.getLogger(JsonUtils.class);
+
+    public static String objToJson(Object object){
+        JSONObject jsonObject = JSONObject.fromObject(object);
+        return jsonObject.toString();
+    }
+
 
     public static String jsonToMapGetVal(String json,String key){
         try {

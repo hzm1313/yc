@@ -27,8 +27,9 @@ public class IndexController
         String value = dfTime.format(now);
         this.redisService.leftPush(key, value);
         ResponseBase responseBase = new ResponseBase();
-        responseBase.setContent("ok");
+        responseBase.setResultMessage("ok");
         System.out.println(1);
         return responseBase;
     }
+
 }

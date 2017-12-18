@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>玩客云行情,链克行情/链克行情查看</title>
+    <meta name="keywords" content="玩客币,玩客币行情,链克,链克口袋,链克行情">
+    <meta name="description" content="玩客云,链克口袋行情查看网">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<body>
+
+<h1>玩客币/链克行情</h1>
+<p id="updateTime">30s刷新</p>
+
+<div class="row">
+    <div class="col-xs-3">玩家网</div>
+    <div class="col-xs-3">cex-usdt</div>
+    <div class="col-xs-3">悠雨林</div>
+</div>
+<div class="row">
+    <div class="col-xs-3" ><span id="wjw"></span>RMB</div>
+    <div class="col-xs-3"><span id="cex"></span>ETH</div>
+    <div class="col-xs-3"><span id="uyl"></span>RMB</div>
+</div>
+
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<script type="text/javascript">
+    function getInfo() {
+        $.get("getLinkInfo",function(data,status){
+            var obj = JSON.parse(data.resultMessage);
+            $("#wjw").text(obj.wjw);
+            $("#cex").text(obj.cex);
+            $("#uyl").text(obj.uyl);
+            console.log(data);
+            console.log(status);
+        });
+    }
+
+    var countdown=30;
+    getInfo();
+    function settime(val) {
+        if (countdown == 0) {
+            getInfo();
+            countdown = 30;
+        } else {
+           $("#updateTime").text(countdown+"秒刷新");
+            countdown--;
+        }
+        setTimeout(function() {
+            settime(val)
+        },1000)
+    }
+    settime(countdown);
+</script>
+</body>
+</html>

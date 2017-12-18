@@ -43,4 +43,14 @@ public class RedisServiceImpl
     {
         this.redisTemplate.opsForList().leftPush(key, value);
     }
+
+    @Override
+    public void get(String key) {
+        redisTemplate.boundValueOps(key).get();
+    }
+
+    @Override
+    public void setLinkInfo(String key,String value) {
+        redisTemplate.boundValueOps(key).set(value);
+    }
 }
