@@ -17,6 +17,8 @@ public class Constants {
 
     public final static String LINK_INFO ="LINK_INFO";
 
+    public final static String HTML_INFO ="HTML_INFO";
+
     public final static String LINK_INFO_LOCK = "LINK_iNFO_LOCK";
 
     public final static String REDIS_USED ="REDIS_USED";

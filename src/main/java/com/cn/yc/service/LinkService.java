@@ -10,4 +10,6 @@ public interface LinkService {
     public String getLinkInfo();
 
     public String updateHttpInfo();
+
+    public String updateHtmlDate();
 }

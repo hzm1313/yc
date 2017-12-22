@@ -26,6 +26,12 @@ public class linkJob {
     @Scheduled(fixedRate = 30000)
     public void reportCurrentTime() {
         String result  = linkService.updateHttpInfo();
+
+        String html  = linkService.updateHtmlDate();
         log.info("The time is now to request linkInfo {}", dateFormat.format(new Date())+" "+result);
+
+       // log.info("The time is now to request linkInfo {}", dateFormat.format(new Date())+" "+html);
+
+
     }
 }

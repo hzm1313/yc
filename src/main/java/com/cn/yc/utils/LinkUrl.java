@@ -12,4 +12,6 @@ public class LinkUrl {
     public static final String wjwInfoUrl = "http://www.chinawkb.com/ajax/allcoin_a/";
 
     public static final String wkyAboutInfoUrl = "http://account.onethingpcs.com/info/query";
+
+    public static final String dylsInfoUrl = "http://www.dyls.net/";
 }

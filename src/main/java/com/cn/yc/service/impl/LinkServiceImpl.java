@@ -9,12 +9,15 @@ import com.cn.yc.utils.LinkUrl;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Calendar;
 
 /**
  * Created by hasee on 2017/12/14.
@@ -69,6 +72,20 @@ public class LinkServiceImpl implements LinkService {
 
         redisTemplate.boundValueOps(Constants.LINK_INFO).set(result);
         return result;
+    }
+
+    @Override
+    public String updateHtmlDate() {
+        Document doc = null;
+        try {
+            doc = Jsoup.connect(LinkUrl.dylsInfoUrl).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Element main = doc.getElementById("table-container");
+
+        redisTemplate.boundValueOps(Constants.HTML_INFO).set(main.toString());
+        return main.toString();
     }
 
     @Override
