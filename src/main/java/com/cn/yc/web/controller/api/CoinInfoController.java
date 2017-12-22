@@ -29,7 +29,7 @@ public class CoinInfoController {
     @RequestMapping({"/getTable"})
     @ResponseBody
     public String revealTable(){
-        String result = linkService.updateHtmlDate();
+        String result = linkService.getHtmlTable();
         return result.toString();
     }
 }

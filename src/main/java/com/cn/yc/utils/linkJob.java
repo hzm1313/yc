@@ -28,9 +28,9 @@ public class linkJob {
         String result  = linkService.updateHttpInfo();
 
         String html  = linkService.updateHtmlDate();
-        log.info("The time is now to request linkInfo {}", dateFormat.format(new Date())+" "+result);
+        //log.info("The time is now to request linkInfo {}", dateFormat.format(new Date())+" "+result);
 
-       // log.info("The time is now to request linkInfo {}", dateFormat.format(new Date())+" "+html);
+       //log.info("The time is now to request linkInfo {}", dateFormat.format(new Date())+" "+html);
 
 
     }

@@ -75,6 +75,19 @@ public class LinkServiceImpl implements LinkService {
     }
 
     @Override
+    public String getLinkInfo() {
+        String value = redisTemplate.boundValueOps(Constants.LINK_INFO).get();
+        if (StringUtils.isBlank(value)) {
+            if (redisTemplate.boundValueOps(Constants.LINK_INFO).setIfAbsent(Constants.REDIS_USED)) {
+                return value;
+            }
+            return updateHttpInfo();
+        } else {
+            return value;
+        }
+    }
+
+    @Override
     public String updateHtmlDate() {
         Document doc = null;
         try {
@@ -89,16 +102,15 @@ public class LinkServiceImpl implements LinkService {
     }
 
     @Override
-    public String getLinkInfo() {
-        String value = redisTemplate.boundValueOps(Constants.LINK_INFO).get();
-        if (StringUtils.isBlank(value)) {
-            if (redisTemplate.boundValueOps(Constants.LINK_INFO).setIfAbsent(Constants.REDIS_USED)) {
+    public String getHtmlTable() {
+        String value = redisTemplate.boundValueOps(Constants.HTML_INFO).get();
+        if (StringUtils.isBlank(value)){
+            if (redisTemplate.boundValueOps(Constants.HTML_INFO).setIfAbsent(Constants.REDIS_USED)) {
                 return value;
             }
-            return updateHttpInfo();
-        } else {
+            return updateHtmlDate();
+        }else {
             return value;
         }
     }
-
 }
