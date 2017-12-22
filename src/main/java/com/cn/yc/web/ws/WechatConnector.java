@@ -2,12 +2,15 @@ package com.cn.yc.web.ws;
 
 import com.cn.yc.pojo.InMessage;
 import com.cn.yc.pojo.OutMessage;
+import com.cn.yc.service.QqRoobotService;
 import com.cn.yc.utils.Constants;
 import com.cn.yc.utils.HttpUtils;
 import com.cn.yc.utils.Tools;
 import com.thoughtworks.xstream.XStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
@@ -24,9 +27,19 @@ import java.util.Date;
 public class WechatConnector extends HttpServlet {
     protected Logger logger = LoggerFactory.getLogger(WechatConnector.class);
 
+    @Autowired
+    private QqRoobotService qqRoobotService;
+
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
         logger.info("init WechatConnector");
+        //处理需要初始化的数据
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                qqRoobotService.initStartQqRoot();
+            }
+        }).start();
     }
 
     @Override

@@ -19,7 +19,13 @@ public class WebServiceConfig {
     public ServletRegistrationBean messageDispatcherServlet(ApplicationContext applicationContext) {
         WechatConnector wxServlet =new WechatConnector();
         ServletRegistrationBean registrationBean = new ServletRegistrationBean(wxServlet,"/wx/getWxMessage");
+        return registrationBean;
+    }
 
+    @Bean
+    public ServletRegistrationBean qqRoobot(ApplicationContext applicationContext) {
+        WechatConnector wxServlet =new WechatConnector();
+        ServletRegistrationBean registrationBean = new ServletRegistrationBean(wxServlet);
         return registrationBean;
     }
 }

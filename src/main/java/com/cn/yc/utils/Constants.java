@@ -24,4 +24,5 @@ public class Constants {
     public final static String REDIS_USED ="REDIS_USED";
 
     public final static String UYULIN_URL = "http://www.uyulin.com/ajax/allcoin_a/id/8?t=0.8065370987782623";
+
 }

@@ -1,5 +1,6 @@
 package com.cn.yc.utils;
 
+import com.cn.yc.bean.WkyVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.json.JSONObject;
 import org.apache.http.HttpEntity;
@@ -35,6 +36,11 @@ public class JsonUtils {
             logger.error(" " + e.getMessage());
         }
         return "";
+    }
+
+    public static <T> T jsonToObj(String jsonStr,Class<T> clazz){
+        JSONObject obj = new JSONObject().fromObject(jsonStr);
+        return (T) JSONObject.toBean(obj,clazz);
     }
 
     public static String read(HttpEntity httpEntity) {
