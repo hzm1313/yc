@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by hasee on 2017/12/17.
@@ -24,12 +25,8 @@ public class linkJob {
     @Scheduled(fixedRate = 30000)
     public void reportCurrentTime() {
         String result  = linkService.updateHttpInfo();
-
         String html  = linkService.updateHtmlDate();
-        //log.info("The time is now to request linkInfo {}", dateFormat.format(new Date())+" "+result);
-
+        log.info("The time is now to request linkInfo {}", dateFormat.format(new Date())+" "+result);
        //log.info("The time is now to request linkInfo {}", dateFormat.format(new Date())+" "+html);
-
-
     }
 }
