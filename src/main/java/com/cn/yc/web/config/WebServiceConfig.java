@@ -2,11 +2,14 @@ package com.cn.yc.web.config;
 
 
 import com.cn.yc.web.ws.WechatConnector;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.ws.config.annotation.EnableWs;
+
+import javax.servlet.http.HttpServlet;
 
 /**
  * Created by DT167 on 2017/6/2.
@@ -14,7 +17,7 @@ import org.springframework.ws.config.annotation.EnableWs;
 
 @EnableWs
 @Configuration
-public class WebServiceConfig {
+public class WebServiceConfig extends HttpServlet{
     @Bean
     public ServletRegistrationBean messageDispatcherServlet(ApplicationContext applicationContext) {
         WechatConnector wxServlet =new WechatConnector();
@@ -22,11 +25,5 @@ public class WebServiceConfig {
         return registrationBean;
     }
 
-    @Bean
-    public ServletRegistrationBean qqRoobot(ApplicationContext applicationContext) {
-        WechatConnector wxServlet =new WechatConnector();
-        ServletRegistrationBean registrationBean = new ServletRegistrationBean(wxServlet);
-        return registrationBean;
-    }
 }
 

@@ -10,6 +10,7 @@ import com.thoughtworks.xstream.XStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -32,6 +33,7 @@ public class WechatConnector extends HttpServlet {
 
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
+        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, servletConfig.getServletContext());
         logger.info("init WechatConnector");
         //处理需要初始化的数据
         new Thread(new Runnable() {

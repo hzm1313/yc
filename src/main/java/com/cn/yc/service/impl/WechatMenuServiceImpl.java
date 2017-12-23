@@ -11,10 +11,12 @@ import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by DT167 on 2017/6/2.
  */
+@Service
 public class WechatMenuServiceImpl implements WechatMenuService {
 
     private static Logger logger = LoggerFactory.getLogger(WechatMenuServiceImpl.class);

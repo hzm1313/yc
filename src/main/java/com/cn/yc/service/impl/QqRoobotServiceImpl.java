@@ -1,13 +1,12 @@
 package com.cn.yc.service.impl;
 
-import com.cn.yc.Component.BkbCompoent;
+import com.cn.yc.component.BkbCompoent;
 import com.cn.yc.bean.WkyVO;
 import com.cn.yc.service.QqRoobotService;
 import com.cn.yc.utils.JsonUtils;
 import com.scienjus.smartqq.callback.MessageCallback;
 import com.scienjus.smartqq.client.SmartQQClient;
 import com.scienjus.smartqq.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;

@@ -17,7 +17,7 @@ import java.io.InputStream;
 /**
  * Created by hasee on 2017/12/17.
  */
-public class httpTest {
+public class httpTests {
 
     @Test
     public void getAboutInfoTest(){

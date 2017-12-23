@@ -1,4 +1,4 @@
-package com.cn.yc.Component;
+package com.cn.yc.component;
 
 import com.cn.yc.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
