@@ -1,13 +1,22 @@
 package com.cn.yc.utils;
 
+import org.apache.commons.httpclient.params.DefaultHttpParams;
+import org.apache.commons.httpclient.params.HttpParams;
+import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.util.EntityUtils;
+import org.apache.ibatis.jdbc.Null;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -21,6 +30,31 @@ import java.util.List;
  */
 public class HttpUtils {
     protected static Logger logger = LoggerFactory.getLogger(HttpUtils.class);
+
+    public static String getBaidu(String baiduKey){
+        HttpEntity httpEntity = null;
+        try {
+            //封装请求参数
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("ie", "utf-8"));
+            params.add(new BasicNameValuePair("wd", baiduKey));
+            String str = EntityUtils.toString(new UrlEncodedFormEntity(params));
+            HttpGet httpGet = new HttpGet(LinkUrl.baiduSearchUrl+"?"+str);
+            httpGet.setHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36");
+            HttpResponse response = HttpClients.createDefault().execute(httpGet);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.OK.value()) {
+                httpEntity = response.getEntity();
+                if (httpEntity != null) {
+                    return JsonUtils.read(httpEntity);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.error("*** Error in send get request due to IOException [{}]", e.getMessage());
+        }
+        return null;
+    }
 
     public static String getAccessToken(String appId,String secert){
         String accessToken = sendGetRequest(Constants.wxAccessTokenUrl+"&appid=" +

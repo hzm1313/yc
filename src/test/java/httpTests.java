@@ -25,6 +25,13 @@ public class httpTests {
         System.out.println(result);
     }
 
+    @Test
+    public void getInfo(){
+        String key = "玩客云";
+        String result = HttpUtils.getBaidu(key);
+        System.out.println(result);
+    }
+
 
     @org.junit.Test
     public void test(){

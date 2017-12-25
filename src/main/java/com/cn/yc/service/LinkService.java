@@ -11,7 +11,8 @@ public interface LinkService {
 
     public String updateHttpInfo();
 
-    String updateHtmlDate();
+    public String updateHtmlDate();
 
-    String getHtmlTable();
+    public String getHtmlTable();
+
 }

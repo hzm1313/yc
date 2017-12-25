@@ -1,6 +1,7 @@
 package com.cn.yc.component;
 
 import com.cn.yc.service.LinkService;
+import com.cn.yc.service.LinkSpiderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,19 @@ public class linkJob {
     @Autowired
     private LinkService linkService;
 
+    @Autowired
+    private LinkSpiderService linkSpiderService;
+
     @Scheduled(fixedRate = 30000)
     public void reportCurrentTime() {
         String result  = linkService.updateHttpInfo();
         String html  = linkService.updateHtmlDate();
         log.info("The time is now to request linkInfo {}", dateFormat.format(new Date())+" "+result);
        //log.info("The time is now to request linkInfo {}", dateFormat.format(new Date())+" "+html);
+    }
+
+    @Scheduled(fixedRate = 60000*60*3)
+    public void updateNews(){
+        linkSpiderService.spiderNews();
     }
 }

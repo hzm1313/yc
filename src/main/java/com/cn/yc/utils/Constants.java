@@ -25,4 +25,6 @@ public class Constants {
 
     public final static String UYULIN_URL = "http://www.uyulin.com/ajax/allcoin_a/id/8?t=0.8065370987782623";
 
+    public final static String[] LINK_KEY_ARRAY = {"玩家云","链客","玩克币"};
+
 }
