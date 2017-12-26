@@ -19,12 +19,14 @@ public class Constants {
 
     public final static String HTML_INFO ="HTML_INFO";
 
+    public final static String LINK_NEWS_INFO = "LINK_NEWS_INFO";
+
     public final static String LINK_INFO_LOCK = "LINK_iNFO_LOCK";
 
     public final static String REDIS_USED ="REDIS_USED";
 
     public final static String UYULIN_URL = "http://www.uyulin.com/ajax/allcoin_a/id/8?t=0.8065370987782623";
 
-    public final static String[] LINK_KEY_ARRAY = {"玩家云","链客","玩克币"};
+    public final static String[] LINK_KEY_ARRAY = {"玩客云","链客","玩客币"};
 
 }

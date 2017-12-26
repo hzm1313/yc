@@ -18,6 +18,12 @@ public class LinkSpiderServiceTest {
 
     @Test
     public void spiderInfo(){
+        LinkSpiderService linkSpiderService = new LinkSpiderServiceImpl();
+        linkSpiderService.spiderNews();
+    }
+
+    @Test
+    public void spiderMockInfo(){
         LinkSpiderService linkSpiderMockService = mock(LinkSpiderServiceImpl.class);
         when(linkSpiderMockService.getNews()).thenReturn("111");
         linkSpiderMockService.spiderNews();

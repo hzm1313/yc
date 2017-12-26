@@ -14,7 +14,9 @@ import javax.annotation.PostConstruct;
 public class BkbCompoent {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
+
     private static BkbCompoent bkbCompoent;
+
     @PostConstruct
     public void init(){
         bkbCompoent = this;
@@ -23,6 +25,10 @@ public class BkbCompoent {
 
     public static String getBkbString(){
         return bkbCompoent.redisTemplate.boundValueOps(Constants.LINK_INFO).get();
+    }
+
+    public static void setBkbNewsString(String news){
+        bkbCompoent.redisTemplate.boundListOps(Constants.LINK_NEWS_INFO).leftPush(news);
     }
 
 }

@@ -16,4 +16,6 @@ public class LinkUrl {
     public static final String dylsInfoUrl = "http://www.dyls.net/";
 
     public static final String baiduSearchUrl = "http://www.baidu.com/s";
+
+    public static final String baiduSearchNewsUrl = "http://news.baidu.com/ns";
 }

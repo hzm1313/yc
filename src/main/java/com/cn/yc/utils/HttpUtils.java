@@ -56,6 +56,27 @@ public class HttpUtils {
         return null;
     }
 
+    public static String getBaiduNews(List<NameValuePair> params){
+        HttpEntity httpEntity = null;
+        try {
+            String str = EntityUtils.toString(new UrlEncodedFormEntity(params,"utf-8"));
+            HttpGet httpGet = new HttpGet(LinkUrl.baiduSearchNewsUrl+"?"+str);
+            httpGet.setHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36");
+            HttpResponse response = HttpClients.createDefault().execute(httpGet);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.OK.value()) {
+                httpEntity = response.getEntity();
+                if (httpEntity != null) {
+                    return JsonUtils.read(httpEntity);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.error("*** Error in send get request due to IOException [{}]", e.getMessage());
+        }
+        return null;
+    }
+
     public static String getAccessToken(String appId,String secert){
         String accessToken = sendGetRequest(Constants.wxAccessTokenUrl+"&appid=" +
                 Constants.appId + "&secret=" + Constants.secret);
