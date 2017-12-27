@@ -1,5 +1,8 @@
 import com.cn.yc.Startup;
+import com.cn.yc.bean.NewsDO;
+import com.cn.yc.bean.QqNewsDO;
 import com.cn.yc.service.LinkService;
+import com.cn.yc.service.LinkSpiderService;
 import com.cn.yc.service.QqRoobotService;
 import com.scienjus.smartqq.callback.MessageCallback;
 import com.scienjus.smartqq.client.SmartQQClient;
@@ -24,10 +27,21 @@ public class startProjectTests {
     @Autowired
     QqRoobotService qqRoobotService;
 
-
     @Autowired
     private LinkService linkService;
 
+    @Autowired
+    LinkSpiderService linkSpiderService;
+
+    @Test
+    public void newsTest(){
+        linkSpiderService.spiderNews();
+        List<NewsDO> newsDOList = linkSpiderService.getNewsList();
+        for(int i=0;newsDOList!=null&&i<newsDOList.size();i++){
+            QqNewsDO qqNewsDO = (QqNewsDO) newsDOList.get(i);
+            System.out.println(qqNewsDO.getTitle());
+        }
+    }
 
     @Test
     public void linkInfo(){

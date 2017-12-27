@@ -1,3 +1,4 @@
+import com.cn.yc.bean.NewsDO;
 import com.cn.yc.service.LinkSpiderService;
 import com.cn.yc.service.impl.LinkSpiderServiceImpl;
 import org.junit.Assert;
@@ -25,9 +26,9 @@ public class LinkSpiderServiceTest {
     @Test
     public void spiderMockInfo(){
         LinkSpiderService linkSpiderMockService = mock(LinkSpiderServiceImpl.class);
-        when(linkSpiderMockService.getNews()).thenReturn("111");
+        when(linkSpiderMockService.getNews()).thenReturn(null);
         linkSpiderMockService.spiderNews();
-        String result = linkSpiderMockService.getNews();
+        NewsDO result = linkSpiderMockService.getNews();
         Assert.assertNotNull(result);
     }
 }

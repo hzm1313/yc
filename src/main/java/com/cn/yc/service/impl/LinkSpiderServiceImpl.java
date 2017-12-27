@@ -1,8 +1,14 @@
 package com.cn.yc.service.impl;
 
+import com.cn.yc.bean.NewsDO;
+import com.cn.yc.bean.QqNewsDO;
+import com.cn.yc.component.BkbCompoent;
+import com.cn.yc.news.NewsFactory;
+import com.cn.yc.news.QqNewsFactory;
 import com.cn.yc.service.LinkSpiderService;
 import com.cn.yc.utils.Constants;
 import com.cn.yc.utils.HttpUtils;
+import com.cn.yc.utils.JsonUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.jsoup.nodes.Document;
@@ -10,6 +16,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +25,7 @@ import java.util.List;
 /**
  * Created by hasee on 2017/12/24.
  */
+@Service
 public class LinkSpiderServiceImpl implements LinkSpiderService {
 
     @Override
@@ -33,28 +42,23 @@ public class LinkSpiderServiceImpl implements LinkSpiderService {
             params.add(new BasicNameValuePair("bs", baiduKey));
             params.add(new BasicNameValuePair("word", baiduKey));
             html = HttpUtils.getBaiduNews(params);
-            Document doc = Jsoup.parse(html);
-                Element element = doc.getElementById("content_left");
-            Elements elements = element.getElementsByClass("result");
-            for (Element elementTmp : elements) {
-                elementsTmp = elementTmp.getElementsByClass("c-title");
-                if (elementsTmp == null) {
-                    return;
-                }
-                elementTmp = elementsTmp.get(0);
-                elementsTmp = elementTmp.getElementsByTag("a");
-                if (elements == null) {
-                    return;
-                }
-                elementTmp = elementsTmp.get(0);
-                System.out.println(elementTmp.text());
-                System.out.println(elementTmp.attr("href"));
+            NewsFactory newsFactory = new QqNewsFactory();
+            List<QqNewsDO> qqNewsDOList = newsFactory.getNewsList(html,QqNewsDO.class);
+            int i=1;
+            for(QqNewsDO qqNewsDO:qqNewsDOList){
+                String json = JsonUtils.objToJson(qqNewsDO);
+                BkbCompoent.setBkbNewsString(json);
             }
         }
     }
 
     @Override
-    public String getNews() {
-        return null;
+    public NewsDO getNews() {
+        return BkbCompoent.getBkbNews();
+    }
+
+    @Override
+    public List<NewsDO> getNewsList() {
+        return BkbCompoent.getBkbNewsList(10);
     }
 }
