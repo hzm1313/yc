@@ -1,6 +1,7 @@
 package com.cn.yc.service.impl;
 
 import com.cn.yc.bean.NewsDO;
+import com.cn.yc.bean.NewsVO;
 import com.cn.yc.bean.QqNewsDO;
 import com.cn.yc.component.BkbCompoent;
 import com.cn.yc.news.NewsFactory;
@@ -53,12 +54,12 @@ public class LinkSpiderServiceImpl implements LinkSpiderService {
     }
 
     @Override
-    public NewsDO getNews() {
+    public NewsVO getNews() {
         return BkbCompoent.getBkbNews();
     }
 
     @Override
-    public List<NewsDO> getNewsList() {
+    public List<NewsVO> getNewsList() {
         return BkbCompoent.getBkbNewsList(10);
     }
 }

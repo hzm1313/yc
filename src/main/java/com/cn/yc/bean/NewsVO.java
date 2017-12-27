@@ -1,12 +1,11 @@
 package com.cn.yc.bean;
 
 import com.cn.yc.utils.JsonUtils;
-import net.sf.json.util.JSONUtils;
 
 /**
- * Created by hasee on 2017/12/26.
+ * Created by DT167 on 2017/12/27.
  */
-public class NewsDO {
+public class NewsVO {
     private String title;
     private String customer;
     private String createdTime;
@@ -62,4 +61,7 @@ public class NewsDO {
         this.content = content;
     }
 
+    public String getNewsString(){
+        return JsonUtils.objToJson(this);
+    }
 }

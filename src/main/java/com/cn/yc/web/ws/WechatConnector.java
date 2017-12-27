@@ -28,20 +28,11 @@ import java.util.Date;
 public class WechatConnector extends HttpServlet {
     protected Logger logger = LoggerFactory.getLogger(WechatConnector.class);
 
-    @Autowired
-    private QqRoobotService qqRoobotService;
 
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
         SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, servletConfig.getServletContext());
         logger.info("init WechatConnector");
-        //处理需要初始化的数据
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                qqRoobotService.initStartQqRoot();
-            }
-        }).start();
     }
 
     @Override
@@ -53,7 +44,7 @@ public class WechatConnector extends HttpServlet {
             String echostr = req.getParameter("echostr");//随机字符串
             String token = HttpUtils.getAccessToken(Constants.appId, Constants.secret);
 
-            if (Tools.checkSignature(token, timestamp, nonce,signature)) {
+            if (Tools.checkSignature(token, timestamp, nonce, signature)) {
                 resp.getWriter().write(echostr);
             }
         } catch (Exception e) {
@@ -63,7 +54,7 @@ public class WechatConnector extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-        try{
+        try {
             response.setCharacterEncoding("UTF-8");
             response.setContentType("text/xml");
             OutMessage oms = new OutMessage();
@@ -76,10 +67,10 @@ public class WechatConnector extends HttpServlet {
             InMessage msg = (InMessage) xs.fromXML(xmlMsg);
             // 取得消息类型
             String type = msg.getMsgType();
-            if("event".equals(type)){
+            if ("event".equals(type)) {
                 oms.setToUserName(msg.getFromUserName());
                 oms.setFromUserName(msg.getToUserName());
-                oms.setCreateTime(new Date().getTime()/1000);
+                oms.setCreateTime(System.currentTimeMillis() / 1000);
                 oms.setMsgType("text");
                 oms.setContent("苦海中求生之人");
             }
@@ -88,7 +79,7 @@ public class WechatConnector extends HttpServlet {
             System.out.println(xs.toXML(oms));
 
             response.getWriter().println(xs.toXML(oms));
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             logger.error(e.getMessage());
         }

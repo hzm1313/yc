@@ -1,5 +1,6 @@
 import com.cn.yc.Startup;
 import com.cn.yc.bean.NewsDO;
+import com.cn.yc.bean.NewsVO;
 import com.cn.yc.bean.QqNewsDO;
 import com.cn.yc.service.LinkService;
 import com.cn.yc.service.LinkSpiderService;
@@ -36,10 +37,10 @@ public class startProjectTests {
     @Test
     public void newsTest(){
         linkSpiderService.spiderNews();
-        List<NewsDO> newsDOList = linkSpiderService.getNewsList();
-        for(int i=0;newsDOList!=null&&i<newsDOList.size();i++){
-            QqNewsDO qqNewsDO = (QqNewsDO) newsDOList.get(i);
-            System.out.println(qqNewsDO.getTitle());
+        List<NewsVO> newsVOList = linkSpiderService.getNewsList();
+        for(int i=0;newsVOList!=null&&i<newsVOList.size();i++){
+            NewsVO newsVO =  newsVOList.get(i);
+            System.out.println(newsVO.getTitle());
         }
     }
 

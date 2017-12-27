@@ -1,12 +1,16 @@
 package com.cn.yc.service.impl;
 
+import com.cn.yc.bean.NewsVO;
 import com.cn.yc.component.BkbCompoent;
 import com.cn.yc.bean.WkyVO;
 import com.cn.yc.service.QqRoobotService;
 import com.cn.yc.utils.JsonUtils;
+import com.cn.yc.web.ws.WechatConnector;
 import com.scienjus.smartqq.callback.MessageCallback;
 import com.scienjus.smartqq.client.SmartQQClient;
 import com.scienjus.smartqq.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -17,8 +21,11 @@ import java.util.List;
  */
 @Service
 public class QqRoobotServiceImpl implements QqRoobotService {
+    protected Logger logger = LoggerFactory.getLogger(WechatConnector.class);
+
     private SmartQQClient client;
 
+    @Override
     public void initStartQqRoot() {
         if (client != null) {
             return;
@@ -32,15 +39,32 @@ public class QqRoobotServiceImpl implements QqRoobotService {
 
             @Override
             public void onGroupMessage(GroupMessage message) {
-                if (message.getContent().contains("行情")) {
-                    String result = BkbCompoent.getBkbString();
-                    WkyVO wkyVO = JsonUtils.jsonToObj(result, WkyVO.class);
-                    if (wkyVO != null) {
-                        String hfString =/* "cex:" + wkyVO.getCex() + "\n" + */"玩家网:" + wkyVO.getWjw() + "\n" + "悠雨林:" + wkyVO.getUyl() + "\n更多信息请点击http://www.wlsecret.com/";
-                        client.sendMessageToGroup(message.getGroupId(),hfString);
+                StringBuilder hfStrBuilder = null;
+                String replayContent = null;
+                try{
+                    if (message.getContent().contains("行情")) {
+                        String result = BkbCompoent.getBkbString();
+                        WkyVO wkyVO = JsonUtils.jsonToObj(result, WkyVO.class);
+                        if (wkyVO != null) {
+                            hfStrBuilder =new StringBuilder("玩家网:" + wkyVO.getWjw() + "\n" + "悠雨林:" + wkyVO.getUyl() + "\n更多信息请点击http://www.wlsecret.com/");
+                            replayContent = hfStrBuilder.toString();
+                            client.sendMessageToGroup(message.getGroupId(),replayContent );
+                        }
+                    } else if (message.getContent().contains("新闻")) {
+                        List<NewsVO> newsVOList = BkbCompoent.getBkbNewsList(5);
+                        hfStrBuilder = new StringBuilder();
+                        for (int i = 0; newsVOList != null && i<newsVOList.size() ; i++) {
+                            hfStrBuilder.append( newsVOList.get(0).getTitle()+ "\n" + newsVOList.get(i).getUrl()+"\n");
+                        }
+                        hfStrBuilder.append("更多信息请点击http://www.wlsecret.com/");
+                        replayContent = hfStrBuilder.toString();
+                        client.sendMessageToGroup(message.getGroupId(), replayContent);
                     }
+                }catch (Exception e){
+                    logger.error("*** qq roobot GroupMessage {}",message);
+                    logger.error("*** qq roobot error {}",e.getMessage());
                 }
-                System.out.println(message.getContent());
+
             }
 
             @Override

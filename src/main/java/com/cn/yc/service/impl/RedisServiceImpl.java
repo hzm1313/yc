@@ -17,11 +17,13 @@ public class RedisServiceImpl
     @Resource(name="redisTemplate")
     private ListOperations<String, String> listOps;
 
+    @Override
     public void addLink(String key, String listValue)
     {
         this.listOps.leftPush(key, listValue);
     }
 
+    @Override
     public List<String> getLink(String key, Long start, Long end)
     {
         Long size = this.listOps.size(key);
@@ -31,14 +33,17 @@ public class RedisServiceImpl
         return this.listOps.range(key, 0L, size.longValue());
     }
 
+    @Override
     public List<String> getAllLink(String key)
     {
         Long size = this.listOps.size(key);
         return this.listOps.range(key, 0L, size.longValue());
     }
 
+    @Override
     public void removeKey(String key) {}
 
+    @Override
     public void leftPush(String key, String value)
     {
         this.redisTemplate.opsForList().leftPush(key, value);
