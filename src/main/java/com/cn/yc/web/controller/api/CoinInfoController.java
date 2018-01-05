@@ -23,7 +23,6 @@ public class CoinInfoController {
     {
         ResponseBase responseBase = new ResponseBase();
         responseBase.setResultMessage(linkService.getLinkInfo());
-        System.out.println(1);
         return responseBase;
     }
     @RequestMapping({"/getTable"})
@@ -32,4 +31,5 @@ public class CoinInfoController {
         String result = linkService.getHtmlTable();
         return result.toString();
     }
+
 }

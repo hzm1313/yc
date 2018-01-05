@@ -50,7 +50,7 @@ public class QqRoobotServiceImpl implements QqRoobotService {
                             replayContent = hfStrBuilder.toString();
                             client.sendMessageToGroup(message.getGroupId(),replayContent );
                         }
-                    } else if (message.getContent().contains("新闻")) {
+                    } else if ("新闻".equals(message.getContent().trim())) {
                         List<NewsVO> newsVOList = BkbCompoent.getBkbNewsList(5);
                         hfStrBuilder = new StringBuilder();
                         for (int i = 0; newsVOList != null && i<newsVOList.size() ; i++) {
