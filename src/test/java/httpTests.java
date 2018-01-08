@@ -1,6 +1,7 @@
 import com.cn.yc.utils.HttpUtils;
 import com.cn.yc.utils.JsonUtils;
 import com.cn.yc.utils.LinkUrl;
+import net.sf.json.JSONObject;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -22,6 +23,7 @@ public class httpTests {
     @Test
     public void getAboutInfoTest(){
         String result = HttpUtils.sendQueryWkbAboutInfo();
+        JSONObject jsonObject = JSONObject.fromObject(result);
         System.out.println(result);
     }
 
