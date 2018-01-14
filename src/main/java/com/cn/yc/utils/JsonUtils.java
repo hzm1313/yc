@@ -39,7 +39,7 @@ public class JsonUtils {
     }
 
     public static <T> T jsonToObj(String jsonStr,Class<T> clazz){
-        JSONObject obj = new JSONObject().fromObject(jsonStr);
+        JSONObject obj =  JSONObject.fromObject(jsonStr);
         return (T) JSONObject.toBean(obj,clazz);
     }
 

@@ -6,12 +6,15 @@ import com.cn.yc.utils.Constants;
 import com.cn.yc.utils.HttpUtils;
 import com.cn.yc.utils.JsonUtils;
 import com.cn.yc.utils.LinkUrl;
+import com.cn.yc.web.ws.WechatConnector;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -24,6 +27,7 @@ import java.math.BigDecimal;
  */
 @Service
 public class LinkServiceImpl implements LinkService {
+    protected Logger logger = LoggerFactory.getLogger(WechatConnector.class);
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
@@ -45,16 +49,25 @@ public class LinkServiceImpl implements LinkService {
                 }
             }
         }
-        String uylResult = HttpUtils.sendGetRequest(LinkUrl.uylInfoUrl);
-        JSONObject uylObject = JSONObject.fromObject(uylResult);
-        uylObject = JSONObject.fromObject(uylObject.get("url"));
-        uylArray = JSONArray.fromObject(uylObject.get("wkc_doge"));
-        wkyVO.setUyl(uylArray.get(1).toString());
-        String wjwResult = HttpUtils.sendWjwRequest(LinkUrl.wjwInfoUrl);
-        wjwObject = JSONObject.fromObject(wjwResult);
-        wjwObject = JSONObject.fromObject(wjwObject.get("url"));
-        wjwArray = JSONArray.fromObject(wjwObject.get("wkb_cny"));
-        wkyVO.setWjw(wjwArray.get(1).toString());
+        try{
+            String uylResult = HttpUtils.sendGetRequest(LinkUrl.uylInfoUrl);
+            JSONObject uylObject = JSONObject.fromObject(uylResult);
+            uylObject = JSONObject.fromObject(uylObject.get("url"));
+            uylArray = JSONArray.fromObject(uylObject.get("egg_doge"));
+            wkyVO.setUyl(uylArray.get(1).toString());
+        }catch (Exception e){
+            logger.error("uly error{}",e.getMessage());
+        }
+        try{
+            String wjwResult = HttpUtils.sendWjwRequest(LinkUrl.wjwInfoUrl);
+            wjwObject = JSONObject.fromObject(wjwResult);
+            wjwObject = JSONObject.fromObject(wjwObject.get("url"));
+            wjwArray = JSONArray.fromObject(wjwObject.get("wkb_cny"));
+            wkyVO.setWjw(wjwArray.get(1).toString());
+        }catch (Exception e){
+            logger.error("wjw error{}",e.getMessage());
+        }
+
         String wkyAboutInfo = HttpUtils.sendQueryWkbAboutInfo();
         if(StringUtils.isNotBlank(wkyAboutInfo)){
             wkyObject = JSONObject.fromObject(wkyAboutInfo);
@@ -65,11 +78,7 @@ public class LinkServiceImpl implements LinkService {
             wkyVO.setAverageBandwidth(wkyObject.get("average_bandwidth").toString());
             wkyVO.setAverageDisk(wkyObject.get("average_disk").toString());
         }
-
         String result = JsonUtils.objToJson(wkyVO);
-
-
-
         redisTemplate.boundValueOps(Constants.LINK_INFO).set(result);
         return result;
     }

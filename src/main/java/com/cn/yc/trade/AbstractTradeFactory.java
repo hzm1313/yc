@@ -1,7 +1,9 @@
 package com.cn.yc.trade;
 
 /**
- * Created by hasee on 2018/1/1.
+ * Created by DT167 on 2018/1/5.
  */
-public class AbstractTradeFactory {
+public abstract class AbstractTradeFactory {
+    public abstract WjwTrade getWjwTrade();
+    public abstract UylTrade getUylTrade();
 }

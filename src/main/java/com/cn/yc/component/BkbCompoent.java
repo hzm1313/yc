@@ -1,6 +1,7 @@
 package com.cn.yc.component;
 
 import com.cn.yc.bean.NewsDO;
+import com.cn.yc.bean.NewsVO;
 import com.cn.yc.utils.Constants;
 import com.cn.yc.utils.JsonUtils;
 import net.sf.json.util.JSONUtils;
@@ -36,23 +37,23 @@ public class BkbCompoent {
         bkbCompoent.redisTemplate.boundListOps(Constants.LINK_NEWS_INFO).leftPush(news);
     }
 
-    public static NewsDO getBkbNews(){
-        NewsDO newsDO = null;
+    public static NewsVO getBkbNews(){
+        NewsVO newsVO = null;
         String result = bkbCompoent.redisTemplate.boundListOps(Constants.LINK_NEWS_INFO).index(0);
         if(result!=null){
-            newsDO = JsonUtils.jsonToObj(result,NewsDO.class);
+            newsVO = JsonUtils.jsonToObj(result,NewsVO.class);
         }
-        return newsDO;
+        return newsVO;
     }
 
-    public static List<NewsDO> getBkbNewsList(int num){
+    public static List<NewsVO> getBkbNewsList(int num){
         String result = null;
-        NewsDO newsDO = null;
-        List<NewsDO> newsDOList = new ArrayList<>();
+        NewsVO newsVO = null;
+        List<NewsVO> newsDOList = new ArrayList<>();
         for(int index =0;index<num;index++){
             result = bkbCompoent.redisTemplate.boundListOps(Constants.LINK_NEWS_INFO).index(index);
-            newsDO = JsonUtils.jsonToObj(result,NewsDO.class);
-            newsDOList.add(newsDO);
+            newsVO = JsonUtils.jsonToObj(result,NewsVO.class);
+            newsDOList.add(newsVO);
         }
         return newsDOList;
     }

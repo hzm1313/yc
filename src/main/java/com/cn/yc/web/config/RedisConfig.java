@@ -23,10 +23,12 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 public class RedisConfig
         extends CachingConfigurerSupport
 {
+    @Override
     public KeyGenerator keyGenerator()
     {
         return new KeyGenerator()
         {
+            @Override
             public Object generate(Object target, Method method, Object... params)
             {
                 StringBuilder sb = new StringBuilder();
