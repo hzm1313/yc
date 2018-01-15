@@ -80,16 +80,16 @@ public class QqRoobotServiceImpl implements QqRoobotService {
                 System.out.println("————" + friend.getNickname());
             }
         }
-        while (true) {
+/*        while (true) {
             if (11 != 11) {
                 break;
             }
-        }
+        }*/
         //使用后调用close方法关闭，你也可以使用try-with-resource创建该对象并自动关闭
-        try {
+     /*   try {
             client.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }
