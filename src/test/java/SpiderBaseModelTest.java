@@ -14,4 +14,18 @@ public class SpiderBaseModelTest {
         LinkTokenSpiderInfo linkTokenSpiderInfo = spiderLinkTokenInfoModel.spiderWjw();
         Assert.assertNotNull(linkTokenSpiderInfo);
     }
+
+    @Test
+    public void spiderPlayWkcTest(){
+        SpiderLinkTokenInfoModel spiderLinkTokenInfoModel = new SpiderBaseModel();
+        LinkTokenSpiderInfo linkTokenSpiderInfo = spiderLinkTokenInfoModel.spiderPlayWkc();
+        Assert.assertNotNull(linkTokenSpiderInfo);
+    }
+
+    @Test
+    public void spiderUylTest(){
+        SpiderLinkTokenInfoModel spiderLinkTokenInfoModel = new SpiderBaseModel();
+        LinkTokenSpiderInfo linkTokenSpiderInfo = spiderLinkTokenInfoModel.spiderUyl();
+        Assert.assertNotNull(linkTokenSpiderInfo);
+    }
 }

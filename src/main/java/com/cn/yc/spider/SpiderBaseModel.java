@@ -1,27 +1,39 @@
 package com.cn.yc.spider;
 
 import com.cn.yc.bean.LinkTokenSpiderInfo;
+import com.cn.yc.bean.PlayWkcDO;
+import com.cn.yc.bean.UylDO;
 import com.cn.yc.bean.WjwDO;
 import com.cn.yc.utils.Constants;
 import com.cn.yc.utils.HttpUtils;
 import com.cn.yc.utils.LinkUrl;
+import com.sun.org.apache.regexp.internal.RE;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.ibatis.jdbc.Null;
+import org.jsoup.Jsoup;
+
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by DT167 on 2018/1/15.
  */
 public class SpiderBaseModel extends SpiderLinkTokenInfoModel {
+    private static Pattern  pattern = Pattern.compile("\\d*\\.?\\d*");
+
     @Override
     public LinkTokenSpiderInfo spiderWjw() {
         String result = null;
@@ -69,12 +81,71 @@ public class SpiderBaseModel extends SpiderLinkTokenInfoModel {
 
     @Override
     public LinkTokenSpiderInfo spiderPlayWkc() {
-        return null;
+        String result = null;
+        LinkTokenSpiderInfo playWkc = new PlayWkcDO();
+        JSONArray wjwArray = null;
+        //BUY
+        String url = LinkUrl.playWkcBuyInfoUrl;
+        result = HttpUtils.sendGetRequest(url);
+        Document doc = Jsoup.parse(result);
+        Elements elements = doc.getElementsByClass("counter-list");
+        Element element = elements.get(0);
+        elements = element.getElementsByClass("price");
+        element = elements.get(0);
+        String priceStr = element.text();
+        Matcher m = pattern.matcher(priceStr);
+        if (m.find( )) {
+            playWkc.setBuyPrice(new BigDecimal(m.group().toString()));
+        }
+        //SELL
+        url = LinkUrl.playWkcSellInfoUrl;
+        result = HttpUtils.sendGetRequest(url);
+        doc = Jsoup.parse(result);
+        elements = doc.getElementsByClass("counter-list");
+        element = elements.get(0);
+        elements = element.getElementsByClass("price");
+        element = elements.get(0);
+        priceStr = element.text();
+        m = pattern.matcher(priceStr);
+        if (m.find( )) {
+            playWkc.setSellPrice(new BigDecimal(m.group().toString()));
+        }
+        playWkc.setSpiderPlatform(Constants.playWkc);
+        return playWkc;
     }
 
     @Override
     public LinkTokenSpiderInfo spiderUyl() {
-        return null;
+        String result = null;
+        LinkTokenSpiderInfo ulyDO = new UylDO();
+        String url = LinkUrl.ulyTradeInfoUrl;
+        url=url+"?t=0.742612568269316"+(int) (Math.random() * 9);
+        result = HttpUtils.sendGetRequest(url);
+        JSONObject jsonObject = JSONObject.fromObject(result);
+        jsonObject = JSONObject.fromObject(jsonObject.get("depth"));
+        JSONArray jsonArray = JSONArray.fromObject(jsonObject.get("b"));
+        if(jsonArray==null||jsonArray.size()<=0){
+            return ulyDO;
+        }
+        jsonArray = JSONArray.fromObject(jsonArray.get(0));
+        if(jsonArray==null||jsonArray.size()<=0){
+            return ulyDO;
+        }
+        ulyDO.setBuyPrice(new BigDecimal(jsonArray.get(0).toString()));
+        ulyDO.setBuyNum(Double.valueOf(jsonArray.get(1).toString()));
+
+        jsonArray = JSONArray.fromObject(jsonObject.get("s"));
+        if(jsonArray==null||jsonArray.size()<=0){
+            return ulyDO;
+        }
+        jsonArray = JSONArray.fromObject(jsonArray.get(0));
+        if(jsonArray==null||jsonArray.size()<=0){
+            return ulyDO;
+        }
+        ulyDO.setSellPrice(new BigDecimal(jsonArray.get(0).toString()));
+        ulyDO.setSellNum(Double.valueOf(jsonArray.get(1).toString()));
+        ulyDO.setSpiderPlatform(Constants.uyl);
+        return ulyDO;
     }
 
     @Override

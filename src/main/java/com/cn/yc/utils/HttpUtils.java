@@ -102,6 +102,53 @@ public class HttpUtils {
         return null;
     }
 
+    public static String sendGetRequest(String url, Map<String,String> headerMap) {
+        HttpEntity httpEntity = null;
+        try {
+            HttpGet httpGet = new HttpGet(url);
+            Iterator iter = headerMap.entrySet().iterator();
+            iter.forEachRemaining(obj->{
+                Map.Entry entry = (Map.Entry) obj;
+                httpGet.setHeader(entry.getKey().toString(),entry.getValue().toString());
+            });
+            HttpResponse response = new DefaultHttpClient().execute(httpGet);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.OK.value()) {
+                httpEntity = response.getEntity();
+                if (httpEntity != null) {
+                    return JsonUtils.read(httpEntity);
+                }
+            }
+        } catch (IOException e) {
+            logger.error("*** Error in send get request due to IOException [{}]", e.getMessage());
+        }
+        return null;
+    }
+
+    public static String sendPostRequest(String url, Map<String,String> headerMap) {
+        HttpEntity httpEntity = null;
+        try {
+            HttpPost httpPost = new HttpPost(url);
+            Iterator iter = headerMap.entrySet().iterator();
+            Map.Entry entry = null;
+            while(iter.hasNext()){
+                entry = (Map.Entry) iter.next();
+                httpPost.setHeader(entry.getKey().toString(),entry.getValue().toString());
+            }
+            HttpResponse response = new DefaultHttpClient().execute(httpPost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.OK.value()) {
+                httpEntity = response.getEntity();
+                if (httpEntity != null) {
+                    return JsonUtils.read(httpEntity);
+                }
+            }
+        } catch (IOException e) {
+            logger.error("*** Error in send get request due to IOException [{}]", e.getMessage());
+        }
+        return null;
+    }
+
     public static String sendPostRequest(String url, Map<String,String> headerMap,List<NameValuePair> formParams) {
         HttpEntity httpEntity = null;
         try {
