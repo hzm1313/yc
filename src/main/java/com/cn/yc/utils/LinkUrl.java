@@ -11,6 +11,9 @@ public class LinkUrl {
     public static final String uylInfoUrl = "http://www.uyulin.com/ajax/allcoin_a/id/8?t=0.7531273133025456";
     public static final String wjwInfoUrl = "http://www.chinawkb.com/ajax/allcoin_a/";
 
+    //交易详情
+    public static final String wjwTradeInfoUrl = "http://www.chinawkb.com/Ajax/getOwnerDepth";
+
     public static final String wkyAboutInfoUrl = "http://account.onethingpcs.com/info/query";
 
     public static final String dylsInfoUrl = "http://www.dyls.net/";
