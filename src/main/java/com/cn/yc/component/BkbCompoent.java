@@ -3,7 +3,7 @@ package com.cn.yc.component;
 import com.cn.yc.bean.NewsDO;
 import com.cn.yc.bean.NewsVO;
 import com.cn.yc.utils.Constants;
-import com.cn.yc.utils.JsonUtils;
+import com.cn.yc.utils.JSONStrReaderUtils;
 import net.sf.json.util.JSONUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -41,7 +41,7 @@ public class BkbCompoent {
         NewsVO newsVO = null;
         String result = bkbCompoent.redisTemplate.boundListOps(Constants.LINK_NEWS_INFO).index(0);
         if(result!=null){
-            newsVO = JsonUtils.jsonToObj(result,NewsVO.class);
+            newsVO = JSONStrReaderUtils.jsonToObj(result,NewsVO.class);
         }
         return newsVO;
     }
@@ -52,7 +52,7 @@ public class BkbCompoent {
         List<NewsVO> newsDOList = new ArrayList<>();
         for(int index =0;index<num;index++){
             result = bkbCompoent.redisTemplate.boundListOps(Constants.LINK_NEWS_INFO).index(index);
-            newsVO = JsonUtils.jsonToObj(result,NewsVO.class);
+            newsVO = JSONStrReaderUtils.jsonToObj(result,NewsVO.class);
             newsDOList.add(newsVO);
         }
         return newsDOList;

@@ -1,5 +1,6 @@
 package com.cn.yc.service;
 
+import com.cn.yc.bean.LinkTokenSpiderInfo;
 import com.cn.yc.bean.NewsDO;
 import com.cn.yc.bean.NewsVO;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,8 @@ import java.util.List;
  */
 @Service
 public interface LinkSpiderService {
+    public void spiderTradeInfo();
+    public List<LinkTokenSpiderInfo> getSpiderTradeInfo();
     public void spiderNews();
     public NewsVO getNews();
     public List<NewsVO> getNewsList();

@@ -37,4 +37,11 @@ public class Constants {
 
     public final static String playWkc = "playWkc";
 
+
+    public final static String PLAYWKC_TRADE_INFO_KEY = "PLAYWKC_TRADE_INFO_KEY";
+    public final static String UYL_TRADE_INFO_KEY = "UYL_TRADE_INFO_KEY";
+    public final static String WJW_TRADE_INFO_KEY = "WJW_TRADE_INFO_KEY";
+
+    public final static String NEWS_URL_HASH_KEY = "NEWS_URL_HASH_KEY";
+    public final static String NEWS_TITLE_HASH_KEY = "NEWS_TITLE_HASH_KEY";
 }

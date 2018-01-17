@@ -35,6 +35,15 @@ public class startProjectTests {
     LinkSpiderService linkSpiderService;
 
     @Test
+    public void LinkSpiderServiceTest(){
+        linkSpiderService.spiderNews();
+        /*List<NewsVO> newsVOList = linkSpiderService.getNewsList();
+        newsVOList.forEach(newsVO -> {
+            System.out.println(newsVO.getTitle()+"  "+newsVO.getUrl());
+        });*/
+    }
+
+    @Test
     public void newsTest(){
         linkSpiderService.spiderNews();
         List<NewsVO> newsVOList = linkSpiderService.getNewsList();

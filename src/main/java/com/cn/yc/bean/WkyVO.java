@@ -4,7 +4,7 @@ package com.cn.yc.bean;
  * Created by hasee on 2017/12/17.
  */
 public class WkyVO {
-    private String cex;
+    private String playWkc;
     private String uyl;
     private String wjw;
     //挖矿总量
@@ -58,12 +58,12 @@ public class WkyVO {
         this.averageDisk = averageDisk;
     }
 
-    public String getCex() {
-        return cex;
+    public String getPlayWkc() {
+        return playWkc;
     }
 
-    public void setCex(String cex) {
-        this.cex = cex;
+    public void setPlayWkc(String playWkc) {
+        this.playWkc = playWkc;
     }
 
     public String getUyl() {

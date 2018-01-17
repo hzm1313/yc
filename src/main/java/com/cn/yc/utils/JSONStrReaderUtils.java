@@ -16,8 +16,8 @@ import java.util.Map;
 /**
  * Created by DT167 on 2017/6/2.
  */
-public class JsonUtils {
-    protected static  Logger logger = LoggerFactory.getLogger(JsonUtils.class);
+public class JSONStrReaderUtils {
+    protected static  Logger logger = LoggerFactory.getLogger(JSONStrReaderUtils.class);
 
     public static String objToJson(Object object){
         JSONObject jsonObject = JSONObject.fromObject(object);

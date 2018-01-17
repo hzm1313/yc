@@ -1,6 +1,6 @@
 package com.cn.yc.bean;
 
-import com.cn.yc.utils.JsonUtils;
+import com.cn.yc.utils.JSONStrReaderUtils;
 
 /**
  * Created by hasee on 2017/12/26.

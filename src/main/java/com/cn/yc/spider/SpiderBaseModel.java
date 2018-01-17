@@ -80,7 +80,7 @@ public class SpiderBaseModel extends SpiderLinkTokenInfoModel {
     }
 
     @Override
-    public LinkTokenSpiderInfo spiderPlayWkc() {
+    public  LinkTokenSpiderInfo spiderPlayWkc() {
         String result = null;
         LinkTokenSpiderInfo playWkc = new PlayWkcDO();
         JSONArray wjwArray = null;

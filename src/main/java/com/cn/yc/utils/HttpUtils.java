@@ -46,7 +46,7 @@ public class HttpUtils {
             if (statusCode == HttpStatus.OK.value()) {
                 httpEntity = response.getEntity();
                 if (httpEntity != null) {
-                    return JsonUtils.read(httpEntity);
+                    return JSONStrReaderUtils.read(httpEntity);
                 }
             }
         } catch (IOException e) {
@@ -67,11 +67,10 @@ public class HttpUtils {
             if (statusCode == HttpStatus.OK.value()) {
                 httpEntity = response.getEntity();
                 if (httpEntity != null) {
-                    return JsonUtils.read(httpEntity);
+                    return JSONStrReaderUtils.read(httpEntity);
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
             logger.error("*** Error in send get request due to IOException [{}]", e.getMessage());
         }
         return null;
@@ -80,7 +79,7 @@ public class HttpUtils {
     public static String getAccessToken(String appId, String secert) {
         String accessToken = sendGetRequest(Constants.wxAccessTokenUrl + "&appid=" +
                 Constants.appId + "&secret=" + Constants.secret);
-        accessToken = JsonUtils.jsonToMapGetVal(accessToken, "access_token");
+        accessToken = JSONStrReaderUtils.jsonToMapGetVal(accessToken, "access_token");
         return accessToken;
     }
 
@@ -93,7 +92,7 @@ public class HttpUtils {
             if (statusCode == HttpStatus.OK.value()) {
                 httpEntity = response.getEntity();
                 if (httpEntity != null) {
-                    return JsonUtils.read(httpEntity);
+                    return JSONStrReaderUtils.read(httpEntity);
                 }
             }
         } catch (IOException e) {
@@ -116,7 +115,7 @@ public class HttpUtils {
             if (statusCode == HttpStatus.OK.value()) {
                 httpEntity = response.getEntity();
                 if (httpEntity != null) {
-                    return JsonUtils.read(httpEntity);
+                    return JSONStrReaderUtils.read(httpEntity);
                 }
             }
         } catch (IOException e) {
@@ -140,7 +139,7 @@ public class HttpUtils {
             if (statusCode == HttpStatus.OK.value()) {
                 httpEntity = response.getEntity();
                 if (httpEntity != null) {
-                    return JsonUtils.read(httpEntity);
+                    return JSONStrReaderUtils.read(httpEntity);
                 }
             }
         } catch (IOException e) {
@@ -168,7 +167,7 @@ public class HttpUtils {
             if (statusCode == HttpStatus.OK.value()) {
                 httpEntity = response.getEntity();
                 if (httpEntity != null) {
-                    return JsonUtils.read(httpEntity);
+                    return JSONStrReaderUtils.read(httpEntity);
                 }
             }
         } catch (IOException e) {
@@ -188,7 +187,7 @@ public class HttpUtils {
             if (statusCode == HttpStatus.OK.value()) {
                 httpEntity = response.getEntity();
                 if (httpEntity != null) {
-                    return JsonUtils.read(httpEntity);
+                    return JSONStrReaderUtils.read(httpEntity);
                 }
             }
         } catch (IOException e) {
@@ -216,7 +215,7 @@ public class HttpUtils {
             if (statusCode == HttpStatus.OK.value()) {
                 httpEntity = response.getEntity();
                 if (httpEntity != null) {
-                    return JsonUtils.read(httpEntity);
+                    return JSONStrReaderUtils.read(httpEntity);
                 }
             }
         } catch (IOException e) {
@@ -243,7 +242,7 @@ public class HttpUtils {
             if (statusCode == HttpStatus.OK.value()) {
                 httpEntity = response.getEntity();
                 if (httpEntity != null) {
-                    return JsonUtils.read(httpEntity);
+                    return JSONStrReaderUtils.read(httpEntity);
                 }
             }
         } catch (IOException e) {

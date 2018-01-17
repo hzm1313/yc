@@ -1,6 +1,6 @@
 package com.cn.yc.bean;
 
-import com.cn.yc.utils.JsonUtils;
+import com.cn.yc.utils.JSONStrReaderUtils;
 
 /**
  * Created by DT167 on 2017/12/27.
@@ -8,6 +8,6 @@ import com.cn.yc.utils.JsonUtils;
 public class QqNewsVO extends NewsVO {
     @Override
     public String getNewsString(){
-        return JsonUtils.objToJson(this);
+        return JSONStrReaderUtils.objToJson(this);
     }
 }

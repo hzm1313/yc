@@ -1,6 +1,6 @@
 package com.cn.yc.bean;
 
-import com.cn.yc.utils.JsonUtils;
+import com.cn.yc.utils.JSONStrReaderUtils;
 import net.sf.json.util.JSONUtils;
 
 /**

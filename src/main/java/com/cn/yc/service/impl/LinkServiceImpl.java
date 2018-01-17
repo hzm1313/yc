@@ -4,7 +4,7 @@ import com.cn.yc.bean.WkyVO;
 import com.cn.yc.service.LinkService;
 import com.cn.yc.utils.Constants;
 import com.cn.yc.utils.HttpUtils;
-import com.cn.yc.utils.JsonUtils;
+import com.cn.yc.utils.JSONStrReaderUtils;
 import com.cn.yc.utils.LinkUrl;
 import com.cn.yc.web.ws.WechatConnector;
 import net.sf.json.JSONArray;
@@ -40,7 +40,7 @@ public class LinkServiceImpl implements LinkService {
         JSONArray uylArray = null,wjwArray;
         JSONObject wjwObject,wkyObject;
         JSONObject job = null;
-        if (StringUtils.isNotBlank(cexResult) && cexArray != null) {
+  /*      if (StringUtils.isNotBlank(cexResult) && cexArray != null) {
             for (int i = 0; i < cexArray.size(); i++) {
                 job = cexArray.getJSONObject(i);
                 if(job.get("currency_mark").equals("WKC")){
@@ -48,7 +48,7 @@ public class LinkServiceImpl implements LinkService {
                     break;
                 }
             }
-        }
+        }*/
         try{
             String uylResult = HttpUtils.sendGetRequest(LinkUrl.uylInfoUrl);
             JSONObject uylObject = JSONObject.fromObject(uylResult);
@@ -78,7 +78,7 @@ public class LinkServiceImpl implements LinkService {
             wkyVO.setAverageBandwidth(wkyObject.get("average_bandwidth").toString());
             wkyVO.setAverageDisk(wkyObject.get("average_disk").toString());
         }
-        String result = JsonUtils.objToJson(wkyVO);
+        String result = JSONStrReaderUtils.objToJson(wkyVO);
         redisTemplate.boundValueOps(Constants.LINK_INFO).set(result);
         return result;
     }

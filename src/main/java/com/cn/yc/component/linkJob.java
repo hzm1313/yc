@@ -5,6 +5,7 @@ import com.cn.yc.service.LinkSpiderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -27,11 +28,11 @@ public class linkJob {
     private LinkSpiderService linkSpiderService;
 
     @Scheduled(fixedRate = 30000)
+    @Async
     public void reportCurrentTime() {
-        String result  = linkService.updateHttpInfo();
-        String html  = linkService.updateHtmlDate();
-        log.info("The time is now to request linkInfo {}", dateFormat.format(new Date())+" "+result);
-       //log.info("The time is now to request linkInfo {}", dateFormat.format(new Date())+" "+html);
+        linkSpiderService.spiderTradeInfo();
+      /*  String result  = linkService.updateHttpInfo();
+        String html  = linkService.updateHtmlDate();*/
     }
 
     @Scheduled(fixedRate = 60000*60*3)

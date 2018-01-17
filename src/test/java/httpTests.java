@@ -1,5 +1,5 @@
 import com.cn.yc.utils.HttpUtils;
-import com.cn.yc.utils.JsonUtils;
+import com.cn.yc.utils.JSONStrReaderUtils;
 import com.cn.yc.utils.LinkUrl;
 import net.sf.json.JSONObject;
 import org.apache.http.HttpEntity;
@@ -64,7 +64,7 @@ public class httpTests {
 
 
                     System.out.println("======");
-                    System.out.println(JsonUtils.read(httpEntity));
+                    System.out.println(JSONStrReaderUtils.read(httpEntity));
                     System.out.println("yyy");
                 }
             }
