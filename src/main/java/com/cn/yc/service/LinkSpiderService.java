@@ -12,6 +12,8 @@ import java.util.List;
  */
 @Service
 public interface LinkSpiderService {
+    public void updateLinkInfo();
+    public String getLinkInfo();
     public void spiderTradeInfo();
     public List<LinkTokenSpiderInfo> getSpiderTradeInfo();
     public void spiderNews();

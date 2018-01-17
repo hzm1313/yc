@@ -36,8 +36,20 @@ public class QqRoobotServiceImpl implements QqRoobotService {
 
     @Override
     public void initStartQqRoot() {
-        if (client != null) {
-            return;
+        if(client!=null){
+            try{
+                UserInfo userInfo = client.getAccountInfo();
+                if(userInfo!=null){
+                    return;
+                }
+            }catch (Exception e){
+                logger.error("initStartQqRoot error {}",e.getMessage());
+                try {
+                    client.close();
+                } catch (IOException e1) {
+                    logger.error("client close error {}",e.getMessage());
+                }
+            }
         }
         //创建一个新对象时需要扫描二维码登录，并且传一个处理接收到消息的回调，如果你不需要接收消息，可以传null
         client = new SmartQQClient(new MessageCallback() {
@@ -58,16 +70,16 @@ public class QqRoobotServiceImpl implements QqRoobotService {
                         if (linkTokenSpiderInfoList != null && linkTokenSpiderInfoList.size() > 0) {
                             linkTokenSpiderInfoList.forEach( linkTokenSpiderInfo -> {
                                 if(Constants.uyl.equals(linkTokenSpiderInfo.getSpiderPlatform())){
-                                    wkyVO.setUyl(linkTokenSpiderInfo.getSellPrice().toString());
+                                    wkyVO.setUylSell(linkTokenSpiderInfo.getSellPrice().toString());
                                 }else if(Constants.playWkc.equals(linkTokenSpiderInfo.getSpiderPlatform())){
-                                    wkyVO.setPlayWkc(linkTokenSpiderInfo.getSellPrice().toString());
+                                    wkyVO.setPlayWkcSell(linkTokenSpiderInfo.getSellPrice().toString());
                                 }else if(Constants.wjw.equals(linkTokenSpiderInfo.getSpiderPlatform())){
-                                    wkyVO.setWjw(linkTokenSpiderInfo.getSellPrice().toString());
+                                    wkyVO.setWjwSell(linkTokenSpiderInfo.getSellPrice().toString());
                                 }
                             });
 
-                            hfStrBuilder = new StringBuilder("玩家网:" + wkyVO.getWjw() + "\n" + "悠雨林:" + wkyVO.getUyl() + "\n"
-                                    + "playWkc:" + wkyVO.getPlayWkc()
+                            hfStrBuilder = new StringBuilder("玩家网:" + wkyVO.getWjwSell() + "\n" + "悠雨林:" + wkyVO.getUylSell() + "\n"
+                                    + "playWkc:" + wkyVO.getPlayWkcSell()
                                     + "\n更多信息请点击http://www.wlsecret.com/");
                             replayContent = hfStrBuilder.toString();
                             client.sendMessageToGroup(message.getGroupId(), replayContent);
@@ -102,16 +114,16 @@ public class QqRoobotServiceImpl implements QqRoobotService {
                         if (linkTokenSpiderInfoList != null && linkTokenSpiderInfoList.size() > 0) {
                             linkTokenSpiderInfoList.forEach( linkTokenSpiderInfo -> {
                                 if(Constants.uyl.equals(linkTokenSpiderInfo.getSpiderPlatform())){
-                                    wkyVO.setUyl(linkTokenSpiderInfo.getSellPrice().toString());
+                                    wkyVO.setUylSell(linkTokenSpiderInfo.getSellPrice().toString());
                                 }else if(Constants.playWkc.equals(linkTokenSpiderInfo.getSpiderPlatform())){
-                                    wkyVO.setPlayWkc(linkTokenSpiderInfo.getSellPrice().toString());
+                                    wkyVO.setPlayWkcSell(linkTokenSpiderInfo.getSellPrice().toString());
                                 }else if(Constants.wjw.equals(linkTokenSpiderInfo.getSpiderPlatform())){
-                                    wkyVO.setWjw(linkTokenSpiderInfo.getSellPrice().toString());
+                                    wkyVO.setWjwSell(linkTokenSpiderInfo.getSellPrice().toString());
                                 }
                             });
 
-                            hfStrBuilder = new StringBuilder("玩家网:" + wkyVO.getWjw() + "\n" + "悠雨林:" + wkyVO.getUyl() + "\n"
-                                    + "playWkc:" + wkyVO.getPlayWkc()
+                            hfStrBuilder = new StringBuilder("玩家网:" + wkyVO.getWjwSell() + "\n" + "悠雨林:" + wkyVO.getUylSell() + "\n"
+                                    + "playWkc:" + wkyVO.getPlayWkcSell()
                                     + "\n更多信息请点击http://www.wlsecret.com/");
                             replayContent = hfStrBuilder.toString();
                             client.sendMessageToDiscuss(message.getDiscussId(),replayContent);
@@ -121,7 +133,7 @@ public class QqRoobotServiceImpl implements QqRoobotService {
                         List<NewsVO> newsVOList = BkbCompoent.getBkbNewsList(5);
                         hfStrBuilder = new StringBuilder();
                         for (int i = 0; newsVOList != null && i < newsVOList.size(); i++) {
-                            hfStrBuilder.append(newsVOList.get(0).getTitle() + "\n" + newsVOList.get(i).getUrl() + "\n");
+                            hfStrBuilder.append(newsVOList.get(i).getTitle() + "\n" + newsVOList.get(i).getUrl() + "\n");
                         }
                         hfStrBuilder.append("更多信息请点击http://www.wlsecret.com/");
                         replayContent = hfStrBuilder.toString();

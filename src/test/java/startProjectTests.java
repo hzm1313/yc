@@ -55,8 +55,8 @@ public class startProjectTests {
 
     @Test
     public void linkInfo(){
-        String result = linkService.updateHttpInfo();
-        System.out.println(result);
+      /*  String result = linkService.updateHttpInfo();
+        System.out.println(result);*/
     }
 
     @Test

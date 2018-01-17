@@ -12,6 +12,7 @@ import com.cn.yc.utils.Constants;
 import com.cn.yc.utils.HttpUtils;
 import com.cn.yc.utils.JSONStrReaderUtils;
 import com.cn.yc.web.ws.WechatConnector;
+import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -39,6 +40,29 @@ public class LinkSpiderServiceImpl implements LinkSpiderService {
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
+
+    @Override
+    public void updateLinkInfo() {
+        WkyVO wkyVO = new WkyVO();
+        JSONObject wkyObject = null;
+        String wkyAboutInfo = HttpUtils.sendQueryWkbAboutInfo();
+        if (StringUtils.isNotBlank(wkyAboutInfo)) {
+            wkyObject = JSONObject.fromObject(wkyAboutInfo);
+            wkyObject = wkyObject.getJSONObject("data");
+            wkyVO.setWkbNum(wkyObject.get("wkb_num").toString());
+            wkyVO.setBlockNum(wkyObject.get("block_num").toString());
+            wkyVO.setAverageOnlinetime(wkyObject.get("average_onlinetime").toString());
+            wkyVO.setAverageBandwidth(wkyObject.get("average_bandwidth").toString());
+            wkyVO.setAverageDisk(wkyObject.get("average_disk").toString());
+        }
+        String result = JSONStrReaderUtils.objToJson(wkyVO);
+        redisTemplate.boundValueOps(Constants.LINK_INFO).set(result);
+    }
+
+    @Override
+    public String getLinkInfo() {
+        return redisTemplate.boundValueOps(Constants.LINK_INFO).get();
+    }
 
     @Override
     public void spiderTradeInfo() {
@@ -112,15 +136,15 @@ public class LinkSpiderServiceImpl implements LinkSpiderService {
             for (QqNewsDO qqNewsDO : qqNewsDOList) {
                 String url = qqNewsDO.getUrl();
                 String title = qqNewsDO.getTitle();
-                synchronized(this){
+                synchronized (this) {
                     if (redisTemplate.boundHashOps(Constants.NEWS_URL_HASH_KEY).get(url) != null
                             || redisTemplate.boundHashOps(Constants.NEWS_TITLE_HASH_KEY).get(title) != null) {
                         continue;
                     }
                     String json = JSONStrReaderUtils.objToJson(qqNewsDO);
                     BkbCompoent.setBkbNewsString(json);
-                    redisTemplate.boundHashOps(Constants.NEWS_URL_HASH_KEY).put(url,url);
-                    redisTemplate.boundHashOps(Constants.NEWS_TITLE_HASH_KEY).put(title,title);
+                    redisTemplate.boundHashOps(Constants.NEWS_URL_HASH_KEY).put(url, url);
+                    redisTemplate.boundHashOps(Constants.NEWS_TITLE_HASH_KEY).put(title, title);
                 }
             }
         }

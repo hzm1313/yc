@@ -4,9 +4,15 @@ package com.cn.yc.bean;
  * Created by hasee on 2017/12/17.
  */
 public class WkyVO {
-    private String playWkc;
-    private String uyl;
-    private String wjw;
+    /*    private String playWkc;
+        private String uyl;
+        private String wjw;*/
+    private String playWkcSell;
+    private String uylSell;
+    private String wjwSell;
+    private String playWkcBuy;
+    private String uylBuy;
+    private String wjwBuy;
     //挖矿总量
     private String wkbNum;
     //挖矿高度
@@ -17,6 +23,26 @@ public class WkyVO {
     private String averageBandwidth;
     //人均贡献存储
     private String averageDisk;
+
+    private String platformTrade;
+
+    private Double priceMarginPer;
+
+    public String getPlatformTrade() {
+        return platformTrade;
+    }
+
+    public void setPlatformTrade(String platformTrade) {
+        this.platformTrade = platformTrade;
+    }
+
+    public Double getPriceMarginPer() {
+        return priceMarginPer;
+    }
+
+    public void setPriceMarginPer(Double priceMarginPer) {
+        this.priceMarginPer = priceMarginPer;
+    }
 
     public String getWkbNum() {
         return wkbNum;
@@ -58,27 +84,51 @@ public class WkyVO {
         this.averageDisk = averageDisk;
     }
 
-    public String getPlayWkc() {
-        return playWkc;
+    public String getPlayWkcSell() {
+        return playWkcSell;
     }
 
-    public void setPlayWkc(String playWkc) {
-        this.playWkc = playWkc;
+    public void setPlayWkcSell(String playWkcSell) {
+        this.playWkcSell = playWkcSell;
     }
 
-    public String getUyl() {
-        return uyl;
+    public String getUylSell() {
+        return uylSell;
     }
 
-    public void setUyl(String uyl) {
-        this.uyl = uyl;
+    public void setUylSell(String uylSell) {
+        this.uylSell = uylSell;
     }
 
-    public String getWjw() {
-        return wjw;
+    public String getWjwSell() {
+        return wjwSell;
     }
 
-    public void setWjw(String wjw) {
-        this.wjw = wjw;
+    public void setWjwSell(String wjwSell) {
+        this.wjwSell = wjwSell;
+    }
+
+    public String getPlayWkcBuy() {
+        return playWkcBuy;
+    }
+
+    public void setPlayWkcBuy(String playWkcBuy) {
+        this.playWkcBuy = playWkcBuy;
+    }
+
+    public String getUylBuy() {
+        return uylBuy;
+    }
+
+    public void setUylBuy(String uylBuy) {
+        this.uylBuy = uylBuy;
+    }
+
+    public String getWjwBuy() {
+        return wjwBuy;
+    }
+
+    public void setWjwBuy(String wjwBuy) {
+        this.wjwBuy = wjwBuy;
     }
 }

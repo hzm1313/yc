@@ -1,7 +1,9 @@
 package com.cn.yc;
 
+import com.cn.yc.service.QqRoobotService;
 import javafx.application.Application;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,13 +23,15 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 //@ComponentScan(basePackages={"**.*.service","**.*.service.impl","**.*.controller","**.*.ws","**.*.springboot"})
 public class Startup extends SpringBootServletInitializer implements EmbeddedServletContainerCustomizer {
 
+    @Autowired
+    private QqRoobotService qqRoobotService;
+
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Startup.class, args);
     }
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        ///return application.sources(Application.class);
         return application;
     }
 

@@ -1,7 +1,9 @@
 package com.cn.yc.service.impl;
 
-import com.cn.yc.bean.WkyVO;
+import com.cn.yc.bean.*;
 import com.cn.yc.service.LinkService;
+import com.cn.yc.spider.SpiderBaseModel;
+import com.cn.yc.spider.SpiderLinkTokenInfoModel;
 import com.cn.yc.utils.Constants;
 import com.cn.yc.utils.HttpUtils;
 import com.cn.yc.utils.JSONStrReaderUtils;
@@ -21,6 +23,10 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.math.BigDecimal.ROUND_HALF_DOWN;
 
 /**
  * Created by hasee on 2017/12/14.
@@ -33,67 +39,62 @@ public class LinkServiceImpl implements LinkService {
     private RedisTemplate<String, String> redisTemplate;
 
     @Override
-    public String updateHttpInfo() {
-        WkyVO wkyVO = new WkyVO();
-        String cexResult = HttpUtils.sendGetCexRequest(LinkUrl.cexInfoUrl);
-        JSONArray cexArray = JSONArray.fromObject(cexResult);
-        JSONArray uylArray = null,wjwArray;
-        JSONObject wjwObject,wkyObject;
-        JSONObject job = null;
-  /*      if (StringUtils.isNotBlank(cexResult) && cexArray != null) {
-            for (int i = 0; i < cexArray.size(); i++) {
-                job = cexArray.getJSONObject(i);
-                if(job.get("currency_mark").equals("WKC")){
-                    wkyVO.setCex(new BigDecimal(job.get("new_price").toString()).toString());
-                    break;
+    public String getLinkInfo() {
+        SpiderLinkTokenInfoModel spiderLinkTokenInfoModel = new SpiderBaseModel();
+        LinkTokenSpiderInfo playWkc = null, uyl = null, wjw = null;
+        List<LinkTokenSpiderInfo> infoList = new ArrayList<>();
+        String playWkcStr = null, uylStr = null, wjwStr = null;
+
+
+        try {
+            playWkcStr = redisTemplate.boundValueOps(Constants.PLAYWKC_TRADE_INFO_KEY).get();
+            playWkc = JSONStrReaderUtils.jsonToObj(playWkcStr, PlayWkcDO.class);
+            infoList.add(playWkc);
+        } catch (Exception e) {
+            logger.error("spiderPlayWkc error {}", e.getMessage());
+        }
+        try {
+            uylStr = redisTemplate.boundValueOps(Constants.UYL_TRADE_INFO_KEY).get();
+            uyl = JSONStrReaderUtils.jsonToObj(uylStr, UylDO.class);
+            infoList.add(uyl);
+        } catch (Exception e) {
+            logger.error("spiderUyl error {}", e.getMessage());
+        }
+        try {
+            wjwStr = redisTemplate.boundValueOps(Constants.WJW_TRADE_INFO_KEY).get();
+            wjw = JSONStrReaderUtils.jsonToObj(wjwStr, WjwDO.class);
+            infoList.add(wjw);
+        } catch (Exception e) {
+            logger.error("spiderWjw error {}", e.getMessage());
+        }
+        WkyVO wkyVO = null;
+        String wkyVOStr = redisTemplate.boundValueOps(Constants.LINK_INFO).get();
+        wkyVO = JSONStrReaderUtils.jsonToObj(wkyVOStr, WkyVO.class);
+        if (wkyVO == null) {
+            wkyVO = new WkyVO();
+        }
+        wkyVO.setWjwSell(wjw.getSellPrice().toString());
+        wkyVO.setWjwBuy(wjw.getBuyPrice().toString());
+        wkyVO.setPlayWkcSell(playWkc.getSellPrice().toString());
+        wkyVO.setPlayWkcBuy(playWkc.getBuyPrice().toString());
+        wkyVO.setUylSell(uyl.getSellPrice().toString());
+        wkyVO.setUylBuy(uyl.getBuyPrice().toString());
+        //计算价格
+        if (infoList != null && infoList.size() == 3) {
+            for (int i = 0; i < infoList.size() - 1; i++) {
+                for (int j = 0; j < infoList.size() - i - 1; j++) {//比较两个整数
+                    if (infoList.get(j).getSellPrice().compareTo(infoList.get(j + 1).getSellPrice()) > 0) {
+                        LinkTokenSpiderInfo temp = infoList.get(j);
+                        infoList.set(j, infoList.get(j + 1));
+                        infoList.set(j + 1, temp);
+                    }
                 }
             }
-        }*/
-        try{
-            String uylResult = HttpUtils.sendGetRequest(LinkUrl.uylInfoUrl);
-            JSONObject uylObject = JSONObject.fromObject(uylResult);
-            uylObject = JSONObject.fromObject(uylObject.get("url"));
-            uylArray = JSONArray.fromObject(uylObject.get("egg_doge"));
-            wkyVO.setUyl(uylArray.get(1).toString());
-        }catch (Exception e){
-            logger.error("uly error{}",e.getMessage());
+            wkyVO.setPlatformTrade(infoList.get(2).getSpiderPlatform() + "/" + infoList.get(0).getSpiderPlatform());
+            wkyVO.setPriceMarginPer(infoList.get(2).getSellPrice().divide(infoList.get(0).getSellPrice(), 3, ROUND_HALF_DOWN).
+                    multiply(new BigDecimal(10)).doubleValue());
         }
-        try{
-            String wjwResult = HttpUtils.sendWjwRequest(LinkUrl.wjwInfoUrl);
-            wjwObject = JSONObject.fromObject(wjwResult);
-            wjwObject = JSONObject.fromObject(wjwObject.get("url"));
-            wjwArray = JSONArray.fromObject(wjwObject.get("wkb_cny"));
-            wkyVO.setWjw(wjwArray.get(1).toString());
-        }catch (Exception e){
-            logger.error("wjw error{}",e.getMessage());
-        }
-
-        String wkyAboutInfo = HttpUtils.sendQueryWkbAboutInfo();
-        if(StringUtils.isNotBlank(wkyAboutInfo)){
-            wkyObject = JSONObject.fromObject(wkyAboutInfo);
-            wkyObject = wkyObject.getJSONObject("data");
-            wkyVO.setWkbNum(wkyObject.get("wkb_num").toString());
-            wkyVO.setBlockNum(wkyObject.get("block_num").toString());
-            wkyVO.setAverageOnlinetime(wkyObject.get("average_onlinetime").toString());
-            wkyVO.setAverageBandwidth(wkyObject.get("average_bandwidth").toString());
-            wkyVO.setAverageDisk(wkyObject.get("average_disk").toString());
-        }
-        String result = JSONStrReaderUtils.objToJson(wkyVO);
-        redisTemplate.boundValueOps(Constants.LINK_INFO).set(result);
-        return result;
-    }
-
-    @Override
-    public String getLinkInfo() {
-        String value = redisTemplate.boundValueOps(Constants.LINK_INFO).get();
-        if (StringUtils.isBlank(value)) {
-            if (redisTemplate.boundValueOps(Constants.LINK_INFO).setIfAbsent(Constants.REDIS_USED)) {
-                return value;
-            }
-            return updateHttpInfo();
-        } else {
-            return value;
-        }
+        return JSONStrReaderUtils.objToJson(wkyVO);
     }
 
     @Override
@@ -113,12 +114,12 @@ public class LinkServiceImpl implements LinkService {
     @Override
     public String getHtmlTable() {
         String value = redisTemplate.boundValueOps(Constants.HTML_INFO).get();
-        if (StringUtils.isBlank(value)){
+        if (StringUtils.isBlank(value)) {
             if (redisTemplate.boundValueOps(Constants.HTML_INFO).setIfAbsent(Constants.REDIS_USED)) {
                 return value;
             }
             return updateHtmlDate();
-        }else {
+        } else {
             return value;
         }
     }

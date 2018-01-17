@@ -2,6 +2,7 @@ package com.cn.yc.component;
 
 import com.cn.yc.service.LinkService;
 import com.cn.yc.service.LinkSpiderService;
+import com.cn.yc.service.QqRoobotService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class linkJob {
     @Autowired
     private LinkSpiderService linkSpiderService;
 
+    @Autowired
+    private QqRoobotService qqRoobotService;
+
     @Scheduled(fixedRate = 30000)
     @Async
     public void reportCurrentTime() {
@@ -35,8 +39,18 @@ public class linkJob {
         String html  = linkService.updateHtmlDate();*/
     }
 
-    @Scheduled(fixedRate = 60000*60*3)
-    public void updateNews(){
+    @Scheduled(fixedRate = 60000 * 60 * 3)
+    public void updateNews() {
         linkSpiderService.spiderNews();
+    }
+
+    @Scheduled(fixedRate = 60000 * 60 * 3)
+    public void qqRoobot() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                qqRoobotService.initStartQqRoot();
+            }
+        }).start();
     }
 }

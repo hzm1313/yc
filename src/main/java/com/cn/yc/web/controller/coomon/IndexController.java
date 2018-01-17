@@ -28,13 +28,13 @@ public class IndexController
     @ResponseBody
     public void init()
     {
-        //处理需要初始化的数据
+       /* //处理需要初始化的数据
         new Thread(new Runnable() {
             @Override
             public void run() {
                 qqRoobotService.initStartQqRoot();
             }
-        }).start();
+        }).start();*/
     }
 
     @RequestMapping({"/record"})
