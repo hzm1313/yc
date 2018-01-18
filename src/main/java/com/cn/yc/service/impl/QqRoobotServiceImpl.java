@@ -36,18 +36,18 @@ public class QqRoobotServiceImpl implements QqRoobotService {
 
     @Override
     public void initStartQqRoot() {
-        if(client!=null){
-            try{
+        if (client != null) {
+            try {
                 UserInfo userInfo = client.getAccountInfo();
-                if(userInfo!=null){
+                if (userInfo != null) {
                     return;
                 }
-            }catch (Exception e){
-                logger.error("initStartQqRoot error {}",e.getMessage());
+            } catch (Exception e) {
+                logger.error("initStartQqRoot error {}", e.getMessage());
                 try {
                     client.close();
                 } catch (IOException e1) {
-                    logger.error("client close error {}",e.getMessage());
+                    logger.error("client close error {}", e.getMessage());
                 }
             }
         }
@@ -68,12 +68,12 @@ public class QqRoobotServiceImpl implements QqRoobotService {
                         List<LinkTokenSpiderInfo> linkTokenSpiderInfoList = linkSpiderService.getSpiderTradeInfo();
                         WkyVO wkyVO = new WkyVO();//JSONStrReaderUtils.jsonToObj(result, WkyVO.class);
                         if (linkTokenSpiderInfoList != null && linkTokenSpiderInfoList.size() > 0) {
-                            linkTokenSpiderInfoList.forEach( linkTokenSpiderInfo -> {
-                                if(Constants.uyl.equals(linkTokenSpiderInfo.getSpiderPlatform())){
+                            linkTokenSpiderInfoList.forEach(linkTokenSpiderInfo -> {
+                                if (Constants.uyl.equals(linkTokenSpiderInfo.getSpiderPlatform())) {
                                     wkyVO.setUylSell(linkTokenSpiderInfo.getSellPrice().toString());
-                                }else if(Constants.playWkc.equals(linkTokenSpiderInfo.getSpiderPlatform())){
+                                } else if (Constants.playWkc.equals(linkTokenSpiderInfo.getSpiderPlatform())) {
                                     wkyVO.setPlayWkcSell(linkTokenSpiderInfo.getSellPrice().toString());
-                                }else if(Constants.wjw.equals(linkTokenSpiderInfo.getSpiderPlatform())){
+                                } else if (Constants.wjw.equals(linkTokenSpiderInfo.getSpiderPlatform())) {
                                     wkyVO.setWjwSell(linkTokenSpiderInfo.getSellPrice().toString());
                                 }
                             });
@@ -89,7 +89,7 @@ public class QqRoobotServiceImpl implements QqRoobotService {
                         List<NewsVO> newsVOList = BkbCompoent.getBkbNewsList(5);
                         hfStrBuilder = new StringBuilder();
                         for (int i = 0; newsVOList != null && i < newsVOList.size(); i++) {
-                            hfStrBuilder.append(newsVOList.get(0).getTitle() + "\n" + newsVOList.get(i).getUrl() + "\n");
+                            hfStrBuilder.append(newsVOList.get(i).getTitle() + "\n" + newsVOList.get(i).getUrl() + "\n");
                         }
                         hfStrBuilder.append("更多信息请点击http://www.wlsecret.com/");
                         replayContent = hfStrBuilder.toString();
@@ -112,12 +112,12 @@ public class QqRoobotServiceImpl implements QqRoobotService {
                         List<LinkTokenSpiderInfo> linkTokenSpiderInfoList = linkSpiderService.getSpiderTradeInfo();
                         WkyVO wkyVO = new WkyVO();//JSONStrReaderUtils.jsonToObj(result, WkyVO.class);
                         if (linkTokenSpiderInfoList != null && linkTokenSpiderInfoList.size() > 0) {
-                            linkTokenSpiderInfoList.forEach( linkTokenSpiderInfo -> {
-                                if(Constants.uyl.equals(linkTokenSpiderInfo.getSpiderPlatform())){
+                            linkTokenSpiderInfoList.forEach(linkTokenSpiderInfo -> {
+                                if (Constants.uyl.equals(linkTokenSpiderInfo.getSpiderPlatform())) {
                                     wkyVO.setUylSell(linkTokenSpiderInfo.getSellPrice().toString());
-                                }else if(Constants.playWkc.equals(linkTokenSpiderInfo.getSpiderPlatform())){
+                                } else if (Constants.playWkc.equals(linkTokenSpiderInfo.getSpiderPlatform())) {
                                     wkyVO.setPlayWkcSell(linkTokenSpiderInfo.getSellPrice().toString());
-                                }else if(Constants.wjw.equals(linkTokenSpiderInfo.getSpiderPlatform())){
+                                } else if (Constants.wjw.equals(linkTokenSpiderInfo.getSpiderPlatform())) {
                                     wkyVO.setWjwSell(linkTokenSpiderInfo.getSellPrice().toString());
                                 }
                             });
@@ -126,7 +126,7 @@ public class QqRoobotServiceImpl implements QqRoobotService {
                                     + "playWkc:" + wkyVO.getPlayWkcSell()
                                     + "\n更多信息请点击http://www.wlsecret.com/");
                             replayContent = hfStrBuilder.toString();
-                            client.sendMessageToDiscuss(message.getDiscussId(),replayContent);
+                            client.sendMessageToDiscuss(message.getDiscussId(), replayContent);
                         }
 
                     } else if ("新闻".equals(message.getContent().trim())) {
@@ -137,7 +137,7 @@ public class QqRoobotServiceImpl implements QqRoobotService {
                         }
                         hfStrBuilder.append("更多信息请点击http://www.wlsecret.com/");
                         replayContent = hfStrBuilder.toString();
-                        client.sendMessageToDiscuss(message.getDiscussId(),replayContent);
+                        client.sendMessageToDiscuss(message.getDiscussId(), replayContent);
                     }
                 } catch (Exception e) {
                     logger.error("*** qq roobot GroupMessage {}", message);
