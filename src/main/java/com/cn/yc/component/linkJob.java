@@ -20,7 +20,7 @@ import java.util.Date;
 public class linkJob {
     private static final Logger log = LoggerFactory.getLogger(linkJob.class);
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm:ss");
 
     @Autowired
     private LinkService linkService;

@@ -171,8 +171,9 @@ public class SmartQQClient implements Closeable {
     //用于生成ptqrtoken的哈希函数
     private static int hash33(String s) {
         int e = 0, n = s.length();
-        for (int i = 0; n > i; ++i)
+        for (int i = 0; n > i; ++i){
             e += (e << 5) + s.charAt(i);
+        }
         return 2147483647 & e;
     }
 

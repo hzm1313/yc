@@ -31,11 +31,11 @@ public class Constants {
 
     public final static String TRADE_INFO_LIST = "TRADE_INFO_LIST";
 
-    public final static String wjw = "玩家网";
+    public final static String WJW = "玩家网";
 
-    public final static String uyl = "悠雨林";
+    public final static String UYL = "悠雨林";
 
-    public final static String playWkc = "playWkc";
+    public final static String PLAY_WKC = "playWkc";
 
 
     public final static String PLAYWKC_TRADE_INFO_KEY = "PLAYWKC_TRADE_INFO_KEY";

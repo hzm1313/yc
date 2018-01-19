@@ -185,6 +185,12 @@
             <artifactId>jsoup</artifactId>
             <version>1.11.2</version>
         </dependency>
+
+        <dependency>
+            <groupId>net.sourceforge.tess4j</groupId>
+            <artifactId>tess4j</artifactId>
+            <version>3.4.3</version>
+        </dependency>
     </dependencies>
 
     <build>

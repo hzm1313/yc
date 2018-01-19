@@ -69,11 +69,11 @@ public class QqRoobotServiceImpl implements QqRoobotService {
                         WkyVO wkyVO = new WkyVO();//JSONStrReaderUtils.jsonToObj(result, WkyVO.class);
                         if (linkTokenSpiderInfoList != null && linkTokenSpiderInfoList.size() > 0) {
                             linkTokenSpiderInfoList.forEach(linkTokenSpiderInfo -> {
-                                if (Constants.uyl.equals(linkTokenSpiderInfo.getSpiderPlatform())) {
+                                if (Constants.UYL.equals(linkTokenSpiderInfo.getSpiderPlatform())) {
                                     wkyVO.setUylSell(linkTokenSpiderInfo.getSellPrice().toString());
-                                } else if (Constants.playWkc.equals(linkTokenSpiderInfo.getSpiderPlatform())) {
+                                } else if (Constants.PLAY_WKC.equals(linkTokenSpiderInfo.getSpiderPlatform())) {
                                     wkyVO.setPlayWkcSell(linkTokenSpiderInfo.getSellPrice().toString());
-                                } else if (Constants.wjw.equals(linkTokenSpiderInfo.getSpiderPlatform())) {
+                                } else if (Constants.WJW.equals(linkTokenSpiderInfo.getSpiderPlatform())) {
                                     wkyVO.setWjwSell(linkTokenSpiderInfo.getSellPrice().toString());
                                 }
                             });
@@ -113,11 +113,11 @@ public class QqRoobotServiceImpl implements QqRoobotService {
                         WkyVO wkyVO = new WkyVO();//JSONStrReaderUtils.jsonToObj(result, WkyVO.class);
                         if (linkTokenSpiderInfoList != null && linkTokenSpiderInfoList.size() > 0) {
                             linkTokenSpiderInfoList.forEach(linkTokenSpiderInfo -> {
-                                if (Constants.uyl.equals(linkTokenSpiderInfo.getSpiderPlatform())) {
+                                if (Constants.UYL.equals(linkTokenSpiderInfo.getSpiderPlatform())) {
                                     wkyVO.setUylSell(linkTokenSpiderInfo.getSellPrice().toString());
-                                } else if (Constants.playWkc.equals(linkTokenSpiderInfo.getSpiderPlatform())) {
+                                } else if (Constants.PLAY_WKC.equals(linkTokenSpiderInfo.getSpiderPlatform())) {
                                     wkyVO.setPlayWkcSell(linkTokenSpiderInfo.getSellPrice().toString());
-                                } else if (Constants.wjw.equals(linkTokenSpiderInfo.getSpiderPlatform())) {
+                                } else if (Constants.WJW.equals(linkTokenSpiderInfo.getSpiderPlatform())) {
                                     wkyVO.setWjwSell(linkTokenSpiderInfo.getSellPrice().toString());
                                 }
                             });

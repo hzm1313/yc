@@ -7,13 +7,10 @@ import com.cn.yc.bean.WjwDO;
 import com.cn.yc.utils.Constants;
 import com.cn.yc.utils.HttpUtils;
 import com.cn.yc.utils.LinkUrl;
-import com.sun.org.apache.regexp.internal.RE;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.ibatis.jdbc.Null;
 import org.jsoup.Jsoup;
 
 import org.jsoup.nodes.Document;
@@ -75,7 +72,7 @@ public class SpiderBaseModel extends SpiderLinkTokenInfoModel {
                 wjwDO.setSellNum(Double.valueOf(wjwArray.get(1).toString()));
             }
         }
-        wjwDO.setSpiderPlatform(Constants.wjw);
+        wjwDO.setSpiderPlatform(Constants.WJW);
         return wjwDO;
     }
 
@@ -110,7 +107,7 @@ public class SpiderBaseModel extends SpiderLinkTokenInfoModel {
         if (m.find( )) {
             playWkc.setSellPrice(new BigDecimal(m.group().toString()));
         }
-        playWkc.setSpiderPlatform(Constants.playWkc);
+        playWkc.setSpiderPlatform(Constants.PLAY_WKC);
         return playWkc;
     }
 
@@ -144,7 +141,7 @@ public class SpiderBaseModel extends SpiderLinkTokenInfoModel {
         }
         ulyDO.setSellPrice(new BigDecimal(jsonArray.get(0).toString()));
         ulyDO.setSellNum(Double.valueOf(jsonArray.get(1).toString()));
-        ulyDO.setSpiderPlatform(Constants.uyl);
+        ulyDO.setSpiderPlatform(Constants.UYL);
         return ulyDO;
     }
 

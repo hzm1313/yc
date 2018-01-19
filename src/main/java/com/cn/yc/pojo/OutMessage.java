@@ -138,8 +138,9 @@ public class OutMessage {
     }
 
     public int getArticleCount() {
-        if (this.Articles != null && Articles.size() > 0)
+        if (this.Articles != null && Articles.size() > 0) {
             return this.Articles.size();
+        }
         return ArticleCount;
     }
 
@@ -187,8 +188,9 @@ public class OutMessage {
     }
 
     public void setArticles(List<Articles> articles) {
-        if (articles.size() > 8)
+        if (articles.size() > 8) {
             articles = new ArrayList<Articles>(articles.subList(0, 8));
+        }
         Articles = articles;
     }
 }
