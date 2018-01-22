@@ -66,7 +66,7 @@ public class SpiderBaseModel extends SpiderLinkTokenInfoModel {
             if(wjwArray==null||wjwArray.size()<=0){
                 return wjwDO;
             }
-            wjwArray = JSONArray.fromObject(wjwArray.get(0));
+            wjwArray = JSONArray.fromObject(wjwArray.get(wjwArray.size()-1));
             if(wjwArray.size()>=2){
                 wjwDO.setSellPrice(new BigDecimal(wjwArray.get(0).toString()));
                 wjwDO.setSellNum(Double.valueOf(wjwArray.get(1).toString()));
@@ -135,7 +135,7 @@ public class SpiderBaseModel extends SpiderLinkTokenInfoModel {
         if(jsonArray==null||jsonArray.size()<=0){
             return ulyDO;
         }
-        jsonArray = JSONArray.fromObject(jsonArray.get(0));
+        jsonArray = JSONArray.fromObject(jsonArray.get(jsonArray.size()-1));
         if(jsonArray==null||jsonArray.size()<=0){
             return ulyDO;
         }
