@@ -63,7 +63,7 @@ public class QqRoobotServiceImpl implements QqRoobotService {
                 StringBuilder hfStrBuilder = null;
                 String replayContent = null;
                 try {
-                    if (message.getContent().contains("行情")) {
+                    if ("行情".equals(message.getContent().trim())) {
                         String result = BkbCompoent.getBkbString();
                         List<LinkTokenSpiderInfo> linkTokenSpiderInfoList = linkSpiderService.getSpiderTradeInfo();
                         WkyVO wkyVO = new WkyVO();//JSONStrReaderUtils.jsonToObj(result, WkyVO.class);
@@ -91,6 +91,13 @@ public class QqRoobotServiceImpl implements QqRoobotService {
                         for (int i = 0; newsVOList != null && i < newsVOList.size(); i++) {
                             hfStrBuilder.append(newsVOList.get(i).getTitle() + "\n" + newsVOList.get(i).getUrl() + "\n");
                         }
+                        hfStrBuilder.append("更多信息请点击http://www.wlsecret.com/");
+                        replayContent = hfStrBuilder.toString();
+                        client.sendMessageToGroup(message.getGroupId(), replayContent);
+                    }else if ("帮助".equals(message.getContent().trim())) {
+                        List<NewsVO> newsVOList = BkbCompoent.getBkbNewsList(5);
+                        hfStrBuilder = new StringBuilder();
+                        hfStrBuilder.append("行情/新闻，返回最新消息，有新的想法，请发给我就好了，谢谢=-=");
                         hfStrBuilder.append("更多信息请点击http://www.wlsecret.com/");
                         replayContent = hfStrBuilder.toString();
                         client.sendMessageToGroup(message.getGroupId(), replayContent);
