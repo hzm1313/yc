@@ -44,7 +44,7 @@ public class linkJob {
         linkSpiderService.spiderNews();
     }
 
-    @Scheduled(fixedRate = 60000 * 60 * 3)
+    @Scheduled(fixedRate = 60000 * 60 * 2)
     public void qqRoobot() {
         new Thread(new Runnable() {
             @Override
