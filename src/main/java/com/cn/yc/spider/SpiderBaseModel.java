@@ -36,17 +36,33 @@ public class SpiderBaseModel extends SpiderLinkTokenInfoModel {
         String result = null;
         LinkTokenSpiderInfo wjwDO = new WjwDO();
         JSONArray wjwArray = null;
+        String tmpurl = LinkUrl.wjwTradeInfoUrl;
         String url = LinkUrl.wjwTradeInfoUrl;
+        url+="?market=wkb_cny&trade_moshi=1&t="+"0.032256690523117" + (int) (Math.random() * 9) + (int) (Math.random() * 9);
+        tmpurl += "/ajax/test";
         Map<String, String> headerMap = new HashMap<>();
         headerMap.put("Host", "www.chinawkb.com");
-        headerMap.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36");
-        headerMap.put("Referer", "http://www.chinawkb.com/trade/index/market/wkb_cny/");
-        headerMap.put("X-Requested-With", "XMLHttpRequest");
+        headerMap.put("Upgrade-Insecure-Requests", "1");
+        headerMap.put("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36");
+        headerMap.put("Referer",url);
         List<NameValuePair> formParams = new ArrayList<NameValuePair>();
+        formParams.add(new BasicNameValuePair("data", "caonimabigongjinidayeo"));
+        result = HttpUtils.sendPostRequest(tmpurl,headerMap,formParams);
+
+
+        headerMap = new HashMap<>();
+        headerMap.put("Accept-Language", "zh,zh-CN;q=0.9,en-US;q=0.8,en;q=0.7");
+        headerMap.put("Cache-Control", "max-age=0");
+        headerMap.put("Connection", "keep-alive");
+        headerMap.put("Host", "www.chinawkb.com");
+        headerMap.put("Upgrade-Insecure-Requests", "1");
+        headerMap.put("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36");
+        formParams = new ArrayList<NameValuePair>();
         formParams.add(new BasicNameValuePair("market", "wkb_cny"));
         formParams.add(new BasicNameValuePair("trade_moshi", "1"));
         formParams.add(new BasicNameValuePair("t", "0.032256690523117" + (int) (Math.random() * 9) + (int) (Math.random() * 9)));
-        result = HttpUtils.sendPostRequest(url, headerMap, formParams);
+       /* result = HttpUtils.sendPostRequest(url, headerMap, formParams);*/
+        result = HttpUtils.sendGetRequest(url,headerMap);
         JSONObject wjwObject = JSONObject.fromObject(result);
         if(wjwObject!= null){
             wjwObject = JSONObject.fromObject(wjwObject.get("depth"));
