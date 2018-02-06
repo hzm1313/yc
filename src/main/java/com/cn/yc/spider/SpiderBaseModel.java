@@ -10,6 +10,8 @@ import com.cn.yc.utils.LinkUrl;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.http.NameValuePair;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.jsoup.Jsoup;
 
@@ -34,6 +36,7 @@ public class SpiderBaseModel extends SpiderLinkTokenInfoModel {
     @Override
     public LinkTokenSpiderInfo spiderWjw() {
         String result = null;
+        CloseableHttpClient httpclient = HttpClients.createDefault();
         LinkTokenSpiderInfo wjwDO = new WjwDO();
         JSONArray wjwArray = null;
         String tmpurl = LinkUrl.wjwTradeInfoUrl;
@@ -47,9 +50,7 @@ public class SpiderBaseModel extends SpiderLinkTokenInfoModel {
         headerMap.put("Referer",url);
         List<NameValuePair> formParams = new ArrayList<NameValuePair>();
         formParams.add(new BasicNameValuePair("data", "caonimabigongjinidayeo"));
-        result = HttpUtils.sendPostRequest(tmpurl,headerMap,formParams);
-
-
+        result = HttpUtils.sendPostRequest(tmpurl,headerMap,formParams,httpclient);
         headerMap = new HashMap<>();
         headerMap.put("Accept-Language", "zh,zh-CN;q=0.9,en-US;q=0.8,en;q=0.7");
         headerMap.put("Cache-Control", "max-age=0");
@@ -62,7 +63,7 @@ public class SpiderBaseModel extends SpiderLinkTokenInfoModel {
         formParams.add(new BasicNameValuePair("trade_moshi", "1"));
         formParams.add(new BasicNameValuePair("t", "0.032256690523117" + (int) (Math.random() * 9) + (int) (Math.random() * 9)));
        /* result = HttpUtils.sendPostRequest(url, headerMap, formParams);*/
-        result = HttpUtils.sendGetRequest(url,headerMap);
+        result = HttpUtils.sendGetRequest(url,headerMap,httpclient);
         JSONObject wjwObject = JSONObject.fromObject(result);
         if(wjwObject!= null){
             wjwObject = JSONObject.fromObject(wjwObject.get("depth"));
