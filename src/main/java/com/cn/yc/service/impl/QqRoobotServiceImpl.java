@@ -34,25 +34,6 @@ public class QqRoobotServiceImpl implements QqRoobotService {
 
     private SmartQQClient client;
 
-    public void ts(){
-        /*String result = BkbCompoent.getBkbString();
-        List<LinkTokenSpiderInfo> linkTokenSpiderInfoList = linkSpiderService.getSpiderTradeInfo();
-        WkyVO wkyVO = new WkyVO();//JSONStrReaderUtils.jsonToObj(result, WkyVO.class);
-        if (linkTokenSpiderInfoList != null && linkTokenSpiderInfoList.size() > 0) {
-            linkTokenSpiderInfoList.forEach(linkTokenSpiderInfo -> {
-                if (Constants.UYL.equals(linkTokenSpiderInfo.getSpiderPlatform())) {
-                    wkyVO.setUylSell(linkTokenSpiderInfo.getSellPrice().toString());
-                } else if (Constants.PLAY_WKC.equals(linkTokenSpiderInfo.getSpiderPlatform())) {
-                    wkyVO.setPlayWkcSell(linkTokenSpiderInfo.getSellPrice().toString());
-                } else if (Constants.WJW.equals(linkTokenSpiderInfo.getSpiderPlatform())) {
-                    wkyVO.setWjwSell(linkTokenSpiderInfo.getSellPrice().toString());
-                }
-            });
-            client.sendMessageToGroup(4235951013l, new StringBuilder("玩家网:" + wkyVO.getWjwSell() + "\n" + "悠雨林:" + wkyVO.getUylSell() + "\n"
-                    + "playWkc:" + wkyVO.getPlayWkcSell()
-                    + "\n更多信息请点击http://www.wlsecret.com/").toString());
-        }*/
-    }
 
     @Override
     public void initStartQqRoot() {
@@ -60,7 +41,6 @@ public class QqRoobotServiceImpl implements QqRoobotService {
             try {
                 UserInfo userInfo = client.getAccountInfo();
                 if (userInfo != null) {
-                    ts();
                     return;
                 }
             } catch (Exception e) {
@@ -128,7 +108,6 @@ public class QqRoobotServiceImpl implements QqRoobotService {
                     logger.error("*** qq roobot GroupMessage {}", message);
                     logger.error("*** qq roobot error {}", e.getMessage());
                 }
-
             }
 
             @Override
@@ -182,7 +161,6 @@ public class QqRoobotServiceImpl implements QqRoobotService {
                 System.out.println("————" + friend.getNickname());
             }
         }
-        ts();
 /*        while (true) {
             if (11 != 11) {
                 break;

@@ -13,11 +13,13 @@ import net.dongliu.requests.Session;
 import net.dongliu.requests.exception.RequestException;
 import net.dongliu.requests.struct.Cookie;
 import org.apache.log4j.Logger;
+import org.springframework.ws.mime.MimeMessage;
 
 import java.awt.Desktop;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
+import java.net.Authenticator;
 import java.net.SocketTimeoutException;
 import java.util.*;
 

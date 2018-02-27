@@ -24,7 +24,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class Startup extends SpringBootServletInitializer implements EmbeddedServletContainerCustomizer {
 
     @Autowired
-    private QqRoobotService qqRoobotService;
+    private QqRoobotService qqRoobotService ;
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Startup.class, args);
