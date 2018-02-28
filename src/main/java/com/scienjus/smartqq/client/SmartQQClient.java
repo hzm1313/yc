@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.scienjus.smartqq.callback.MessageCallback;
 import com.scienjus.smartqq.constant.ApiURL;
+import com.scienjus.smartqq.mail.*;
 import com.scienjus.smartqq.model.*;
 import net.dongliu.requests.Client;
 import net.dongliu.requests.HeadOnlyRequestBuilder;
@@ -168,6 +169,17 @@ public class SmartQQClient implements Closeable {
         }
 
         LOGGER.info("二维码已保存在 " + filePath + " 文件中，请打开手机QQ并扫描二维码");
+        //发送邮件
+        YcTemplate ycTemplate = new YcTemplate();
+        ycTemplate.setImagePaht(filePath);
+        Mail mail = new Mail(ycTemplate);
+        SendMail sendMail = new YcSendMail();
+        YcMailMediator yc = new YcMailMediator(mail,sendMail);
+        try {
+            yc.sendMail();
+        } catch (Exception e) {
+            LOGGER.error("发送邮件失败 "+e.getMessage());
+        }
     }
 
     //用于生成ptqrtoken的哈希函数
