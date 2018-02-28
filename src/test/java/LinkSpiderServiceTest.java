@@ -1,6 +1,8 @@
 import com.cn.yc.bean.NewsDO;
 import com.cn.yc.service.LinkSpiderService;
 import com.cn.yc.service.impl.LinkSpiderServiceImpl;
+import com.cn.yc.spider.SpiderBaseModel;
+import com.cn.yc.spider.SpiderLinkTokenInfoModel;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,8 +26,14 @@ public class LinkSpiderServiceTest {
     }
 
     @Test
+    public void spiderWjw(){
+        SpiderLinkTokenInfoModel spiderLinkTokenInfoModel = new SpiderBaseModel();
+        spiderLinkTokenInfoModel.spiderWjw();
+    }
+
+    @Test
     public void spiderMockInfo(){
-       /* LinkSpiderService linkSpiderMockService = mock(LinkSpiderServiceImpl.class);
+      /* LinkSpiderService linkSpiderMockService = mock(LinkSpiderServiceImpl.class);
         when(linkSpiderMockService.getNews()).thenReturn(null);
         linkSpiderMockService.spiderNews();
         NewsDO result = linkSpiderMockService.getNews();

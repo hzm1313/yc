@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  * Created by hasee on 2017/12/17.
@@ -21,14 +23,14 @@ import java.io.InputStream;
 public class httpTests {
 
     @Test
-    public void getAboutInfoTest(){
+    public void getAboutInfoTest() {
         String result = HttpUtils.sendQueryWkbAboutInfo();
         JSONObject jsonObject = JSONObject.fromObject(result);
         System.out.println(result);
     }
 
     @Test
-    public void getInfo(){
+    public void getInfo() {
         String key = "玩客云";
         String result = HttpUtils.getBaidu(key);
         System.out.println(result);
@@ -36,7 +38,7 @@ public class httpTests {
 
 
     @org.junit.Test
-    public void test(){
+    public void test() {
         HttpEntity httpEntity = null;
         try {
             HttpGet httpGet = new HttpGet("http://www.baidu.com/");
@@ -52,11 +54,11 @@ public class httpTests {
                     System.out.println("状态码的解释：" + response.getStatusLine().getReasonPhrase());
 
                     HttpEntity entity = response.getEntity();
-                    InputStream is =entity.getContent();
+                    InputStream is = entity.getContent();
 
                     FileOutputStream fos = new FileOutputStream("D:\\a.txt");
                     byte[] b = new byte[1024];
-                    while((is.read(b)) != -1){
+                    while ((is.read(b)) != -1) {
                         fos.write(b);
                     }
                     is.close();

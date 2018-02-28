@@ -44,13 +44,4 @@ public class linkJob {
         linkSpiderService.spiderNews();
     }
 
-    @Scheduled(fixedRate = 60000 * 60 * 3)
-    public void qqRoobot() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                qqRoobotService.initStartQqRoot();
-            }
-        }).start();
-    }
 }

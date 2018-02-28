@@ -34,6 +34,7 @@ public class QqRoobotServiceImpl implements QqRoobotService {
 
     private SmartQQClient client;
 
+
     @Override
     public void initStartQqRoot() {
         if (client != null) {
@@ -47,7 +48,7 @@ public class QqRoobotServiceImpl implements QqRoobotService {
                 try {
                     client.close();
                 } catch (IOException e1) {
-                    logger.error("client close error {}", e.getMessage());
+                    logger.error("client close error {}", e1.getMessage());
                 }
             }
         }
@@ -63,6 +64,7 @@ public class QqRoobotServiceImpl implements QqRoobotService {
                 StringBuilder hfStrBuilder = null;
                 String replayContent = null;
                 try {
+                    logger.info(message.getGroupId()+"");
                     if ("行情".equals(message.getContent().trim())) {
                         String result = BkbCompoent.getBkbString();
                         List<LinkTokenSpiderInfo> linkTokenSpiderInfoList = linkSpiderService.getSpiderTradeInfo();
@@ -106,7 +108,6 @@ public class QqRoobotServiceImpl implements QqRoobotService {
                     logger.error("*** qq roobot GroupMessage {}", message);
                     logger.error("*** qq roobot error {}", e.getMessage());
                 }
-
             }
 
             @Override
