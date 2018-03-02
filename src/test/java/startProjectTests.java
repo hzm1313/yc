@@ -1,13 +1,11 @@
 import com.cn.yc.Startup;
-import com.cn.yc.bean.NewsDO;
 import com.cn.yc.bean.NewsVO;
-import com.cn.yc.bean.QqNewsDO;
 import com.cn.yc.service.LinkService;
 import com.cn.yc.service.LinkSpiderService;
 import com.cn.yc.service.QqRoobotService;
-import com.scienjus.smartqq.callback.MessageCallback;
-import com.scienjus.smartqq.client.SmartQQClient;
-import com.scienjus.smartqq.model.*;
+import com.cn.smartqq.callback.MessageCallback;
+import com.cn.smartqq.client.SmartQQClient;
+import com.cn.smartqq.model.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

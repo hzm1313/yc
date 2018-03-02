@@ -38,7 +38,7 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <!-- 注释下面，可以使用startup启动，取消注释打包-->
- <!--       <dependency>
+<!--        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
