@@ -8,7 +8,7 @@ import java.nio.ByteBuffer;
 import java.util.*;
 
 import static java.util.Arrays.copyOfRange;
-import static org.ethereum.util.ByteUtil.*;
+import static com.cn.wkc.ethereum.util.ByteUtil.*;
 import static org.spongycastle.util.Arrays.concatenate;
 import static org.spongycastle.util.BigIntegers.asUnsignedByteArray;
 

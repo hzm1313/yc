@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
-import static org.ethereum.crypto.ECKey.CURVE;
+import static com.cn.wkc.ethereum.crypto.ECKey.CURVE;
 
 public class ECIESCoder {
 

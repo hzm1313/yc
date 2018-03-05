@@ -1,7 +1,10 @@
 package com.cn.wkc.ethereum.util;
 
 
-import org.apache.commons.codec.binary.Hex;
+
+
+
+import org.spongycastle.util.encoders.Hex;
 
 import java.io.Serializable;
 import java.util.Arrays;

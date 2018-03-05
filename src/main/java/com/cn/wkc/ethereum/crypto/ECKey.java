@@ -16,7 +16,7 @@ package com.cn.wkc.ethereum.crypto;
  * limitations under the License.
  */
 
-import org.ethereum.crypto.jce.*;
+import com.cn.wkc.ethereum.crypto.jce.*;
 import org.spongycastle.asn1.ASN1InputStream;
 import org.spongycastle.asn1.ASN1Integer;
 import org.spongycastle.asn1.DLSequence;
@@ -53,7 +53,7 @@ import java.security.interfaces.ECPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 
-import static org.ethereum.util.ByteUtil.bigIntegerToBytes;
+import static com.cn.wkc.ethereum.util.ByteUtil.bigIntegerToBytes;
 
 /**
  * <p>

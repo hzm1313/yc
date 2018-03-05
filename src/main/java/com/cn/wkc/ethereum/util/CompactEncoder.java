@@ -7,7 +7,7 @@ import java.util.Map;
 
 import static java.util.Arrays.copyOf;
 import static java.util.Arrays.copyOfRange;
-import static org.ethereum.util.ByteUtil.appendByte;
+import static com.cn.wkc.ethereum.util.ByteUtil.appendByte;
 import static org.spongycastle.util.Arrays.concatenate;
 import static org.spongycastle.util.encoders.Hex.encode;
 

@@ -1,7 +1,7 @@
 package com.cn.wkc.ethereum.util;
 
 
-import org.ethereum.crypto.HashUtil;
+import com.cn.wkc.ethereum.crypto.HashUtil;
 import org.spongycastle.util.encoders.Hex;
 
 import java.math.BigInteger;

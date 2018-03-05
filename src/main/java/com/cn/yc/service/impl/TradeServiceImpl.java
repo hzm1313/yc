@@ -1,6 +1,5 @@
 package com.cn.yc.service.impl;
 
-import com.cn.yc.bean.Trade;
 import com.cn.yc.bean.TradeVO;
 import com.cn.yc.bean.WkyVO;
 import com.cn.yc.service.TradeService;

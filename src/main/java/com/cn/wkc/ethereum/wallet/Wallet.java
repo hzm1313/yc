@@ -1,7 +1,6 @@
 package com.cn.wkc.ethereum.wallet;
 
-import org.ethereum.crypto.ECKey.ECDSASignature;
-
+import com.cn.wkc.ethereum.crypto.ECKey.ECDSASignature;
 import javax.crypto.NoSuchPaddingException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;

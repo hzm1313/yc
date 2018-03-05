@@ -1,8 +1,8 @@
 package com.cn.wkc.ethereum.crypto;
 
-import org.ethereum.crypto.cryptohash.Keccak256;
-import org.ethereum.util.RLP;
-import org.ethereum.util.Utils;
+import com.cn.wkc.ethereum.crypto.cryptohash.Keccak256;
+import com.cn.wkc.ethereum.util.RLP;
+import com.cn.wkc.ethereum.util.Utils;
 import org.spongycastle.crypto.Digest;
 import org.spongycastle.crypto.digests.RIPEMD160Digest;
 import org.spongycastle.util.encoders.Hex;
@@ -13,9 +13,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
 import static java.util.Arrays.copyOfRange;
-import static org.ethereum.crypto.SHA3Helper.Size.*;
-import static org.ethereum.crypto.SHA3Helper.Size.S512;
-import static org.ethereum.util.ByteUtil.EMPTY_BYTE_ARRAY;
+import static com.cn.wkc.ethereum.crypto.SHA3Helper.Size.*;
+import static com.cn.wkc.ethereum.crypto.SHA3Helper.Size.S512;
+import static com.cn.wkc.ethereum.util.ByteUtil.EMPTY_BYTE_ARRAY;
 
 public class HashUtil {
 

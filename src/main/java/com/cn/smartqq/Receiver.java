@@ -2,7 +2,7 @@ package com.cn.smartqq;
 
 import com.cn.smartqq.callback.MessageCallback;
 import com.cn.smartqq.client.SmartQQClient;
-import com.scienjus.smartqq.model.*;
+import com.cn.smartqq.model.*;
 import com.cn.smartqq.model.*;
 
 import java.text.SimpleDateFormat;

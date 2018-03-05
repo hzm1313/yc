@@ -139,7 +139,6 @@ public class HttpUtils {
                 entry = (Map.Entry) iter.next();
                 httpPost.setHeader(entry.getKey().toString(),entry.getValue().toString());
             }
-
             CloseableHttpResponse response = httpclient.execute(httpPost);
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode == HttpStatus.OK.value()) {
@@ -165,6 +164,29 @@ public class HttpUtils {
                 entry = (Map.Entry) iter.next();
                 httpPost.setHeader(entry.getKey().toString(),entry.getValue().toString());
             }
+            if(formParams!=null&&formParams.size()>0){
+                HttpEntity entity = new UrlEncodedFormEntity(formParams, "UTF-8");
+                httpPost.setEntity(entity);
+            }
+            CloseableHttpResponse response = httpclient.execute(httpPost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.OK.value()) {
+                httpEntity = response.getEntity();
+                if (httpEntity != null) {
+                    return JSONStrReaderUtils.read(httpEntity);
+                }
+            }
+        } catch (IOException e) {
+            logger.error("*** Error in send get request due to IOException [{}]", e.getMessage());
+        }
+        return null;
+    }
+
+    public static String sendPostRequest(String url,List<NameValuePair> formParams) {
+        HttpEntity httpEntity = null;
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        try {
+            HttpPost httpPost = new HttpPost(url);
             if(formParams!=null&&formParams.size()>0){
                 HttpEntity entity = new UrlEncodedFormEntity(formParams, "UTF-8");
                 httpPost.setEntity(entity);

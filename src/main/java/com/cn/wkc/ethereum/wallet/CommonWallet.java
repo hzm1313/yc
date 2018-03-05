@@ -1,9 +1,10 @@
 package com.cn.wkc.ethereum.wallet;
 
-import com.wrbug.wkcwallet.util.JsonHelper;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.crypto.ECKey.ECDSASignature;
-import org.ethereum.crypto.HashUtil;
+
+import com.cn.wkc.ethereum.crypto.ECKey;
+import com.cn.wkc.ethereum.crypto.ECKey.ECDSASignature;
+import com.cn.wkc.ethereum.crypto.HashUtil;
+import com.cn.yc.utils.JSONStrReaderUtils;
 import org.spongycastle.crypto.RuntimeCryptoException;
 import org.spongycastle.crypto.generators.SCrypt;
 import org.spongycastle.util.Arrays;
@@ -92,7 +93,7 @@ public class CommonWallet implements Wallet {
     public static Wallet fromV3(String keyfile_json, String password) throws GeneralSecurityException {
         // 1. Parser JSON
         Map json;
-        json = JsonHelper.fromJson(keyfile_json, Map.class);
+        json = JSONStrReaderUtils.jsonToObj(keyfile_json, Map.class);
         if (json == null) {
             throw new GeneralSecurityException("Invalid keyfile format");
         }
