@@ -9,6 +9,8 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.BasicHttpEntity;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -182,15 +184,14 @@ public class HttpUtils {
         return null;
     }
 
-    public static String sendPostRequest(String url,List<NameValuePair> formParams) {
+    public static String sendPostRequest(String url,String content) {
         HttpEntity httpEntity = null;
         CloseableHttpClient httpclient = HttpClients.createDefault();
         try {
             HttpPost httpPost = new HttpPost(url);
-            if(formParams!=null&&formParams.size()>0){
-                HttpEntity entity = new UrlEncodedFormEntity(formParams, "UTF-8");
-                httpPost.setEntity(entity);
-            }
+            //创建只带字符串参数的
+            StringEntity entity = new StringEntity(content,"UTF-8");
+            httpPost.setEntity(entity);
             CloseableHttpResponse response = httpclient.execute(httpPost);
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode == HttpStatus.OK.value()) {

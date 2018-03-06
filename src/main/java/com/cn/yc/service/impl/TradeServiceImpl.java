@@ -1,6 +1,5 @@
 package com.cn.yc.service.impl;
 
-import com.cn.yc.bean.TradeVO;
 import com.cn.yc.bean.WkyVO;
 import com.cn.yc.service.TradeService;
 import com.cn.yc.utils.Constants;
@@ -32,30 +31,6 @@ public class TradeServiceImpl implements TradeService {
     private RedisTemplate<String, String> redisTemplate;
 
     @Override
-    public List<TradeVO> getTradeInfo() {
-        String result = redisTemplate.boundValueOps(Constants.TRADE_INFO_LIST).get();
-        List<TradeVO> tradeVOList = new ArrayList<>();
-        if(StringUtils.isBlank(result)){
-            //重写爬虫
-            String url = LinkUrl.wjwInfoUrl;
-            Map<String,String> headerMap = new HashMap<>();
-            headerMap.put("Host", "www.chinawkb.com");
-            headerMap.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36");
-            headerMap.put("Referer", "http://www.chinawkb.com/");
-            headerMap.put("Origin", "http://www.chinawkb.com");
-            headerMap.put("X-Requested-With", "XMLHttpRequest");
-            List<NameValuePair> formParams = new ArrayList<NameValuePair>();
-            formParams.add(new BasicNameValuePair("id", "u"));
-            formParams.add(new BasicNameValuePair("t", "0.032256690523117" + (int) (Math.random() * 9) + (int) (Math.random() * 9)));
-            result = HttpUtils.sendPostRequest(url,headerMap,formParams);
-            JSONObject wjwObject = JSONObject.fromObject(result);
-            if(wjwObject!=null){
-
-            }
-        }
-        if(StringUtils.isBlank(result)){
-
-        }
-        return null;
+    public void getTradeInfo() {
     }
 }
