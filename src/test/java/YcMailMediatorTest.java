@@ -1,4 +1,4 @@
-import com.scienjus.smartqq.mail.*;
+import com.cn.smartqq.mail.*;
 import org.junit.Test;
 
 /**

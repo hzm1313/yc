@@ -2,6 +2,7 @@ package com.cn.yc.utils;
 
 import org.apache.commons.httpclient.params.DefaultHttpParams;
 import org.apache.commons.httpclient.params.HttpParams;
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.*;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -9,6 +10,8 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.BasicHttpEntity;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -128,32 +131,6 @@ public class HttpUtils {
         return null;
     }
 
-    public static String sendPostRequest(String url, Map<String,String> headerMap) {
-        HttpEntity httpEntity = null;
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        try {
-            HttpPost httpPost = new HttpPost(url);
-            Iterator iter = headerMap.entrySet().iterator();
-            Map.Entry entry = null;
-            while(iter.hasNext()){
-                entry = (Map.Entry) iter.next();
-                httpPost.setHeader(entry.getKey().toString(),entry.getValue().toString());
-            }
-
-            CloseableHttpResponse response = httpclient.execute(httpPost);
-            int statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode == HttpStatus.OK.value()) {
-                httpEntity = response.getEntity();
-                if (httpEntity != null) {
-                    return JSONStrReaderUtils.read(httpEntity);
-                }
-            }
-        } catch (IOException e) {
-            logger.error("*** Error in send get request due to IOException [{}]", e.getMessage());
-        }
-        return null;
-    }
-
     public static String sendPostRequest(String url, Map<String,String> headerMap,List<NameValuePair> formParams) {
         HttpEntity httpEntity = null;
         CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -169,6 +146,57 @@ public class HttpUtils {
                 HttpEntity entity = new UrlEncodedFormEntity(formParams, "UTF-8");
                 httpPost.setEntity(entity);
             }
+            CloseableHttpResponse response = httpclient.execute(httpPost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.OK.value()) {
+                httpEntity = response.getEntity();
+                if (httpEntity != null) {
+                    return JSONStrReaderUtils.read(httpEntity);
+                }
+            }
+        } catch (IOException e) {
+            logger.error("*** Error in send get request due to IOException [{}]", e.getMessage());
+        }
+        return null;
+    }
+
+    public static String sendPostRequest(String url, Map<String,String> headerMap,String jsonData) {
+        HttpEntity httpEntity = null;
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        try {
+            HttpPost httpPost = new HttpPost(url);
+            Iterator iter = headerMap.entrySet().iterator();
+            Map.Entry entry = null;
+            while(iter.hasNext()){
+                entry = (Map.Entry) iter.next();
+                httpPost.setHeader(entry.getKey().toString(),entry.getValue().toString());
+            }
+            if(StringUtils.isNotBlank(jsonData)){
+                HttpEntity entity = new StringEntity(jsonData,"utf-8");
+                httpPost.setEntity(entity);
+            }
+            CloseableHttpResponse response = httpclient.execute(httpPost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.OK.value()) {
+                httpEntity = response.getEntity();
+                if (httpEntity != null) {
+                    return JSONStrReaderUtils.read(httpEntity);
+                }
+            }
+        } catch (IOException e) {
+            logger.error("*** Error in send get request due to IOException [{}]", e.getMessage());
+        }
+        return null;
+    }
+
+    public static String sendPostRequest(String url,String content) {
+        HttpEntity httpEntity = null;
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        try {
+            HttpPost httpPost = new HttpPost(url);
+            //创建只带字符串参数的
+            StringEntity entity = new StringEntity(content,"UTF-8");
+            httpPost.setEntity(entity);
             CloseableHttpResponse response = httpclient.execute(httpPost);
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode == HttpStatus.OK.value()) {

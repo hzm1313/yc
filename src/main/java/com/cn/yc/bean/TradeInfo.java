@@ -1,52 +1,72 @@
 package com.cn.yc.bean;
 
+import java.math.BigDecimal;
+
 /**
- * Created by hasee on 2018/1/1.
+ * Created by DT167 on 2018/1/5.
  */
 public class TradeInfo {
-    private String rateOfProfit;
-    private String buyRate;
-    private String sellRate;
-    private String nowDate;
-    private String name;
+    private BigDecimal buyPrice;
+    private BigDecimal sellPrice;
+    private BigDecimal buyNum;
+    private BigDecimal sellNum;
+    private TradePlatform buyPlatform;
+    private TradePlatform sellPlatform;
+    private Double profitMargin;
 
-    public String getName() {
-        return name;
+    public BigDecimal getBuyPrice() {
+        return buyPrice;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBuyPrice(BigDecimal buyPrice) {
+        this.buyPrice = buyPrice;
     }
 
-    public String getRateOfProfit() {
-        return rateOfProfit;
+    public BigDecimal getSellPrice() {
+        return sellPrice;
     }
 
-    public void setRateOfProfit(String rateOfProfit) {
-        this.rateOfProfit = rateOfProfit;
+    public void setSellPrice(BigDecimal sellPrice) {
+        this.sellPrice = sellPrice;
     }
 
-    public String getBuyRate() {
-        return buyRate;
+    public BigDecimal getBuyNum() {
+        return buyNum;
     }
 
-    public void setBuyRate(String buyRate) {
-        this.buyRate = buyRate;
+    public void setBuyNum(BigDecimal buyNum) {
+        this.buyNum = buyNum;
     }
 
-    public String getSellRate() {
-        return sellRate;
+    public BigDecimal getSellNum() {
+        return sellNum;
     }
 
-    public void setSellRate(String sellRate) {
-        this.sellRate = sellRate;
+    public void setSellNum(BigDecimal sellNum) {
+        this.sellNum = sellNum;
     }
 
-    public String getNowDate() {
-        return nowDate;
+    public TradePlatform getBuyPlatform() {
+        return buyPlatform;
     }
 
-    public void setNowDate(String nowDate) {
-        this.nowDate = nowDate;
+    public void setBuyPlatform(TradePlatform buyPlatform) {
+        this.buyPlatform = buyPlatform;
+    }
+
+    public TradePlatform getSellPlatform() {
+        return sellPlatform;
+    }
+
+    public void setSellPlatform(TradePlatform sellPlatform) {
+        this.sellPlatform = sellPlatform;
+    }
+
+    public Double getProfitMargin() {
+        return profitMargin;
+    }
+
+    public void setProfitMargin(Double profitMargin) {
+        this.profitMargin = profitMargin;
     }
 }

@@ -1,4 +1,3 @@
-import com.cn.yc.bean.Trade;
 import com.cn.yc.service.TradeService;
 import com.cn.yc.service.impl.TradeServiceImpl;
 import com.cn.yc.utils.Constants;
@@ -12,6 +11,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -30,11 +31,17 @@ public class TradeTest {
         Field tradeServiceField = TradeServiceImpl.class.getDeclaredField("redisTemplate");
         tradeServiceField.setAccessible(true);
         tradeServiceField.set(tradeServiceMock,redisTemplateMock);
-        System.out.println(tradeServiceMock.getTradeInfo());
+      //  System.out.println(tradeServiceMock.getTradeInfo());
     }
 
     @Test
     public void getInfoTest(){
-
+        List<String> data = new ArrayList<>();
+        data.add("hzm");
+        data.add("0");
+        data.add("0");
+        data.add("1");
+        data.add("100");
+        System.out.println(data.toString());
     }
 }
