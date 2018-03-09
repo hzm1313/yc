@@ -2,6 +2,7 @@ package com.cn.yc.utils;
 
 import org.apache.commons.httpclient.params.DefaultHttpParams;
 import org.apache.commons.httpclient.params.HttpParams;
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.*;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -130,7 +131,7 @@ public class HttpUtils {
         return null;
     }
 
-    public static String sendPostRequest(String url, Map<String,String> headerMap) {
+    public static String sendPostRequest(String url, Map<String,String> headerMap,List<NameValuePair> formParams) {
         HttpEntity httpEntity = null;
         CloseableHttpClient httpclient = HttpClients.createDefault();
         try {
@@ -140,6 +141,10 @@ public class HttpUtils {
             while(iter.hasNext()){
                 entry = (Map.Entry) iter.next();
                 httpPost.setHeader(entry.getKey().toString(),entry.getValue().toString());
+            }
+            if(formParams!=null&&formParams.size()>0){
+                HttpEntity entity = new UrlEncodedFormEntity(formParams, "UTF-8");
+                httpPost.setEntity(entity);
             }
             CloseableHttpResponse response = httpclient.execute(httpPost);
             int statusCode = response.getStatusLine().getStatusCode();
@@ -155,7 +160,7 @@ public class HttpUtils {
         return null;
     }
 
-    public static String sendPostRequest(String url, Map<String,String> headerMap,List<NameValuePair> formParams) {
+    public static String sendPostRequest(String url, Map<String,String> headerMap,String jsonData) {
         HttpEntity httpEntity = null;
         CloseableHttpClient httpclient = HttpClients.createDefault();
         try {
@@ -166,8 +171,8 @@ public class HttpUtils {
                 entry = (Map.Entry) iter.next();
                 httpPost.setHeader(entry.getKey().toString(),entry.getValue().toString());
             }
-            if(formParams!=null&&formParams.size()>0){
-                HttpEntity entity = new UrlEncodedFormEntity(formParams, "UTF-8");
+            if(StringUtils.isNotBlank(jsonData)){
+                HttpEntity entity = new StringEntity(jsonData,"utf-8");
                 httpPost.setEntity(entity);
             }
             CloseableHttpResponse response = httpclient.execute(httpPost);
