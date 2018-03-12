@@ -44,4 +44,6 @@ public class Constants {
 
     public final static String NEWS_URL_HASH_KEY = "NEWS_URL_HASH_KEY";
     public final static String NEWS_TITLE_HASH_KEY = "NEWS_TITLE_HASH_KEY";
+
+    public final static Integer maxTread = 10;
 }

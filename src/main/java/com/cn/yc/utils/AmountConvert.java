@@ -1,7 +1,10 @@
 package com.cn.yc.utils;
 
+import org.spongycastle.util.encoders.Hex;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.regex.Pattern;
 
 /**
  * AmountConvert
@@ -25,6 +28,19 @@ public class AmountConvert {
 
     public static BigDecimal toWei(BigDecimal number, Unit unit) {
         return number.multiply(unit.getWeiFactor());
+    }
+
+    public static BigInteger toBigNumber(String number) {
+
+        boolean match = Pattern.matches("0[xX][0-9a-fA-F]+", number);
+        if (!match) {
+            return (new BigInteger(number));
+        } else {
+            number = number.substring(2);
+            number = number.length() % 2 != 0 ? "0".concat(number) : number;
+            byte[] numberBytes = Hex.decode(number);
+            return (new BigInteger(1, numberBytes));
+        }
     }
 
     public enum Unit {
