@@ -2,11 +2,13 @@ package com.cn.yc.utils;
 
 import com.cn.wkc.ethereum.core.Transaction;
 import com.cn.wkc.ethereum.util.Unit;
+import com.cn.wkc.ethereum.wallet.CommonWallet;
 import com.cn.wkc.ethereum.wallet.Wallet;
 import com.cn.yc.bean.TransactionCountVo;
 import com.cn.yc.bean.TransactionRecordsVo;
 import com.cn.yc.bean.WalletTradeApiRequestVo;
 import com.cn.yc.service.LinkService;
+import okhttp3.Headers;
 import okhttp3.Response;
 import oracle.jrockit.jfr.VMJFR;
 import org.apache.http.NameValuePair;
@@ -18,6 +20,7 @@ import org.spongycastle.util.encoders.Hex;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.security.GeneralSecurityException;
 import java.security.SignatureException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -109,14 +112,13 @@ public class WkcWalltHttpUtils {
      * 4.对上面参数进行加密，并用钱包进行签名
      * 5.获取hash，并签名
      *
-     * @param ownAddress
-     * @param password
-     * @param tradeNum
      * @return
      */
     public static String sendTrade(String fromAddress, String password, String walletPath,
-                                   BigDecimal tradeAmount, String toAddress) {
+                                   BigDecimal tradeAmount, String toAddress) throws IOException, GeneralSecurityException {
         Wallet wallet = null;
+        String test = FileReadUtils.readFileReturnString(walletPath);
+        wallet = CommonWallet.fromV3(test, password);
         //1.调用之前输入
         //2.获取交易次数
         TransactionCountVo transactionCountVo = JSONStrReaderUtils.jsonToObj(getTradeRecordNum(fromAddress), TransactionCountVo.class);
@@ -137,19 +139,18 @@ public class WkcWalltHttpUtils {
         }
         byte[] encoded = tx.getEncoded();
 
-
+        WalletTradeApiRequestVo walletApiRequestVo = new WalletTradeApiRequestVo();
+        walletApiRequestVo.setJsonrpc("2.0")
+                .setMethod("eth_sendRawTransaction")
+                .addParam("0x" + Hex.toHexString(encoded))
+                .setId(1);
         String parm = null;
         ArrayList<String> parmsList = new ArrayList<>();
         parmsList.add(parm);
-        WalletTradeApiRequestVo walletTradeApiRequestVo = new WalletTradeApiRequestVo();
-        walletTradeApiRequestVo.setId(1);
-        walletTradeApiRequestVo.setJsonrpc("2.0");
-        walletTradeApiRequestVo.setMethod("eth_sendRawTransaction");
-        walletTradeApiRequestVo.setParams(parmsList);
         Map<String, String> headerMap = new HashMap<>();
         headerMap.put("Content-Type", "application/json");
         headerMap.put("NC", "IN");
-        String result = HttpUtils.sendPostRequest("https://walletapi.onethingpcs.com/", headerMap, walletTradeApiRequestVo.toJson());
+        String result = HttpUtils.sendPostRequest("https://walletapi.onethingpcs.com/", headerMap, walletApiRequestVo.toJson());
         return result;
     }
 }

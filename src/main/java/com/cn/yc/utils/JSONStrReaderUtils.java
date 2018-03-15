@@ -2,6 +2,8 @@ package com.cn.yc.utils;
 
 import com.cn.yc.bean.WkyVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.http.HttpEntity;
@@ -20,6 +22,8 @@ import java.util.Map;
  */
 public class JSONStrReaderUtils {
     protected static  Logger logger = LoggerFactory.getLogger(JSONStrReaderUtils.class);
+
+    private static Gson sGson = new Gson();
 
     public static String objToJson(Object object){
         JSONObject jsonObject = JSONObject.fromObject(object);
@@ -43,6 +47,22 @@ public class JSONStrReaderUtils {
     public static <T> T jsonToObj(String jsonStr,Class<T> clazz){
         JSONObject obj =  JSONObject.fromObject(jsonStr);
         return (T) JSONObject.toBean(obj,clazz);
+    }
+
+    public static <T> T fromJson(Object json, Class<T> tClass) {
+        try {
+
+            if (json == null) {
+                return null;
+            }
+            if (json instanceof JsonElement) {
+                return sGson.fromJson((JsonElement) json, tClass);
+            }
+            return sGson.fromJson(json.toString(), tClass);
+        } catch (Throwable t) {
+
+        }
+        return null;
     }
 
     public static<T> String objArryToJson(List<T> listT){
