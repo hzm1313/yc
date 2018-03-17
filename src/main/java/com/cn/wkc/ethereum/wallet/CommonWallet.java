@@ -93,17 +93,18 @@ public class CommonWallet implements Wallet {
     public static Wallet fromV3(String keyfile_json, String password) throws GeneralSecurityException {
         // 1. Parser JSON
         Map json;
-        json = JSONStrReaderUtils.jsonToObj(keyfile_json, Map.class);
+        json = JSONStrReaderUtils.fromJson(keyfile_json, Map.class);
         if (json == null) {
             throw new GeneralSecurityException("Invalid keyfile format");
         }
         // 3. Check Version
-        if (!"3.0".equals(json.get("version").toString())) {
+        if (!("3.0".equals(json.get("version").toString())||"3".equals(json.get("version").toString()))) {
             throw new GeneralSecurityException("Invalid Keyfile Version");
         }
 
         // 4. Extract Values
         String address = json.get("address").toString();
+        System.out.println(json.get("crypto").toString());
         Map crypto = (Map) (json.containsKey("crypto") ? json.get("crypto") : json.get("Crypto"));
         String cipher = crypto.get("cipher").toString();
         if (!"aes-128-ctr".equalsIgnoreCase(cipher)) {
