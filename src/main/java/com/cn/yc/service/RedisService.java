@@ -16,7 +16,7 @@ public abstract interface RedisService
 
     public abstract void leftPush(String paramString1, String paramString2);
 
-    public abstract void get(String key);
+    public abstract String get(String key);
 
     public abstract void setLinkInfo(String key,String value);
 }

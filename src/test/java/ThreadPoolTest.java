@@ -1,4 +1,4 @@
-import com.cn.yc.thread.BaseTreadPool;
+import com.cn.yc.thread.BaseThreadPool;
 import org.junit.Test;
 
 import java.util.concurrent.Callable;
@@ -10,7 +10,7 @@ import java.util.concurrent.ExecutionException;
 public class ThreadPoolTest {
     @Test
     public void test() throws ExecutionException, InterruptedException {
-        BaseTreadPool baseTreadPool = new BaseTreadPool();
+        BaseThreadPool baseTreadPool = new BaseThreadPool();
         for(int i=0;i<20;i++){
             baseTreadPool.submitRunnable(new Runnable() {
                 private String test;

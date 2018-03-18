@@ -50,8 +50,8 @@ public class RedisServiceImpl
     }
 
     @Override
-    public void get(String key) {
-        redisTemplate.boundValueOps(key).get();
+    public String get(String key) {
+       return redisTemplate.boundValueOps(key).get();
     }
 
     @Override
