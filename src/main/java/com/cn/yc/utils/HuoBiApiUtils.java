@@ -57,8 +57,8 @@ public class HuoBiApiUtils {
                         }
                         System.out.println("response:"+result);
                         HuobiKlineReqDTO huobiKlineReqDTO = new HuobiKlineReqDTO();
-                        huobiKlineReqDTO.setFrom(1481869853);
-                        huobiKlineReqDTO.setTo(1481873453);
+                        huobiKlineReqDTO.setFrom(1509033600);
+                        huobiKlineReqDTO.setTo(1509035400);
                         huobiKlineReqDTO.setId("id10");
                         huobiKlineReqDTO.setReq("market.ethusdt.kline.30min");
                         send(JSONStrReaderUtils.objToJson(huobiKlineReqDTO));
@@ -84,8 +84,7 @@ public class HuoBiApiUtils {
 
 
     public static void send(String requestMessage) throws UnsupportedEncodingException {
-        send("hello world".getBytes("utf-8"));
-        client.send(requestMessage);
+        send(requestMessage.getBytes("utf-8"));
     }
 
     public static void send(byte[] bytes){
