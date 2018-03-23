@@ -51,6 +51,8 @@ public class SpiderBaseModel extends SpiderLinkTokenInfoModel {
         List<NameValuePair> formParams = new ArrayList<NameValuePair>();
         formParams.add(new BasicNameValuePair("data", "caonimabigongjinidayeo"));
         result = HttpUtils.sendPostRequest(tmpurl,headerMap,formParams,httpclient);
+
+
         headerMap = new HashMap<>();
         headerMap.put("Accept-Language", "zh,zh-CN;q=0.9,en-US;q=0.8,en;q=0.7");
         headerMap.put("Cache-Control", "max-age=0");
