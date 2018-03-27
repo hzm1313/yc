@@ -7,12 +7,12 @@ import java.math.BigDecimal;
  */
 public class HuobiDetailVO {
     private String id;
+    private BigDecimal amount;
+    private int count;
     private long open;
     private long close;
     private long low;
     private long high;
-    private BigDecimal amount;
-    private int count;
     private BigDecimal vol;
 
     public String getId() {

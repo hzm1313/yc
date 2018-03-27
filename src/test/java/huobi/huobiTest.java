@@ -1,14 +1,17 @@
 package huobi;
 
+import com.cn.yc.bean.HuobiDataVO;
 import com.cn.yc.bean.HuobiDetailVO;
 import com.cn.yc.bean.HuobiKlineReqDTO;
 import com.cn.yc.thread.BaseThreadPool;
 import com.cn.yc.utils.HuoBiApiUtils;
 
 import com.cn.yc.utils.JSONStrReaderUtils;
+import com.cn.yc.utils.excel.ExcelExport;
 import org.java_websocket.client.WebSocketClient;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -98,7 +101,23 @@ public class huobiTest {
                 System.out.println("donging");
             }
             List<HuobiDetailVO> huobiDetailVOList = HuoBiApiUtils.getHuoBiData();
-            i = 2;
+            //数据保存为文件
+            System.out.println(JSONStrReaderUtils.objToJson(huobiDetailVOList.get(0)));
+
+            //处理数据
+            ExcelExport pee = new ExcelExport("F:\\test.xls","sheet1");
+            //数据
+            //调用
+            String titleColumn[] = {"id","count","open","close","low","high","vol"};
+            String titleName[] = {"k线名","数量","开盘价","收盘价","最低价格","最高价","成交额"};
+            int titleSize[] = {13,13,13,13,13,13,13};
+            //其他设置 set方法可全不调用
+            //String colFormula[] = new String[7];
+            //colFormula[4] = "D@*12";   //设置第5列的公式
+            //pee.setColFormula(colFormula);
+            //pee.setAddress("A:D");  //自动筛选
+            pee.wirteExcel(titleColumn, titleName, titleSize, huobiDetailVOList);
+        /*    i = 2;
             k = 0;
             long mr = 0;
             long mc = 0;
@@ -129,10 +148,45 @@ public class huobiTest {
             }
             for(String str:sy){
                 System.out.println(str);
-            }
+            }*/
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+    }
+
+
+    @Test
+    public void exportData(){
+
+        try {
+            ExcelExport pee = new ExcelExport("F:\\test.xls","sheet1");
+            //数据
+            List<HuobiDataVO> dataList =new ArrayList<>();
+            HuobiDataVO huobiDataVO = new HuobiDataVO();
+            huobiDataVO.setId("11");
+            huobiDataVO.setCount("1");
+            huobiDataVO.setOpen("2");
+            huobiDataVO.setClose("3");
+            huobiDataVO.setLow("4");
+            huobiDataVO.setHigh("5");
+            huobiDataVO.setVol("6");
+            dataList.add(huobiDataVO);
+            dataList.add(huobiDataVO);
+            dataList.add(huobiDataVO);
+            //调用
+            String titleColumn[] = {"id","count","open","close","low","high","vol"};
+            String titleName[] = {"k线名","数量","开盘价","收盘价","最低价格","最高价","成交额"};
+            int titleSize[] = {13,13,13,13,13,13,13};
+            //其他设置 set方法可全不调用
+           // String colFormula[] = new String[7];
+           // colFormula[4] = "D@*12";   //设置第5列的公式
+          //  pee.setColFormula(colFormula);
+            //pee.setAddress("A:D");  //自动筛选
+
+            pee.wirteExcel(titleColumn, titleName, titleSize, dataList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
