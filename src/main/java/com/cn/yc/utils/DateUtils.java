@@ -1,7 +1,11 @@
 package com.cn.yc.utils;
 
 
+import org.apache.http.util.TextUtils;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by DT167 on 2018/3/20.
@@ -20,4 +24,16 @@ public class DateUtils {
             return 0l;
         }
     }
+
+    /*
+* 将时间戳转换为时间
+*/
+    public static String stampToDate(String timestampString, String formats){
+        if (TextUtils.isEmpty(formats))
+            formats = "yyyy-MM-dd HH:mm:ss";
+        Long timestamp = Long.parseLong(timestampString) * 1000;
+        String date = new SimpleDateFormat(formats, Locale.CHINA).format(new Date(timestamp));
+        return date;
+    }
+
 }

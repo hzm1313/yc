@@ -7,13 +7,31 @@ import java.math.BigDecimal;
  */
 public class HuobiDetailVO {
     private String id;
-    private long open;
-    private long close;
-    private long low;
-    private long high;
-    private BigDecimal amount;
-    private int count;
-    private BigDecimal vol;
+    private String open;
+    private String close;
+    private String low;
+    private String high;
+    private String amount;
+    private String count;
+    private String vol;
+    private String dateDay;
+    private String dateMin;
+
+    public String getDateDay() {
+        return dateDay;
+    }
+
+    public void setDateDay(String dateDay) {
+        this.dateDay = dateDay;
+    }
+
+    public String getDateMin() {
+        return dateMin;
+    }
+
+    public void setDateMin(String dateMin) {
+        this.dateMin = dateMin;
+    }
 
     public String getId() {
         return id;
@@ -23,59 +41,59 @@ public class HuobiDetailVO {
         this.id = id;
     }
 
-    public long getOpen() {
+    public String getOpen() {
         return open;
     }
 
-    public void setOpen(long open) {
+    public void setOpen(String open) {
         this.open = open;
     }
 
-    public long getClose() {
+    public String getClose() {
         return close;
     }
 
-    public void setClose(long close) {
+    public void setClose(String close) {
         this.close = close;
     }
 
-    public long getLow() {
+    public String getLow() {
         return low;
     }
 
-    public void setLow(long low) {
+    public void setLow(String low) {
         this.low = low;
     }
 
-    public long getHigh() {
+    public String getHigh() {
         return high;
     }
 
-    public void setHigh(long high) {
+    public void setHigh(String high) {
         this.high = high;
     }
 
-    public BigDecimal getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 
-    public int getCount() {
+    public String getCount() {
         return count;
     }
 
-    public void setCount(int count) {
+    public void setCount(String count) {
         this.count = count;
     }
 
-    public BigDecimal getVol() {
+    public String getVol() {
         return vol;
     }
 
-    public void setVol(BigDecimal vol) {
+    public void setVol(String vol) {
         this.vol = vol;
     }
 }
