@@ -2,7 +2,8 @@ package com.cn.yc.trade.strategy;
 
 import com.cn.yc.bean.PolicyResult;
 import com.cn.yc.bean.TradeInfo;
-import com.cn.yc.utils.TRADECONSTANTS;
+import com.cn.yc.utils.TradeConstatns;
+import com.cn.yc.utils.TradeConstatns;
 
 import java.math.BigDecimal;
 
@@ -21,7 +22,7 @@ public class BaseTradeStrategy implements TradeStrategy {
         policyResult.setTradeNum(tradeNum);
         policyResult.setTradeProfit(diffPrice.multiply(tradeNum));
         policyResult.setTradeProfitRate(diffPrice.divide(diffPrice.multiply(tradeNum)));
-        if(policyResult.getTradeProfitRate().doubleValue()- TRADECONSTANTS.TRADE_PROFIT_CHECK_RATE>0){
+        if(policyResult.getTradeProfitRate().doubleValue()- TradeConstatns.TRADE_PROFIT_CHECK_RATE>0){
             policyResult.setExcecute(true);
         }
         return policyResult;

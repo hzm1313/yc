@@ -129,13 +129,13 @@ public class huobiTest {
         sourceChannel.configureBlocking(false);
         SelectionKey key = sourceChannel.register(selector, SelectionKey.OP_READ);
         HuobiDepthDTO huobiDepthDTO = new HuobiDepthDTO();
-        huobiDepthDTO.setSub(MessageFormat.format(Constants.HUOBI_DEPTH,Constants.HUOBI_BTCUSDT,Constants.HUOBI_DEPTH_SETP0));
+        huobiDepthDTO.setSub(MessageFormat.format(Constants.HUOBI_DEPTH, Constants.HUOBI_BTCUSDT, Constants.HUOBI_DEPTH_SETP0));
         WebSocketClient client = HuoBiApiUtils.getClient();
         //订阅市场行情
         client.send(JSONStrReaderUtils.objToJson(huobiDepthDTO));
         //订阅交易详情
         huobiDepthDTO = new HuobiDepthDTO();
-        huobiDepthDTO.setSub(MessageFormat.format(Constants.HUOBI_TRADE,Constants.HUOBI_BTCUSDT));
+        huobiDepthDTO.setSub(MessageFormat.format(Constants.HUOBI_TRADE, Constants.HUOBI_BTCUSDT));
         client.send(JSONStrReaderUtils.objToJson(huobiDepthDTO));
         while (true) {
             int readyChannels = selector.select();
@@ -145,24 +145,24 @@ public class huobiTest {
             while (keyIterator.hasNext()) {
                 key = (SelectionKey) keyIterator.next();
                 if (key.isAcceptable()) {
-                   System.out.println("acceptable");
+                    System.out.println("acceptable");
                 } else if (key.isConnectable()) {
                     System.out.println("isConnect");
                 } else if (key.isReadable()) {
                     System.out.println("isReadable");
-                    Iterator it = selector.selectedKeys().iterator( );
+                    Iterator it = selector.selectedKeys().iterator();
                     //读去客户端内容
                     Pipe.SourceChannel clientSocketChannel = (Pipe.SourceChannel) key.channel();
                     receiveBuffer.clear();
                     clientSocketChannel.read(receiveBuffer);
                     key.interestOps(SelectionKey.OP_READ);
-                    String result = new String(GzipUtils.uncompress(receiveBuffer.array()),"utf-8");
+                    String result = new String(GzipUtils.uncompress(receiveBuffer.array()), "utf-8");
                     System.out.println(result);
-                    if(result.contains("depth")){
-                        HuobiDepthResposneVO huobiDepthResposneVO = JSONStrReaderUtils.fromJson(result,HuobiDepthResposneVO.class);
+                    if (result.contains("depth")) {
+                        HuobiDepthResposneVO huobiDepthResposneVO = JSONStrReaderUtils.fromJson(result, HuobiDepthResposneVO.class);
                         System.out.println("depth");
-                    }else if(result.contains("trade")){
-                        HuobiTradeResponseVO huobiDepthResposneVO = JSONStrReaderUtils.fromJson(result,HuobiTradeResponseVO.class);
+                    } else if (result.contains("trade")) {
+                        HuobiTradeResponseVO huobiDepthResposneVO = JSONStrReaderUtils.fromJson(result, HuobiTradeResponseVO.class);
                         System.out.println("trade");
                     }
 
@@ -176,28 +176,72 @@ public class huobiTest {
     }
 
     @Test
-    public void baseStrategy(){
+    public void baseStrategy() {
         //策略1
-        //连续下跌30分钟线，买入，直到，高于成本价0.5%,卖出，否则一直持有，手续费为0.4%，如果下跌超过5%,，无条件卖出
+        //连续下跌30分钟线，买入，直到，高于成本价0.5%,卖出，否则一直持有，手续费为0.4%，如果下跌超过1%,，无条件卖出
         //读取数据
        /* List<HuobiDetailVO> huobiDetailVOList  = HuoBiApiUtils.importToFile("E:\\虚拟货币\\测试数据\\test_1min.xlsx");*/
         List<List<String>> lists = ExceUtil.importFile(new File("E:\\虚拟货币\\测试数据\\test.xlsx"));
-        List<HuobiDetailVO> huobiDetailVOList = new ArrayList<>();
-        HuobiDetailVO huobiDetailVO = null;
-        for(List<String> strList:lists){
-            huobiDetailVO = new HuobiDetailVO();
-            huobiDetailVO.setOpen(strList.get(2));
-            huobiDetailVO.setClose(strList.get(3));
-            huobiDetailVO.setLow(strList.get(4));
-            huobiDetailVO.setHigh(strList.get(5));
-            huobiDetailVO.setVol(strList.get(6));
-            huobiDetailVO.setCount(strList.get(7));
-            huobiDetailVO.setAmount(strList.get(8));
-            huobiDetailVOList.add(huobiDetailVO);
+        List<Map<String, String>> mapList = new ArrayList<>();
+        for (int fallTraigger = 1; fallTraigger < 2; fallTraigger++) {
+            //1W刀本金
+            BigDecimal amount = new BigDecimal("10000");
+            BigDecimal holdPrice = new BigDecimal("0");
+            BigDecimal holdNum = new BigDecimal("0");
+            BigDecimal basePrice = new BigDecimal(lists.get(1).get(3));
+            BigDecimal open = new BigDecimal(lists.get(1).get(2));
+            BigDecimal close = new BigDecimal(lists.get(1).get(3));
+            BigDecimal high = new BigDecimal(lists.get(1).get(4));
+            BigDecimal low = new BigDecimal(lists.get(1).get(5));
+            //触发的卖出价格
+            BigDecimal sellLowPrice = new BigDecimal(lists.get(1).get(3)).multiply(new BigDecimal("0.99"));
+            BigDecimal sellHighPrice = new BigDecimal(lists.get(1).get(3)).multiply(new BigDecimal("1.005"));
+            int falNum = 0;
+            for (int i = 2; i < lists.size(); i++) {
+                open = new BigDecimal(lists.get(i).get(2));
+                close = new BigDecimal(lists.get(i).get(3));
+                high = new BigDecimal(lists.get(i).get(4));
+                low = new BigDecimal(lists.get(i).get(5));
+                if (holdNum.compareTo(new BigDecimal("0")) == 0) {
+                    //持有本金，买入等待状态
+                    if (close.compareTo(basePrice) < 0) {
+                        falNum++;
+                    } else {
+                        falNum = 0;
+                    }
+                    if (falNum >= fallTraigger) {
+                        //买入手续费
+                        amount = amount.multiply(new BigDecimal("0.998"));
+                        holdPrice = close;
+                        holdNum = amount.divide(holdPrice, 10, BigDecimal.ROUND_DOWN);
+                        amount = new BigDecimal("0");
+                        System.out.println("买入价:" + holdPrice + " 买入数量:" + holdNum + " 总价值:" + holdNum.multiply(holdPrice) + " 剩余钱:" + amount.toString());
+                        sellLowPrice = new BigDecimal(lists.get(i).get(3)).multiply(new BigDecimal("0.994"));
+                        sellHighPrice = new BigDecimal(lists.get(i).get(3)).multiply(new BigDecimal("1.006"));
+                        falNum = 0;
+                    }
+                } else {
+                    //持有币，卖出等待状态\
+                    //低于1.05卖出
+                    if (close.compareTo(sellLowPrice) < 0 || close.compareTo(sellHighPrice) > 0) {
+                        holdPrice = close;
+                        amount = holdNum.multiply(holdPrice).multiply(new BigDecimal("0.998"));
+                        System.out.println("卖出价:" + holdPrice + " 买出数量:" + holdNum +" 税后钱:"+amount);
+                        holdNum = new BigDecimal("0");
+                    }
+                }
+                basePrice = close;
+            }
+            System.out.println("fallTraigger:"+fallTraigger+"  resultPrice:"+amount.toString());
+            Map map = new HashMap<String, String>();
+            map.put("fallTraigger", fallTraigger);
+            map.put("resultPrice", amount);
+            mapList.add(map);
         }
-        for(HuobiDetailVO huobiDetailVO1: huobiDetailVOList){
-            System.out.println(JSONStrReaderUtils.objToJson(huobiDetailVO1));
-        }
+        mapList.sort((o1,o2)-> o1.get("resultPrice").compareTo(o1.get("resultPrice")));
+        mapList.forEach(obj -> {
+            System.out.println(String.valueOf(obj.get("fallTraigger"))+ "==="+new BigDecimal(obj.get("resultPrice")));
+        });
         //策略2，网格策略
     }
 }
