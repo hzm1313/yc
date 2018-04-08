@@ -1,71 +1,52 @@
 package huobi;
 
-import com.cn.yc.bean.HuobiDetailVO;
-import com.cn.yc.bean.HuobiKlineReqDTO;
-import com.cn.yc.bean.PingDTO;
+import com.cn.yc.bean.*;
 import com.cn.yc.thread.BaseThreadPool;
-import com.cn.yc.utils.DateUtils;
-import com.cn.yc.utils.HuoBiApiUtils;
+import com.cn.yc.utils.*;
 
-import com.cn.yc.utils.JSONStrReaderUtils;
+import com.cn.yc.utils.excel.ExceUtil;
 import com.cn.yc.utils.excel.ExcelExport;
 import org.apache.http.util.TextUtils;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.java_websocket.client.WebSocketClient;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.nio.ByteBuffer;
+import java.nio.channels.*;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * Created by hasee on 2018/3/18.
  */
 public class huobiTest {
     @Test
-    public void downSj() throws UnsupportedEncodingException {
-   /*     BaseThreadPool.submitRunnable(new Runnable() {
-            @Override
-            public void run() {
-                HuoBiApiUtils huoBiApiUtils = new HuoBiApiUtils();
-            }
-        });*/
-        //下载数据
-        //2017/10/27日开始-至今
-/*        Long startTime = DateUtils.getDateUnix("2017/10/27 00:00:00");
-        Long endTime = DateUtils.getDateUnix(new Date().toString());
-        System.out.println(startTime);
-     while(1==1){
-
-     }*/
-        // HuoBiApiUtils.send("{ping: 18212558000}");
-    }
-
-    @Test
-    public void test() {
-        //xport(String fileName, String FilePath, List<String> rowNameList, ArrayList<ArrayList<String>> dataList)
-    /*    ArrayList<String> nameList = new ArrayList<String>();
-        nameList.add("t1");
-        nameList.add("t2");
-        ArrayList<String> contentList = new ArrayList<String>();
-        contentList.add("t1Value");
-        contentList.add("t2Value");
-        ArrayList<ArrayList<String>> list = new ArrayList<>();
-        list.add(contentList);
-        list.add(contentList);
+    public void testConnectIsOk() throws InterruptedException, UnsupportedEncodingException {
         try {
-            ExcelExport.export("hzm.xlsx","F:\\开源\\数据\\",nameList,list);
+            while (!HuoBiApiUtils.isIsConnect()) {
+                try {
+                    Thread.sleep(1000);
+                    System.out.println("sleeppp");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            while (true) {
+            }
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
     @Test
-    public void testss() throws InterruptedException, UnsupportedEncodingException {
+    public void writeDataNumberToNumber() throws InterruptedException, UnsupportedEncodingException {
         try {
             while (!HuoBiApiUtils.isIsConnect()) {
                 try {
@@ -83,73 +64,140 @@ public class huobiTest {
             Long endTime = new Date().getTime() / 1000;
             HuobiKlineReqDTO huobiKlineReqDTO = new HuobiKlineReqDTO();
             WebSocketClient client = HuoBiApiUtils.getClient();
-            int i = 0, kk = 0;
+            int i = 0, kk = 0, j = 1;
+            List<HuobiDetailVO> huobiDetailVOList = new ArrayList<>();
             try {
-                Long diff = 60*300l;//60 * 30 * 300L;
+                Long diff = 60 * 300l;//60 * 30 * 300L;
+                Pipe pipe = HuoBiApiUtils.getPipe();
+                Pipe.SourceChannel sourceChannel = pipe.source();
+                ByteBuffer buf = ByteBuffer.allocate(102400);
                 while (startTime <= endTime) {
                     huobiKlineReqDTO.setFrom(startTime);
                     huobiKlineReqDTO.setTo(startTime + diff);
                     huobiKlineReqDTO.setId("id10");
-                    huobiKlineReqDTO.setReq("market.btcusdt.kline.1min");
-                    startTime = diff+ 1 + startTime;
-                    if(kk>=598&&kk<700){
-                        client.send(JSONStrReaderUtils.objToJson(huobiKlineReqDTO));
-                        i++;
+                    huobiKlineReqDTO.setReq(MessageFormat.format(Constants.HUOBI_KLINE, Constants.HUOBI_BTCUSDT, Constants.HUOBI_5min));
+                    startTime = diff + 1 + startTime;
+                    if (kk == 1) {
+                        //处理数据然后
+                        HuoBiApiUtils.exportToFileAppend("E:\\", "hzm" + j, huobiDetailVOList);
+                        kk = 0;
+                        huobiDetailVOList.clear();
+                        j++;
                     }
+                    if (i == 0) {
+                        client.send(JSONStrReaderUtils.objToJson(huobiKlineReqDTO));
+                    } else {
+                        int bytesRead = sourceChannel.read(buf);
+                        if (bytesRead != -1) {
+                            System.out.println("Read " + bytesRead);
+                            buf.flip();
+                            String result = new String(GzipUtils.uncompress(buf.array()), "utf-8");
+                            HuobiResposneVO huobiResposneVO = JSONStrReaderUtils.fromJson(result, HuobiResposneVO.class);
+                            System.out.println(i);
+                            huobiDetailVOList.addAll(huobiResposneVO.getData());
+                            buf.clear();
+                            client.send(JSONStrReaderUtils.objToJson(huobiKlineReqDTO));
+                        }
+
+                    }
+                    i++;
                     kk++;
                 }
-                System.out.println(i);
-                //HuoBiApiUtils.send(JSONStrReaderUtils.objToJson(huobiKlineReqDTO), "wb");
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            while (!HuoBiApiUtils.getEnd(i)) {
-                Thread.sleep(3000);
-                System.out.println("donging");
-            }
-            List<HuobiDetailVO> huobiDetailVOList = HuoBiApiUtils.getHuoBiData();
-            DecimalFormat df = new DecimalFormat(".##");
-            huobiDetailVOList.forEach(huobiDetailVO -> {
-                huobiDetailVO.setAmount(df.format(new BigDecimal(huobiDetailVO.getAmount())));
-                huobiDetailVO.setClose(df.format(new BigDecimal(huobiDetailVO.getClose())));
-                huobiDetailVO.setHigh(df.format(new BigDecimal(huobiDetailVO.getHigh())));
-                huobiDetailVO.setLow(df.format(new BigDecimal(huobiDetailVO.getLow())));
-                huobiDetailVO.setOpen(df.format(new BigDecimal(huobiDetailVO.getOpen())));
-                huobiDetailVO.setVol(df.format(new BigDecimal(huobiDetailVO.getVol())));
-                huobiDetailVO.setDateDay(DateUtils.stampToDate(huobiDetailVO.getId(),"yyyy.MM.dd"));
-                huobiDetailVO.setDateMin(DateUtils.stampToDate(huobiDetailVO.getId(),"HH:mm"));
-            });
-
-            ExcelExport excelExport = new ExcelExport("E:\\1.xlsx", "test1");
-            //数据
-            //调用
-            String titleColumn[] = {"dateDay", "dateMin", "open", "close", "low", "high", "vol", "count", "amount"};
-            String titleName[] = {"年月日", "时间", "开盘价", "收盘价", "最低价", "最高价", "成交额", "成交笔数", "成交量"};
-            int titleSize[] = {13, 13, 13, 13, 13, 13, 13, 13, 13};
-            //其他设置 set方法可全不调用
-        /*    String colFormula[] = new String[5];
-            colFormula[4] = "D@*12";   //设置第5列的公式
-            pee.setColFormula(colFormula);
-            pee.setAddress("A:D");  //自动筛选*/
-
-            excelExport.wirteExcel(titleColumn, titleName, titleSize, huobiDetailVOList);
-
-
+            System.out.println("获取数据结束");
+            HuoBiApiUtils.exportToFileAppend("E:\\", "hzm" + j, huobiDetailVOList);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
+    @Test
+    public void huobiWsTest() throws IOException {
+        ByteBuffer receiveBuffer = ByteBuffer.allocate(10240);
+        while (!HuoBiApiUtils.isIsConnect()) {
+            try {
+                Thread.sleep(1000);
+                System.out.println("sleeppp");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        Selector selector = HuoBiApiUtils.getSelector();
+        Pipe.SourceChannel sourceChannel = HuoBiApiUtils.getPipe().source();
+        sourceChannel.configureBlocking(false);
+        SelectionKey key = sourceChannel.register(selector, SelectionKey.OP_READ);
+        HuobiDepthDTO huobiDepthDTO = new HuobiDepthDTO();
+        huobiDepthDTO.setSub(MessageFormat.format(Constants.HUOBI_DEPTH,Constants.HUOBI_BTCUSDT,Constants.HUOBI_DEPTH_SETP0));
+        WebSocketClient client = HuoBiApiUtils.getClient();
+        //订阅市场行情
+        client.send(JSONStrReaderUtils.objToJson(huobiDepthDTO));
+        //订阅交易详情
+        huobiDepthDTO = new HuobiDepthDTO();
+        huobiDepthDTO.setSub(MessageFormat.format(Constants.HUOBI_TRADE,Constants.HUOBI_BTCUSDT));
+        client.send(JSONStrReaderUtils.objToJson(huobiDepthDTO));
+        while (true) {
+            int readyChannels = selector.select();
+            if (readyChannels == 0) continue;
+            Set selectedKeys = selector.selectedKeys();
+            Iterator keyIterator = selectedKeys.iterator();
+            while (keyIterator.hasNext()) {
+                key = (SelectionKey) keyIterator.next();
+                if (key.isAcceptable()) {
+                   System.out.println("acceptable");
+                } else if (key.isConnectable()) {
+                    System.out.println("isConnect");
+                } else if (key.isReadable()) {
+                    System.out.println("isReadable");
+                    Iterator it = selector.selectedKeys().iterator( );
+                    //读去客户端内容
+                    Pipe.SourceChannel clientSocketChannel = (Pipe.SourceChannel) key.channel();
+                    receiveBuffer.clear();
+                    clientSocketChannel.read(receiveBuffer);
+                    key.interestOps(SelectionKey.OP_READ);
+                    String result = new String(GzipUtils.uncompress(receiveBuffer.array()),"utf-8");
+                    System.out.println(result);
+                    if(result.contains("depth")){
+                        HuobiDepthResposneVO huobiDepthResposneVO = JSONStrReaderUtils.fromJson(result,HuobiDepthResposneVO.class);
+                        System.out.println("depth");
+                    }else if(result.contains("trade")){
+                        HuobiTradeResponseVO huobiDepthResposneVO = JSONStrReaderUtils.fromJson(result,HuobiTradeResponseVO.class);
+                        System.out.println("trade");
+                    }
 
+                    System.out.println("Thread id : " + Thread.currentThread().getId());
+                } else if (key.isWritable()) {
+                    System.out.println("isWritable");
+                }
+                keyIterator.remove();
+            }
+        }
+    }
 
     @Test
-    public void testtttt(){
-        long timeStamp = 1509035400*1000l;  //获取当前时间戳,也可以是你自已给的一个随机的或是别人给你的时间戳(一定是long型的数据)
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//这个是你要转成后的时间的格式
-        String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));   // 时间戳转换成时间
-        System.out.println(sd);//打印出你要的时间
-        System.out.println(DateUtils.stampToDate("1509035400","yyyy.MM.dd"));
-        System.out.println(DateUtils.stampToDate("1509035400","HH:mm"));
+    public void baseStrategy(){
+        //策略1
+        //连续下跌30分钟线，买入，直到，高于成本价0.5%,卖出，否则一直持有，手续费为0.4%，如果下跌超过5%,，无条件卖出
+        //读取数据
+       /* List<HuobiDetailVO> huobiDetailVOList  = HuoBiApiUtils.importToFile("E:\\虚拟货币\\测试数据\\test_1min.xlsx");*/
+        List<List<String>> lists = ExceUtil.importFile(new File("E:\\虚拟货币\\测试数据\\test.xlsx"));
+        List<HuobiDetailVO> huobiDetailVOList = new ArrayList<>();
+        HuobiDetailVO huobiDetailVO = null;
+        for(List<String> strList:lists){
+            huobiDetailVO = new HuobiDetailVO();
+            huobiDetailVO.setOpen(strList.get(2));
+            huobiDetailVO.setClose(strList.get(3));
+            huobiDetailVO.setLow(strList.get(4));
+            huobiDetailVO.setHigh(strList.get(5));
+            huobiDetailVO.setVol(strList.get(6));
+            huobiDetailVO.setCount(strList.get(7));
+            huobiDetailVO.setAmount(strList.get(8));
+            huobiDetailVOList.add(huobiDetailVO);
+        }
+        for(HuobiDetailVO huobiDetailVO1: huobiDetailVOList){
+            System.out.println(JSONStrReaderUtils.objToJson(huobiDetailVO1));
+        }
+        //策略2，网格策略
     }
 }
