@@ -1,9 +1,9 @@
 package com.cn.yc.utils;
 
 import com.cn.yc.bean.ApiResponse;
-import com.cn.yc.bean.HuoBi.HuobiAccountsResDO;
-import com.cn.yc.bean.HuoBi.HuobiAddOrdersReqDO;
-import com.cn.yc.bean.HuoBi.HuobiAddOrdersResDO;
+import com.cn.yc.bean.HuoBi.*;
+import com.cn.yc.bean.HuobiTradeDetailVO;
+import com.cn.yc.bean.HuobiTradeResponseVO;
 import com.cn.yc.exception.ApiException;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -42,14 +42,14 @@ public class HuoBiRestfulApiUtils {
     static final int READ_TIMEOUT = 5;
     static final int WRITE_TIMEOUT = 5;
 
-//    static final String API_HOST = TradeConstatns.HUOBI_HOST;
+    //    static final String API_HOST = TradeConstatns.HUOBI_HOST;
 //    static final String API_URL = TradeConstatns.HUOBI_API_URL;
     static final String API_HOST = "api.huobipro.com";
     static final String API_URL = "https://" + API_HOST;
     static final MediaType JSON = MediaType.parse("application/json");
     static final OkHttpClient client = createOkHttpClient();
 
-    static final  String accessKeyId = TradeConstatns.ACCESS_API;
+    static final String accessKeyId = TradeConstatns.ACCESS_API;
     static final String accessKeySecret = TradeConstatns.SECRET_API;
     static final String assetPassword = TradeConstatns.PASSWORD_API;
 
@@ -67,16 +67,93 @@ public class HuoBiRestfulApiUtils {
     }
 
     /**
-     * 创建订单（未执行)
+     * 创建订单
      *
      * @param request CreateOrderRequest object.
      * @return Order id.
      */
     public static Long createOrder(HuobiAddOrdersReqDO request) {
         ApiResponse<Long> resp =
-                post("/v1/order/orders", request, new TypeReference<ApiResponse<Long>>() {
+                post("/v1/order/orders/place", request, new TypeReference<ApiResponse<Long>>() {
                 });
         return resp.checkAndReturn();
+    }
+
+    /**
+     * POST /v1/order/orders/{order-id}/submitcancel 申请撤销一个订单请求
+     *
+     * @param orderId
+     * @return
+     */
+    public static HuobiRecOrderResDO submitcancel(String orderId) {
+        HuobiRecOrderResDO resp = get("/v1/order/orders/" + orderId + "/submitcancel", null, new TypeReference<HuobiRecOrderResDO>() {
+        });
+        return resp;
+    }
+
+    /**
+     * POST /v1/order/orders/batchcancel 批量撤销订单
+     *
+     * @param orderList
+     * @return
+     */
+    public static BatchcancelResponse submitcancels(List orderList) {
+        BatchcancelResponse resp = post("/v1/order/orders/batchcancel", orderList, new TypeReference<BatchcancelResponse<Batchcancel<List, BatchcancelBean>>>() {
+        });
+        return resp;
+    }
+
+    /**
+     * GET /v1/order/orders/{order-id} 查询某个订单详情
+     *
+     * @param orderId
+     * @return TODO 返回为order-id，HuobiOrderDetailResDO用这个类，但是-这里可能有问题，所以先不转
+     */
+    public static BaseResponse ordersDetail(String orderId) {
+        BaseResponse resp = get("/v1/order/orders/" + orderId, null, new TypeReference<BaseResponse>() {
+        });
+        return resp;
+    }
+
+    /**
+     * GET /v1/order/orders/{order-id}/matchresults 查询某个订单的成交明细
+     *
+     * @param orderId
+     * @return
+     */
+    public static BaseResponse matchresults(String orderId) {
+        BaseResponse resp = get("/v1/order/orders/" + orderId + "/matchresults", null, new TypeReference<BaseResponse>() {
+        });
+        return resp;
+    }
+
+    /**
+     * 查看当前/历史委托
+     * @param req
+     * @return
+     */
+    public static BaseResponse getHistoryEntrust(HuobiHistoryEntrustReqDO req) {
+        HashMap map = new HashMap();
+        map.put("symbol", req.getSymbol());
+        map.put("states", req.getStates());
+        //剩余字段看文档，非必须
+        BaseResponse resp = get("/v1/order/orders/", map, new TypeReference<BaseResponse>() {
+        });
+        return resp;
+    }
+
+    /**
+     * 查看当前/历史交易
+     * @param req
+     * @return
+     */
+    public static BaseResponse getHistoryTrade(HuobiHistoryTradeReqDO req) {
+        HashMap map = new HashMap();
+        map.put("symbol", req.getSymbol());
+        //剩余字段看文档，非必须
+        BaseResponse resp = get("/v1/order/matchresults/", map, new TypeReference<BaseResponse>() {
+        });
+        return resp;
     }
 
     // send a GET request.
@@ -94,7 +171,7 @@ public class HuoBiRestfulApiUtils {
 
     // call api by endpoint.
     private static <T> T call(String method, String uri, Object object, Map<String, String> params,
-               TypeReference<T> ref) {
+                              TypeReference<T> ref) {
         ApiSignature sign = new ApiSignature();
         sign.createSignature(accessKeyId, accessKeySecret, method, API_HOST, uri, params);
         try {

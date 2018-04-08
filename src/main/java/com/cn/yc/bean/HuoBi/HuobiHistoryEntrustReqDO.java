@@ -4,6 +4,27 @@ package com.cn.yc.bean.HuoBi;
  * Created by hasee on 2018/4/8.
  */
 public class HuobiHistoryEntrustReqDO {
+    public static interface States {
+        /**
+         * 限价买入
+         */
+        static final String PRE_SUBMITTED = "pre-submitted";
+        /**
+         * 限价卖出
+         */
+        static final String SUBMITTED = "submitted";
+        /**
+         * 市价买入
+         */
+        static final String PARTIAL_FILLED = "partial-filled";
+        /**
+         * 市价卖出
+         */
+        static final String PARTIAL_CANCELED = "partial-canceled";
+        static final String FILLED = "filled";
+        static final String CANCELED = "canceled";
+    }
+
     private String symbol;
     private String types;
     private String start_date;
