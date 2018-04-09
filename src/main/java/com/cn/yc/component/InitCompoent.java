@@ -16,6 +16,7 @@ public class InitCompoent implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
-        qqRoobotService.initStartQqRoot();
+        //默认不启动
+        //qqRoobotService.initStartQqRoot();
     }
 }

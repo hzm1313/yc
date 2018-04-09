@@ -1,7 +1,7 @@
 package com.cn.yc.utils.excel;
 
 /**
- * Created by DT167 on 2018/3/20.
+ * Created by hasee on 2018/4/6.
  */
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,8 +26,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class ExcelUtil03 {
-    private static Logger logger = LoggerFactory.getLogger(ExcelUtil03.class);
+public class ExcelImport03 {
+    private static Logger logger = LoggerFactory.getLogger(ExcelImport03.class);
     // 错误信息
     private String errorInfo;
     // 错误信息
@@ -214,13 +214,10 @@ public class ExcelUtil03 {
         return filePath.matches("^.+\\.(?i)(xlsx)$");
     }
 
-    // 构造方法
-    public ExcelUtil03() {
-    }
-
     // 得到错误信息
     public String getErrorInfo() {
         return errorInfo;
     }
+
 
 }

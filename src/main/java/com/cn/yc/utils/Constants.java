@@ -46,4 +46,29 @@ public class Constants {
     public final static String NEWS_TITLE_HASH_KEY = "NEWS_TITLE_HASH_KEY";
 
     public final static Integer maxTread = 10;
+
+    //火币网，K线关键字
+    public final static String HUOBI_KLINE="market.{0}.kline.{1}";
+    public final static String HUOBI_1min="1min";
+    public final static String HUOBI_5min="5min";
+    public final static String HUOBI_15min="15min";
+    public final static String HUOBI_30min="30min";
+    public final static String HUOBI_60min="60min";
+    public final static String HUOBI_1day="1day";
+    public final static String HUOBI_1mon="1mon";
+    public final static String HUOBI_1week="1week";
+    public final static String HUOBI_1year="1year";
+    public final static String HUOBI_BTCUSDT ="btcusdt";
+    public final static String HUOBI_ETHUSDT ="ethusdt";
+
+    public final static String HUOBI_DEPTH ="market.{0}.depth.{1}";
+    public final static String HUOBI_DEPTH_SETP0 = "step0";
+    public final static String HUOBI_DEPTH_SETP1 = "step1";
+    public final static String HUOBI_DEPTH_SETP2 = "step2";
+    public final static String HUOBI_DEPTH_SETP3 = "step3";
+    public final static String HUOBI_DEPTH_SETP4 = "step4";
+    public final static String HUOBI_DEPTH_SETP5 = "step5";
+
+    public final static String HUOBI_TRADE ="market.{0}.trade.detail";
+
 }
