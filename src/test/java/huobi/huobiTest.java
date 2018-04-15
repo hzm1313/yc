@@ -1,6 +1,7 @@
 package huobi;
 
 import com.cn.yc.bean.*;
+import com.cn.yc.bean.HuoBi.ReseauStratge;
 import com.cn.yc.thread.BaseThreadPool;
 import com.cn.yc.utils.*;
 
@@ -182,66 +183,148 @@ public class huobiTest {
         //读取数据
        /* List<HuobiDetailVO> huobiDetailVOList  = HuoBiApiUtils.importToFile("E:\\虚拟货币\\测试数据\\test_1min.xlsx");*/
         List<List<String>> lists = ExceUtil.importFile(new File("E:\\虚拟货币\\测试数据\\test.xlsx"));
-        List<Map<String, String>> mapList = new ArrayList<>();
-        for (int fallTraigger = 1; fallTraigger < 2; fallTraigger++) {
+        if (false) {
+            List<Map<String, String>> mapList = new ArrayList<>();
+            for (int fallTraigger = 1; fallTraigger < 30; fallTraigger++) {
+                //1W刀本金
+                BigDecimal amount = new BigDecimal("10000");
+                BigDecimal holdPrice = new BigDecimal("0");
+                BigDecimal holdNum = new BigDecimal("0");
+                BigDecimal basePrice = new BigDecimal(lists.get(1).get(3));
+                BigDecimal open = new BigDecimal(lists.get(1).get(2));
+                BigDecimal close = new BigDecimal(lists.get(1).get(3));
+                BigDecimal high = new BigDecimal(lists.get(1).get(4));
+                BigDecimal low = new BigDecimal(lists.get(1).get(5));
+                //触发的卖出价格
+                BigDecimal sellLowPrice = new BigDecimal(lists.get(1).get(3)).multiply(new BigDecimal("0.99"));
+                BigDecimal sellHighPrice = new BigDecimal(lists.get(1).get(3)).multiply(new BigDecimal("1.005"));
+                int falNum = 0;
+                for (int i = 2; i < lists.size(); i++) {
+                    open = new BigDecimal(lists.get(i).get(2));
+                    close = new BigDecimal(lists.get(i).get(3));
+                    high = new BigDecimal(lists.get(i).get(4));
+                    low = new BigDecimal(lists.get(i).get(5));
+                    if (holdNum.compareTo(new BigDecimal("0")) == 0) {
+                        //持有本金，买入等待状态
+                        if (close.compareTo(basePrice) < 0) {
+                            falNum++;
+                        } else {
+                            falNum = 0;
+                        }
+                        if (falNum >= fallTraigger) {
+                            //买入手续费
+                            amount = amount.multiply(new BigDecimal("0.998"));
+                            holdPrice = close;
+                            holdNum = amount.divide(holdPrice, 10, BigDecimal.ROUND_DOWN);
+                            amount = new BigDecimal("0");
+                            //System.out.println("买入价:" + holdPrice + " 买入数量:" + holdNum + " 总价值:" + holdNum.multiply(holdPrice) + " 剩余钱:" + amount.toString());
+                            sellLowPrice = new BigDecimal(lists.get(i).get(3)).multiply(new BigDecimal("0.994"));
+                            sellHighPrice = new BigDecimal(lists.get(i).get(3)).multiply(new BigDecimal("1.006"));
+                            falNum = 0;
+                        }
+                    } else {
+                        //持有币，卖出等待状态\
+                        //低于1.05卖出
+                        if (close.compareTo(sellLowPrice) < 0 || close.compareTo(sellHighPrice) > 0) {
+                            holdPrice = close;
+                            amount = holdNum.multiply(holdPrice).multiply(new BigDecimal("0.998"));
+                            //System.out.println("卖出价:" + holdPrice + " 买出数量:" + holdNum +" 税后钱:"+amount);
+                            holdNum = new BigDecimal("0");
+                        }
+                    }
+                    basePrice = close;
+                }
+                if (holdNum.compareTo(new BigDecimal("0")) > 0) {
+                    //强行卖出
+                    amount = holdNum.multiply(holdPrice).multiply(new BigDecimal("0.998"));
+                }
+                System.out.println("fallTraigger:" + fallTraigger + "  resultPrice:" + amount.toString());
+                Map map = new HashMap<String, String>();
+                map.put("fallTraigger", fallTraigger);
+                map.put("resultPrice", amount.toString());
+                mapList.add(map);
+            }
+            mapList.sort((o1, o2) -> o1.get("resultPrice").compareTo(o1.get("resultPrice")));
+            mapList.forEach(obj -> {
+                System.out.println(String.valueOf(obj.get("fallTraigger")) + "===" + obj.get("resultPrice"));
+            });
+        }
+        //策略2，网格策略
+        //为了拿一个好看的回测结果，我就上帝模式来一波,数据是自己去取的一个平均值
+        //步长5%，上涨5%，卖出30%，上涨10%，卖出30%，上涨15%，卖出40%,
+        //下跌同理,简化了很多东西
+        for (int stepType = 1; stepType < 4; stepType++) {
+            BigDecimal stepLength = new BigDecimal("0.05").multiply(new BigDecimal(stepType));
+            BigDecimal basePrice = new BigDecimal("8000.5243315970");
+            BigDecimal poundCost = new BigDecimal("0.998");
             //1W刀本金
             BigDecimal amount = new BigDecimal("10000");
-            BigDecimal holdPrice = new BigDecimal("0");
             BigDecimal holdNum = new BigDecimal("0");
-            BigDecimal basePrice = new BigDecimal(lists.get(1).get(3));
-            BigDecimal open = new BigDecimal(lists.get(1).get(2));
+            BigDecimal tradePrice = new BigDecimal("0");
             BigDecimal close = new BigDecimal(lists.get(1).get(3));
-            BigDecimal high = new BigDecimal(lists.get(1).get(4));
-            BigDecimal low = new BigDecimal(lists.get(1).get(5));
-            //触发的卖出价格
-            BigDecimal sellLowPrice = new BigDecimal(lists.get(1).get(3)).multiply(new BigDecimal("0.99"));
-            BigDecimal sellHighPrice = new BigDecimal(lists.get(1).get(3)).multiply(new BigDecimal("1.005"));
-            int falNum = 0;
-            for (int i = 2; i < lists.size(); i++) {
-                open = new BigDecimal(lists.get(i).get(2));
-                close = new BigDecimal(lists.get(i).get(3));
-                high = new BigDecimal(lists.get(i).get(4));
-                low = new BigDecimal(lists.get(i).get(5));
-                if (holdNum.compareTo(new BigDecimal("0")) == 0) {
-                    //持有本金，买入等待状态
-                    if (close.compareTo(basePrice) < 0) {
-                        falNum++;
+            BigDecimal percent3 = new BigDecimal("0.30");
+            BigDecimal percent4 = new BigDecimal("0.40");
+            BigDecimal opPrice = null;
+            ReseauStratge trade[] = {new ReseauStratge(amount.multiply(percent3)), new ReseauStratge(amount.multiply(percent3)), new ReseauStratge(amount.multiply(percent4))};
+            for (int perIndex = 2; perIndex < lists.size(); perIndex++) {
+                close = new BigDecimal(lists.get(perIndex).get(3));
+                if (holdNum != null) {
+                    holdNum.setScale(7, BigDecimal.ROUND_DOWN);
+                }
+                if (amount != null) {
+                    amount.setScale(7, BigDecimal.ROUND_DOWN);
+                }
+                //买入/卖出
+                //对于每个阶段的资金来说，只有，买入，卖出2种状态
+                for (int buyPercentNum = 0; buyPercentNum < trade.length; buyPercentNum++) {
+                    opPrice = new BigDecimal(basePrice.toString());
+                    BigDecimal step = new BigDecimal("1.00");
+                    if (trade[buyPercentNum].getCanBuy()) {
+                        //买入
+                        for (int muNum = 1; muNum <= buyPercentNum + 1; muNum++) {
+                            step = step.subtract(stepLength);
+                        }
+                        opPrice = opPrice.multiply(step);
+                        if (close.compareTo(opPrice) <= 0) {
+                            trade[buyPercentNum].setTradePrice(close);
+                            trade[buyPercentNum].setTradeNum(new BigDecimal(trade[buyPercentNum].getHoldAmount().divide(close, 7, BigDecimal.ROUND_DOWN).toString()));
+                            trade[buyPercentNum].setHoldNum(trade[buyPercentNum].getTradeNum().multiply(poundCost));
+                            trade[buyPercentNum].setTradeAmount(trade[buyPercentNum].getTradeNum().multiply(trade[buyPercentNum].getTradePrice()));
+                            trade[buyPercentNum].setHoldAmount(trade[buyPercentNum].getHoldAmount().subtract(trade[buyPercentNum].getTradeAmount()));
+                            trade[buyPercentNum].setCanBuy(false);
+                            holdNum = holdNum.add(trade[buyPercentNum].getHoldNum());
+                            amount = amount.subtract(trade[buyPercentNum].getTradeAmount());
+                            trade[buyPercentNum].updatePercent();
+                            //System.out.println("买入" + "holdNum:" + holdNum + "  resultPrice:" + amount.toString() + "总价值" + amount.add(holdNum.multiply(close)));
+                        }
                     } else {
-                        falNum = 0;
-                    }
-                    if (falNum >= fallTraigger) {
-                        //买入手续费
-                        amount = amount.multiply(new BigDecimal("0.998"));
-                        holdPrice = close;
-                        holdNum = amount.divide(holdPrice, 10, BigDecimal.ROUND_DOWN);
-                        amount = new BigDecimal("0");
-                        System.out.println("买入价:" + holdPrice + " 买入数量:" + holdNum + " 总价值:" + holdNum.multiply(holdPrice) + " 剩余钱:" + amount.toString());
-                        sellLowPrice = new BigDecimal(lists.get(i).get(3)).multiply(new BigDecimal("0.994"));
-                        sellHighPrice = new BigDecimal(lists.get(i).get(3)).multiply(new BigDecimal("1.006"));
-                        falNum = 0;
-                    }
-                } else {
-                    //持有币，卖出等待状态\
-                    //低于1.05卖出
-                    if (close.compareTo(sellLowPrice) < 0 || close.compareTo(sellHighPrice) > 0) {
-                        holdPrice = close;
-                        amount = holdNum.multiply(holdPrice).multiply(new BigDecimal("0.998"));
-                        System.out.println("卖出价:" + holdPrice + " 买出数量:" + holdNum +" 税后钱:"+amount);
-                        holdNum = new BigDecimal("0");
+                        //卖出
+                        for (int muNum = 1; muNum <= buyPercentNum + 1; muNum++) {
+                            step = step.subtract(stepLength);
+                        }
+                        opPrice = opPrice.multiply(step);
+                        if (close.compareTo(opPrice) >= 0) {
+                            trade[buyPercentNum].setTradePrice(close);
+                            trade[buyPercentNum].setTradeAmount(trade[buyPercentNum].getHoldNum().multiply(trade[buyPercentNum].getTradePrice()));
+                            trade[buyPercentNum].setHoldAmount(trade[buyPercentNum].getHoldAmount().add(trade[buyPercentNum].getTradeAmount()).multiply(poundCost));
+                            trade[buyPercentNum].setTradeNum(trade[buyPercentNum].getHoldNum());
+                            trade[buyPercentNum].setHoldNum(new BigDecimal("0"));
+                            trade[buyPercentNum].setCanBuy(true);
+                            amount = amount.add(trade[buyPercentNum].getTradeAmount());
+                            holdNum = holdNum.subtract(trade[buyPercentNum].getTradeNum());
+                            trade[buyPercentNum].updatePercent();
+                            //System.out.println("卖出" + "holdNum:" + holdNum + "  resultPrice:" + amount.toString() + "总价值" + amount.add(holdNum.multiply(close)));
+                        }
                     }
                 }
-                basePrice = close;
             }
-            System.out.println("fallTraigger:"+fallTraigger+"  resultPrice:"+amount.toString());
-            Map map = new HashMap<String, String>();
-            map.put("fallTraigger", fallTraigger);
-            map.put("resultPrice", amount);
-            mapList.add(map);
+            if (holdNum != null) {
+                holdNum.setScale(7, BigDecimal.ROUND_DOWN);
+            }
+            if (amount != null) {
+                amount.setScale(7, BigDecimal.ROUND_DOWN);
+            }
+            System.out.println("holdNum:" + holdNum + "  resultPrice:" + amount.toString() + "总价值" + amount.add(holdNum.multiply(close)));
         }
-        mapList.sort((o1,o2)-> o1.get("resultPrice").compareTo(o1.get("resultPrice")));
-        mapList.forEach(obj -> {
-            System.out.println(String.valueOf(obj.get("fallTraigger"))+ "==="+new BigDecimal(obj.get("resultPrice")));
-        });
-        //策略2，网格策略
     }
 }
