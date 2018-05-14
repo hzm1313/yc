@@ -27,4 +27,8 @@ public class LinkUrl {
     public static final String baiduSearchUrl = "http://www.baidu.com/s";
 
     public static final String baiduSearchNewsUrl = "http://news.baidu.com/ns";
+
+    //火币网
+    public static final String WS_PRO_URL = "wss://api.huobi.pro/ws";
+    public static final String WS_COM_URL = "wss://api.huobipro.com/ws";
 }
