@@ -2,6 +2,7 @@ package sorts;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.boot.test.context.TestComponent;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.test.context.TestPropertySource;
 
@@ -228,17 +229,19 @@ public class sort {
         //radixSort
         //Least significant digit（LSD)
         //Most significance digit（MSD)
-        radixSort(strList, 2);
+        //radixSortLSD(strList, 2);
+        List<Integer> listBucket = new ArrayList<Integer>();
+        radixSortMSD(true,strList,listBucket,0,strList.size(),2);
         printList(strList);
     }
 
-
-    void radixSort(List<Integer> listNum, int maxDig) {
+    //LSD实现
+    void radixSortLSD(List<Integer> listNum, int maxDig) {
         List<List<Integer>> bubble = new ArrayList<List<Integer>>();
         for (int i = 0; i < 10; i++) {
             bubble.add(new ArrayList<>());
         }
-        for (int i = 0; i < maxDig; i++) {
+        for (int i = 0; i <= maxDig; i++) {
             for (int j = 0; j < 10; j++) {
                 bubble.get(j).clear();
             }
@@ -255,28 +258,49 @@ public class sort {
                 }
             }
         }
-        /* if (maxDig > 0) {
-            for(int i=1;i<maxDig;i++) {
-                for (int listNumSub = 0; listNumSub < listNum.size(); listNumSub++) {
-                    int dig = getDigat(listNum.get(listNumSub), i);
-                    bubble.get(dig).add(listNum.get(listNumSub));
-                }
+    }
+
+    //MSD实现,用数组实现
+    //取高位，然后分组，递归，递归
+    void radixSortMSD(boolean isInit, List<Integer> listNum,List<Integer> listBucket,int start,int end, int currentDig) {
+        List<List<Integer>> listBucketTmp = new ArrayList<>();
+        for(int i=0;i<10;i++){
+            listBucketTmp.add(new ArrayList<>());
+        }
+        if(isInit) {
+            for(int listNumSub = start; listNumSub < end; listNumSub++ ) {
+                int dig = getDigat(listNum.get(listNumSub), currentDig);
+                listBucketTmp.get(dig).add(listNum.get(listNumSub));
+            }
+            listNum.clear();
+        } else {
+            for(int listNumSub = 0; listNumSub < listBucket.size(); listNumSub++ ) {
+                int dig = getDigat(listBucket.get(listNumSub), currentDig);
+                listBucketTmp.get(dig).add(listBucket.get(listNumSub));
             }
         }
-        strList.clear();
-        for(int i=0;i<10;i++) {
-            if(bubble.get(i).size()>0) {
-                for(Integer temp:bubble.get(i)) {
-                    strList.add(temp);
-                }
+        for(int bucketSub = 0 ;bucketSub < 10; bucketSub++) {
+            if(listBucketTmp.get(bucketSub).size()>1) {
+                radixSortMSD(false,listNum,listBucketTmp.get(bucketSub),0,strList.size(),currentDig - 1);
+            } else if(listBucketTmp.get(bucketSub).size() > 0){
+                listNum.add(listBucketTmp.get(bucketSub).get(0));
             }
-        }*/
+        }
     }
 
     //百分位
     //0：个位 1：十位 2：百位 3：千位
     int getDigat(int num, int percent) {
-        return num / (10 ^ percent) % 10;
+        int result = (num / (int) Math.pow(10,percent)) % 10;
+        //System.out.println(num + "---" + percent + "-------result:---" + result);
+        return result;
+    }
+
+
+    @Test
+    public void testNum() {
+        System.out.println(10^2);
+        System.out.println(453%10);
     }
 
     void printList(List<Integer> numList) {
