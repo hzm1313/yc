@@ -59,6 +59,32 @@ public class sort {
     }
 
     @Test
+    public void towInsertSort() {
+        //twoinsertsort
+        Integer tmp;
+        for (int i = 1; i<strList.size(); i++) {
+            int j = i;
+            tmp = strList.get(j);
+            int start = 0;
+            int end = i-1;
+            while (start<=end) {
+                int mid = (start + end) / 2;
+                if (tmp.compareTo(strList.get(mid)) > 0) {
+                    start = start +1;
+                } else {
+                    end = end - 1;
+                }
+            }
+
+            for(int k=i-1; k>=start; k--) {
+                strList.set(k+1,strList.get(k));
+            }
+            strList.set(start,tmp);
+        }
+        printList(strList);
+    }
+
+    @Test
     public void shellSort() {
         //shellSort
         Integer tmp;
