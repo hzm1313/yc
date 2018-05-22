@@ -1,18 +1,20 @@
 package sorts;
 
+import com.thoughtworks.xstream.mapper.DynamicProxyMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.boot.test.context.TestComponent;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.test.context.TestPropertySource;
 
+import java.lang.reflect.InvocationHandler;
 import java.util.*;
 import java.util.ArrayList;
 
 /**
  * Created by DT167 on 2018/5/10.
  */
-public class sort {
+public class Sort {
     static List<Integer> strList;
 
     @Before
@@ -333,5 +335,27 @@ public class sort {
         numList.forEach(obj -> {
             System.out.print(obj + " ");
         });
+    }
+
+    @Test
+    public void insertSortCompute() {
+        Alsort<Integer> alsort = new InsertSort<Integer>();
+        alsort.setData(strList);
+        InvocationHandler invH = new SortIh(alsort);
+        Alsort<Integer> proxy = SortProxy.newProxyInstance(alsort.getClass().
+                getClassLoader(), alsort.getClass().getInterfaces(),invH);
+        proxy.sort();
+        this.printList(proxy.getData());
+    }
+
+    @Test
+    public void twoSortCompute() {
+        Alsort<Integer> alsort = new TowInsertSort<>();
+        alsort.setData(strList);
+        InvocationHandler invH = new SortIh(alsort);
+        Alsort<Integer> proxy = SortProxy.newProxyInstance(alsort.getClass().
+                getClassLoader(), alsort.getClass().getInterfaces(),invH);
+        proxy.sort();
+        this.printList(proxy.getData());
     }
 }
