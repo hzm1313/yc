@@ -69,6 +69,8 @@ public class Constants {
     public final static String HHUOBI_DASHUSDT ="dashusdt";
     public final static String HHUOBI_ZECUSDT ="zecusdt";
     public final static String HUOBI_ADAUSDT = "adausdt";
+    public final static String HUOBI_IOTAUSDT = "iotausdt";
+    public final static String HUOBI_STEEMUSDT = "steemusdt";
     //火币创新
     public final static String HUOBI_BTMUSDT = "btmusdt";
     public final static String HUOBI_BTSUSDT = "btsusdt";
