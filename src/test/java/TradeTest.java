@@ -3,6 +3,7 @@ import com.cn.yc.service.impl.TradeServiceImpl;
 import com.cn.yc.utils.Constants;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
@@ -26,12 +27,15 @@ public class TradeTest {
     public void getInfoTestMock() throws NoSuchFieldException, IllegalAccessException {
         RedisTemplate<String, String> redisTemplateMock = mock(RedisTemplate.class);
         Mockito.when(redisTemplateMock.boundValueOps(Constants.TRADE_INFO_LIST)).thenReturn(Mockito.mock(BoundValueOperations.class));
-        Mockito.when(redisTemplateMock.boundValueOps(Constants.TRADE_INFO_LIST).get()).thenReturn(null);
-        TradeService tradeServiceMock = new TradeServiceImpl();//mock(TradeServiceImpl.class);
+        OngoingStubbing<String> test = Mockito.when(redisTemplateMock.boundValueOps(Constants.TRADE_INFO_LIST).get()).thenReturn("uewfgjasdklfjsaklfjlksajfklsaa");
+        //Mockito.when(redisTemplateMock.boundValueOps(Constants.TRADE_INFO_LIST).get()).thenReturn("uewfgjasdklfjsaklfjlksajfklsaa");
+        test.thenReturn("我是调用之后的的测得的1");
+
+        TradeService tradeService = new TradeServiceImpl();//mock(TradeServiceImpl.class);
         Field tradeServiceField = TradeServiceImpl.class.getDeclaredField("redisTemplate");
         tradeServiceField.setAccessible(true);
-        tradeServiceField.set(tradeServiceMock,redisTemplateMock);
-      //  System.out.println(tradeServiceMock.getTradeInfo());
+        tradeServiceField.set(tradeService,redisTemplateMock);
+        tradeService.getTradeInfo();
     }
 
     @Test
