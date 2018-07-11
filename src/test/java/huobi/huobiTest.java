@@ -58,21 +58,62 @@ public class huobiTest {
                 }
             }
             List<String> kLineTypeList = new ArrayList<>();
-//            kLineTypeList.add(Constants.HUOBI_BTCUSDT);
-//            kLineTypeList.add(Constants.HUOBI_BCHUSDT);
-//            kLineTypeList.add(Constants.HUOBI_ETHUSDT);
-//            kLineTypeList.add(Constants.HUOBI_ETCUSDT);
-//            kLineTypeList.add(Constants.HUOBI_LTCUSDT);
-//            kLineTypeList.add(Constants.HHUOBI_EOSUSDT);
-//            kLineTypeList.add(Constants.HHUOBI_XRPUSDT);
-//            kLineTypeList.add(Constants.HHUOBI_OMGUSDT);
-//            kLineTypeList.add(Constants.HHUOBI_DASHUSDT);
-//            kLineTypeList.add(Constants.HHUOBI_ZECUSDT);
-//            kLineTypeList.add(Constants.HUOBI_IOTAUSDT);
-            kLineTypeList.add(Constants.HUOBI_ADAUSDT);
-            kLineTypeList.add(Constants.HUOBI_STEEMUSDT);
+//            kLineTypeList.add(Constants.HUOBI_BTC);
+//            kLineTypeList.add(Constants.HUOBI_BCH);
+//            kLineTypeList.add(Constants.HUOBI_ETH);
+//            kLineTypeList.add(Constants.HUOBI_ETC);
+//            kLineTypeList.add(Constants.HUOBI_LTC);
+//            kLineTypeList.add(Constants.HHUOBI_EOS);
+//            kLineTypeList.add(Constants.HHUOBI_XRP);
+//            kLineTypeList.add(Constants.HHUOBI_OMG);
+//            kLineTypeList.add(Constants.HHUOBI_DASH);
+//            kLineTypeList.add(Constants.HHUOBI_ZEC);
+//            kLineTypeList.add(Constants.HUOBI_IOTA);
+//            kLineTypeList.add(Constants.HUOBI_ADA);
+//            kLineTypeList.add(Constants.HUOBI_STEEM);
+
+//            kLineTypeList.add(Constants.HUOBI_WICC);
+//            kLineTypeList.add(Constants.HUOBI_SOC);
+//            kLineTypeList.add(Constants.HUOBI_CTXC);
+//            kLineTypeList.add(Constants.HUOBI_ACT);
+//            kLineTypeList.add(Constants.HUOBI_BTM);
+//            kLineTypeList.add(Constants.HUOBI_BTS);
+//            kLineTypeList.add(Constants.HUOBI_ONT);
+//            kLineTypeList.add(Constants.HUOBI_IOST);
+//            kLineTypeList.add(Constants.HUOBI_HT);
+
+//            kLineTypeList.add(Constants.HUOBI_TRX);
+//            kLineTypeList.add(Constants.HUOBI_DTA);
+//            kLineTypeList.add(Constants.HUOBI_NEO);
+//            kLineTypeList.add(Constants.HUOBI_QTUM);
+//            kLineTypeList.add(Constants.HUOBI_SMT);
+//            kLineTypeList.add(Constants.HUOBI_ELA);
+//            kLineTypeList.add(Constants.HUOBI_VEN);
+//            kLineTypeList.add(Constants.HUOBI_THETA);
+//            kLineTypeList.add(Constants.HUOBI_SNT);
+//            kLineTypeList.add(Constants.HUOBI_ZIL);
+//            kLineTypeList.add(Constants.HUOBI_XEM);
+//            kLineTypeList.add(Constants.HUOBI_NAS);
+//            kLineTypeList.add(Constants.HUOBI_RUFF);
+//            kLineTypeList.add(Constants.HUOBI_HSR);
+//            kLineTypeList.add(Constants.HUOBI_LET);
+//            kLineTypeList.add(Constants.HUOBI_MDS);
+//            kLineTypeList.add(Constants.HUOBI_STORJ);
+//            kLineTypeList.add(Constants.HUOBI_ELF);
+//            kLineTypeList.add(Constants.HUOBI_ITC);
+//            kLineTypeList.add(Constants.HUOBI_CVC);
+//            kLineTypeList.add(Constants.HUOBI_GNT);
+//            //创新J+++
+//            kLineTypeList.add(Constants.HUOBI_POLY);
+//            kLineTypeList.add(Constants.HUOBI_EDU);
+//            kLineTypeList.add(Constants.HUOBI_KAN);
+//            kLineTypeList.add(Constants.HUOBI_LBA);
+            kLineTypeList.add(Constants.HUOBI_WAN);
+            kLineTypeList.add(Constants.HUOBI_BFT);
+            String fileDire = "F:\\数据\\20180612";
             for (int klineTypeIndex = 0; klineTypeIndex < kLineTypeList.size(); klineTypeIndex++) {
-                String dtName = kLineTypeList.get(klineTypeIndex);//Constants.HUOBI_BTCUSDT;
+                String dtName = kLineTypeList.get(klineTypeIndex) +"btc";//Constants.HUOBI_BTCUSDT;
+                dtName = dtName.trim();
                 List<String> timeTypeList = new ArrayList<>();
                 timeTypeList.add(Constants.HUOBI_1min);
                 timeTypeList.add(Constants.HUOBI_5min);
@@ -83,7 +124,7 @@ public class huobiTest {
                     String fileName = dtName + "_" + timeTypeList.get(timeIndex) + "_";
                     //2017/10/27日开始-至今
                     SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                    String startTimeStr = "2017/10/27 00:00:00";
+                    String startTimeStr =  "2018/01/01 00:00:00";//"2017/10/27 00:00:00";
                     //String startTimeStr = "2018/06/04 00:00:00";
                     Date date = format.parse(startTimeStr);
                     Long startTime = date.getTime() / 1000;
@@ -96,16 +137,19 @@ public class huobiTest {
                     Pipe pipe = HuoBiApiUtils.getPipe();
                     Pipe.SourceChannel sourceChannel = pipe.source();
                     ByteBuffer buf = ByteBuffer.allocate(102400);
+                    System.out.println(timeIndex);
                     while (startTime <= endTime) {
                         huobiKlineReqDTO.setFrom(startTime);
                         huobiKlineReqDTO.setTo(startTime + diff);
                         huobiKlineReqDTO.setId("id10");
                         huobiKlineReqDTO.setReq(MessageFormat.format(Constants.HUOBI_KLINE, dtName, timeTypeList.get(timeIndex)));
                         startTime = diff + 1 + startTime;
-                        System.out.println(kk);
+                        System.out.println(kk +"---" +startTime + "---" + endTime);
                         if (kk == 300) {
                             //处理数据然后
-                            HuoBiApiUtils.exportToFileAppend("E:\\虚拟货币\\买卖数据\\20180605", fileName + j, huobiDetailVOList);
+                            if(huobiDetailVOList!=null && huobiDetailVOList.size()>0) {
+                                HuoBiApiUtils.exportToFileAppend(fileDire, fileName + j, huobiDetailVOList);
+                            }
                             kk = 0;
                             huobiDetailVOList.clear();
                             j++;
@@ -139,7 +183,9 @@ public class huobiTest {
                         }
                         buf.clear();
                     }
-                    HuoBiApiUtils.exportToFileAppend("E:\\虚拟货币\\买卖数据\\20180605", fileName + j, huobiDetailVOList);
+                    if(huobiDetailVOList!=null && huobiDetailVOList.size()>0) {
+                        HuoBiApiUtils.exportToFileAppend(fileDire, fileName + j, huobiDetailVOList);
+                    }
                     System.out.println("获取数据结束");
                     Thread.sleep(3000);
                 }

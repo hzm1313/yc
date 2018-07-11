@@ -71,6 +71,63 @@ public class Constants {
     public final static String HUOBI_ADAUSDT = "adausdt";
     public final static String HUOBI_IOTAUSDT = "iotausdt";
     public final static String HUOBI_STEEMUSDT = "steemusdt";
+
+    public final static String HUOBI_BTCETH ="btceth";
+
+    public final static String HUOBI_BTC ="btc";
+    public final static String HUOBI_BCH ="bch";
+    public final static String HUOBI_ETH ="eth";
+    public final static String HUOBI_ETC ="etc";
+    public final static String HUOBI_LTC ="ltc";
+    public final static String HHUOBI_EOS ="eos";
+    public final static String HHUOBI_XRP ="xrp";
+    public final static String HHUOBI_OMG ="omg";
+    public final static String HHUOBI_DASH ="dash";
+    public final static String HHUOBI_ZEC ="zec";
+    public final static String HUOBI_ADA = "ada";
+    public final static String HUOBI_IOTA = "iota";
+    public final static String HUOBI_STEEM = "steem";
+    //分区
+    public final static String HUOBI_WICC = "wicc";
+    public final static String HUOBI_SOC = "soc";
+    public final static String HUOBI_CTXC = "ctxc";
+    public final static String HUOBI_ACT = "act";
+    public final static String HUOBI_BTM = "btm";
+    public final static String HUOBI_BTS = "bts";
+    public final static String HUOBI_ONT = "ont";
+    public final static String HUOBI_IOST = "iost";
+    public final static String HUOBI_HT = "ht";
+    public final static String HUOBI_TRX = "trx";
+    public final static String HUOBI_DTA = "dta";
+    public final static String HUOBI_NEO = "neo";
+    public final static String HUOBI_QTUM = "qtum";
+    public final static String HUOBI_SMT = "smt";
+    public final static String HUOBI_ELA = "ela";
+    public final static String HUOBI_VEN = "ven";
+    public final static String HUOBI_THETA = "theta";
+    public final static String HUOBI_SNT = "snt";
+    public final static String HUOBI_ZIL = "zil";
+    public final static String HUOBI_XEM = "xem";
+    public final static String HUOBI_NAS = "nas";
+    public final static String HUOBI_RUFF = "ruff";
+    public final static String HUOBI_HSR = "hsr";
+    public final static String HUOBI_LET = "let";
+    public final static String HUOBI_MDS = "mds";
+    public final static String HUOBI_STORJ = "storj";
+    public final static String HUOBI_ELF = "elf";
+    public final static String HUOBI_ITC = "itc";
+    public final static String HUOBI_CVC = "cvc";
+    public final static String HUOBI_GNT = "gnt";
+
+    //分区btc
+    public final static String HUOBI_POLY = "poly";
+    public final static String HUOBI_EDU = "edu";
+    public final static String HUOBI_KAN = "kan";
+    public final static String HUOBI_LBA = "lba";
+    public final static String HUOBI_WAN = "wan";
+    public final static String HUOBI_BFT = "bft";
+
+
     //火币创新
     public final static String HUOBI_BTMUSDT = "btmusdt";
     public final static String HUOBI_BTSUSDT = "btsusdt";

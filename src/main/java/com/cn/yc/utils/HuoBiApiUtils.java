@@ -39,7 +39,7 @@ public class HuoBiApiUtils {
     private static boolean isConnect = false;
     private static List<HuobiDetailVO> dataList = new ArrayList<>();
     private static int getNum = 0;
-    private static String url = "wss://api.huobipro.com/ws";
+    private static String url = "wss://api.huobi.br.com/ws";
     private static Pipe pipe;
     private static ByteBuffer buf = ByteBuffer.allocate(102400);
     private static Selector selector;
@@ -97,6 +97,7 @@ public class HuoBiApiUtils {
                             client.send(JSONStrReaderUtils.objToJson(pongDTO));
                             System.out.println("接受到Pong的请求，ping:" + result + " pone:" + JSONStrReaderUtils.objToJson(pongDTO));
                         } else if (result.contains("kline")) {
+                            System.out.println("---------" + result);
                             //判断数据为请求K线数据，用Pip,放进去，另外一个线程调用进行数据获取
                             buf.clear();
                             buf.put(bytes);
@@ -134,13 +135,6 @@ public class HuoBiApiUtils {
 
             };
             client.connect();
-         /*   while (!client.getReadyState().equals(WebSocket.READYSTATE.OPEN)) {
-                System.out.println("还没有打开");
-                Thread.sleep(1000);
-            }
-            */
-
-            System.out.println("打开了");
         } catch (URISyntaxException e) {
             isConnect = false;
             e.printStackTrace();
@@ -205,14 +199,7 @@ public class HuoBiApiUtils {
 
     public static void exportToFileAppend(String filePath,String fileName,List<HuobiDetailVO> huobiDetailVOList) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, IOException {
         System.out.println("追加获取数据开始");
-        //DecimalFormat df = new DecimalFormat(".##");
         huobiDetailVOList.forEach(huobiDetailVO -> {
-            /*huobiDetailVO.setAmount(df.format(new BigDecimal(huobiDetailVO.getAmount())));
-            huobiDetailVO.setClose(df.format(new BigDecimal(huobiDetailVO.getClose())));
-            huobiDetailVO.setHigh(df.format(new BigDecimal(huobiDetailVO.getHigh())));
-            huobiDetailVO.setLow(df.format(new BigDecimal(huobiDetailVO.getLow())));
-            huobiDetailVO.setOpen(df.format(new BigDecimal(huobiDetailVO.getOpen())));
-            huobiDetailVO.setVol(df.format(new BigDecimal(huobiDetailVO.getVol())));*/
             huobiDetailVO.setAmount(new BigDecimal(huobiDetailVO.getAmount()).toString());
             huobiDetailVO.setClose(new BigDecimal(huobiDetailVO.getClose()).toString());
             huobiDetailVO.setHigh(new BigDecimal(huobiDetailVO.getHigh()).toString());

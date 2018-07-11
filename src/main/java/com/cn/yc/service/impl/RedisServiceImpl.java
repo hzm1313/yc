@@ -2,6 +2,7 @@ package com.cn.yc.service.impl;
 
 import com.cn.yc.service.RedisService;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ListOperations;
@@ -52,6 +53,11 @@ public class RedisServiceImpl
     @Override
     public String get(String key) {
        return redisTemplate.boundValueOps(key).get();
+    }
+
+    @Override
+    public void set(String key, String value, Long time) {
+        redisTemplate.boundValueOps(key).set(value, time, TimeUnit.SECONDS);
     }
 
     @Override

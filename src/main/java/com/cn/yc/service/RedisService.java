@@ -18,5 +18,7 @@ public abstract interface RedisService
 
     public abstract String get(String key);
 
+    public abstract void set(String key,String value,Long time);
+
     public abstract void setLinkInfo(String key,String value);
 }
