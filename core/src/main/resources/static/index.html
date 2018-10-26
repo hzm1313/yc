@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>玩客云行情,链克行情/链克行情查看</title>
+    <meta name="keywords" content="玩客币,玩客币行情,链克,链克口袋,链克行情">
+    <meta name="description" content="玩客云,链克口袋行情查看网">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?d54ab2ff8f6ce65b365674fbc6e50e4c";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+<body>
+
+<h1 class="text-center">玩客币/链克行情</h1>
+<p class="text-center"><a href="https://shop70857844.taobao.com" target="view_window">tomcat8080</a>&nbsp&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp&nbsp<a
+        href="/record/index.html" target="view_window">咸鱼搜索/NGROK请点击</a>&nbsp&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp&nbsp
+ <!--   <a href="//shang.qq.com/wpa/qunwpa?idkey=1f498f33d37780f039739fe9131c900f594ddd19d955aeb84474db7855be350f"
+        target="view_window">本站交流群:297174123</a>--></p>
+<p class="text-center" id="updateTime">30s刷新</p>
+<div id="table">
+    <table class="table">
+        <caption>交易行情</caption>
+        <thead>
+        <tr>
+            <th>行情</th>
+            <th>平台</th>
+            <th>卖出价</th>
+            <th>买入价</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>PlayWkc</td>
+            <td><span id="playWkcSell"></span></td>
+            <td><span id="playWkcBuy"></span></td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>玩家网</td>
+            <td><span id="wjwSell"></span></td>
+            <td><span id="wjwBuy"></span></td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>悠雨林</td>
+            <td><span id="uylSell"></span></td>
+            <td><span id="uylBuy"></span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table class="table">
+        <caption>链克最新信息</caption>
+        <thead>
+        <tr>
+            <th>链克挖矿总量</th>
+            <th>区块高度</th>
+            <th>人均有效在线时长</th>
+            <th>人均贡献上行带宽</th>
+            <th>人均贡献存储</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span id="wkbNum"></span>总量</td>
+            <td><span id="blockNum"></span>高度</td>
+            <td><span id="averageOnlinetime"></span>小时</td>
+            <td><span id="averageBandwidth"></span>Mbps</td>
+            <td><span id="averageDisk"></span>GB</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table class="table">
+        <caption>平台搬砖，赚差价，现在只提供简单的，利率，我搬过几回，有赚有亏，比如平台BUG，简直就是欲哭不能
+        ,后期可能完善，本来还指望着自动化的，结果就要跪了，希望这不是最后一次更新这个项目的代码</caption>
+        <thead>
+        <tr>
+            <td>现利率（>5%可以考虑）<span id="priceMarginPer"></span></td>
+        </tr>
+        </thead>
+
+    </table>
+
+    <table class="table">
+        <caption></caption>
+        <thead>
+        <tr> 这个是他的公众号二维码
+
+        </tr>
+        </thead>
+    </table>
+    <div class="row">
+        <div class="col-md-8">一位短线的朋友分享自己的实盘，每天都会实盘分享，最近他的短线收益很高，网址是<a href="http://www.mmptech.xin/mvp/">http://www.mmptech.xin/mvp/</a></div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">公众号二维码<img style="max-width:150px;max-height: 150px" src="http://www.mmptech.xin/wp-content/uploads/2017/12/MMPTech-weixin-1.jpg" alt="ewm" class="img-thumbnail"></div>
+    </div>
+</div>
+
+<div class="news-txt">
+    <p><b>一、 什么是链克</b></p>
+    <p>
+        链克（英文名LinkToken）是玩客云共享计算生态下的基于区块链技术的原生数字资产，它的产生过程与玩客云智能硬件、共享CDN的经济应用有强关联，必须通过玩客云智能硬件分享网络带宽、存储空间等资源来获得。在玩客云共享计算生态系统中，它将成为用户交换可共享计算资源的媒介，保证用户的权益和提供的计算资源对等。</p>
+    <p><b>二、 链克能做什么</b></p>
+    <p><b>网络加速服务：</b>游戏、视频、直播、下载等领域不断催生用户旺盛的网络加速需求，以迅雷为基础的4亿潜在用户可使用链克兑换加速能力、提升效率，需求缺口巨大。</p>
+    <p><b>云存储服务：</b>可根据自己实际存储大小、时间、备份数量的需求， 兑换所需要的云存储空间。</p>
+    <p><b>共享内容服务：</b>用户可凭借玩客云硬件获取或参与官方活动获取的链克，在内容分享平台上兑换其他用户发布的各项独有内容，享受互联网内容分发时代红利！</p>
+    <p>随着共享经济云计算和区块链技术的发展，链克会陆续呈现更多的应用场景。</p>
+    <p><b>三、 链克的特性</b></p>
+    <p>
+        链克基于共享经济云计算和区块链技术，通过智能合约，保证用户共享计算资源和内容的付出和收益对等，不可抵赖；通过去中心化的账本记录，保证所有交易真实透明；通过区块链登记用户版权和修改记录，保障用户的版权免受侵害。链克分发总量有限且每365天产出量减半，随着时间的推移获取难度越来越大，前期参与更有优势。</p>
+</div>
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+    function getInfo() {
+        $.get("../getLinkInfo", function (data, status) {
+            var obj = JSON.parse(data.resultMessage);
+            $("#playWkcBuy").html(obj.playWkcBuy);
+            $("#playWkcSell").html(obj.playWkcSell);
+            $("#uylSell").html(obj.uylSell);
+            $("#uylBuy").html(obj.uylBuy);
+            $("#wjwSell").html(obj.wjwSell);
+            $("#wjwBuy").html(obj.wjwBuy);
+            $("#wkbNum").html(obj.wkbNum);
+            $("#blockNum").html(obj.blockNum);
+            $("#averageOnlinetime").html(obj.averageOnlinetime);
+            $("#averageBandwidth").html(obj.averageBandwidth);
+            $("#averageDisk").html(obj.averageDisk);
+            $("#priceMarginPer").html(obj.priceMarginPer);
+            console.log(data);
+            console.log(status);
+        });
+    }
+
+    var countdown = 30;
+    getInfo();
+    function settime(val) {
+        if (countdown == 0) {
+            getInfo();
+            countdown = 30;
+        } else {
+            $("#updateTime").text(countdown + "秒刷新");
+            countdown--;
+        }
+        setTimeout(function () {
+            settime(val)
+        }, 1000)
+    }
+    settime(countdown);
+</script>
+</body>
+</html>
